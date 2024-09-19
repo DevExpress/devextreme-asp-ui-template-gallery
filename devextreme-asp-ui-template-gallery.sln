@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "devextreme-asp-ui-template-gallery", "devextreme-asp-ui-template-gallery.csproj", "{C4ADDC7F-11DB-4175-A938-73710D55AA45}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4ADDC7F-11DB-4175-A938-73710D55AA45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4ADDC7F-11DB-4175-A938-73710D55AA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4ADDC7F-11DB-4175-A938-73710D55AA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4ADDC7F-11DB-4175-A938-73710D55AA45}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7948BEB9-4169-4583-A946-9097468A72DF}
+	EndGlobalSection
+EndGlobal
