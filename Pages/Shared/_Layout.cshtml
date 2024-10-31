@@ -85,7 +85,7 @@
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("menu-button");
                     items.Add()
-                        .Html("<div>UI Template Gallery</div>")
+                        .Text("UI Template Gallery")
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("header-title");
                     items.Add()
@@ -119,7 +119,12 @@
                     </text>);
                     items.Add()
                     .Location(ToolbarItemLocation.After)
-                    .LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                    .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+                    .MenuItemTemplate(@<text>
+                        <div>
+                            <div class="user-panel"><div id="userPanelDropDown" class="user-button"></div></div>
+                        </div>
+                    </text>);
                 })
             )
         </div>
@@ -188,21 +193,29 @@
     <script>
         DevExpress.ui.themes.current(window.localStorage.getItem("dx-theme") || "fluent.blue.light");
 
+        $("#userPanelDropDown").dxDropDownButton({
+            stylingMode: "text",
+            icon: "user",
+            showArrowIcon: false,
+            dropDownOptions: {
+                width: "auto"
+            },
+            onContentReady: (e) => {
+                e.component.registerKeyHandler('downArrow', () => {
+                    userMenuSectionRef.value?.focusList();
+                });
+            },
+            dropDownContentTemplate: (data) => {
+
+            },
+        });
+
         function onThemeSwitcherInit(e) {
-                if (DevExpress.ui.themes.current() === "fluent.blue.light") {
-                    e.component.option("icon", "sun");
-                } else {
-                    e.component.option("icon", "moon");
-                }
+            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "sun") : e.component.option("icon", "moon");
         }
         function onThemeSwitcherClick(e) {
-            if (DevExpress.ui.themes.current() === "fluent.blue.light") {
-                DevExpress.ui.themes.current("fluent.blue.dark");
-                e.component.option("icon", "moon");
-            } else {
-                DevExpress.ui.themes.current("fluent.blue.light");
-                e.component.option("icon", "sun");
-            }
+            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "moon") : e.component.option("icon", "sun");
+            DevExpress.ui.themes.current() === "fluent.blue.light" ? DevExpress.ui.themes.current("fluent.blue.dark") : DevExpress.ui.themes.current("fluent.blue.light");
         }
 
         var devextreme_asp_ui_template_gallery = (function () {
