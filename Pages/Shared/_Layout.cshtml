@@ -189,7 +189,7 @@
                               <div class="menu-container">
 
                                 @functions {
-                                    string GetUrl(string pageName) => Url.Page(pageName);
+                                    string GetUrl(string pageName) => string.Format("/Components/Get{0}Component/", pageName);
                                     string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
                                     bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
                                 }
@@ -198,16 +198,16 @@
                                   .Items(items =>
                                   {
                                       items.Add()
-                                      .Text("Home")
-                                      .Icon("home")
-                                      .Option("path", GetUrl("/Index"))
-                                      .Selected(IsCurrentUrl("/Index"));
+                                      .Text("Tasks")
+                                      .Icon("taskcomplete")
+                                      .Option("path", GetUrl("Tasks"))
+                                      .Selected(IsCurrentUrl("Index"));
 
                                       items.Add()
                                       .Text("About")
                                       .Icon("info")
-                                      .Option("path", GetUrl("/About"))
-                                      .Selected(IsCurrentUrl("/About"));
+                                      .Option("path", GetUrl("About"))
+                                      .Selected(IsCurrentUrl("About"));
                                   })
                                   .ExpandEvent(TreeViewExpandEvent.Click)
                                   .SelectionMode(NavSelectionMode.Single)
@@ -341,11 +341,21 @@
                     icon: 'belloutline',
                     stylingMode: "text"
                 });
+                loadView("/Components/GetTasksComponent/");
             }
 
             function navigate(url, delay) {
-                if(url)
-                    setTimeout(function() { location.href = url }, delay);
+                if (url) {
+                    setTimeout(function() { 
+                        loadView(url);
+                    }, delay);
+                }
+            }
+
+            function loadView(url) {
+                $.get(url, function (data) {
+                    $("#view-placeholder").html(data);
+                });
             }
 
             function onMenuButtonClick() {
