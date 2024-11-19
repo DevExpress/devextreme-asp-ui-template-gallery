@@ -1,0 +1,49 @@
+﻿@page
+@using DevExtreme.Asp.Template.Gallery.Models
+
+<div class="auth-card">
+    <div class="dx-card content">
+        <div class="header">
+            <div class="title">
+                Sign In
+            </div>
+            <div class="description">
+            </div>
+        </div>
+        <form class="login-form" onsubmit="onSubmit">
+            @(
+                Html.DevExtreme().Form()
+                .FormData(new JS("formData"))
+                .Items(items =>
+                {
+                    items.AddSimple()
+                    .DataField("email")
+                    .Editor(e => e
+                        .TextBox()
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Placeholder("Email")
+                        .Mode(TextBoxMode.Email)
+                        .Value("jheart@dx-email.com")
+                    )
+                    .Label(l => l.Visible(false))
+                    .ValidationRules(rules =>
+                    {
+                        rules.AddRequired().Message("Email is required");
+                        rules.AddEmail().Message("Email is invalid.");
+                    });      
+                })
+            )
+        </form>
+    </div>
+</div>
+
+<script>
+    const formData = {
+        email: '',
+        password: '',
+    }
+
+    function onSubmit(){
+
+    }
+</script>
