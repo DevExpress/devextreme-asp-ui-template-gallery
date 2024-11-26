@@ -22,10 +22,19 @@
 
     @* Custom theme with a color swatch *@
     @* Docs: https://js.devexpress.com/DevExtreme/Guide/Themes_and_Styles/Predefined_Themes/#Color_Swatches *@
-    <link href="~/css/devextreme/theme.base.css" rel="stylesheet" />
-    <link href="~/css/devextreme/theme.additional.css" rel="stylesheet" />
+    
+    @* Old Theme and Swatch *@
+    @* <link href="~/css/devextreme/theme.base.css" rel="stylesheet" /> *@
+    @* <link href="~/css/devextreme/theme.additional.css" rel="stylesheet" /> *@
 
-    <link rel="stylesheet" href="~/css/Site.css" />
+    <link href="~/css/devextreme/dx.fluent.blue-light.css" rel="dx-theme" data-theme="fluent.blue.light" data-active="true" />
+    <link href="~/css/devextreme/dx.fluent.blue-dark.css" rel="dx-theme" data-theme="fluent.blue.dark" data-active="false" />
+
+    @* <link href="~/css/theme-light-generated.css" rel="stylesheet"/> *@
+    <link href="~/css/styles-generated.css" rel="stylesheet"/>
+    <link href="~/css/pages-generated.css" rel="stylesheet"/>
+    <link href="~/css/app-generated.css" rel="stylesheet" />
+
 
     @* Uncomment to use the Gantt control *@
     @*<script src="~/js/devextreme/dx-gantt.js"></script>*@
@@ -58,92 +67,220 @@
 
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
+    <script src="~/js/auth.js"></script>
 </head>
 
 <body class="dx-viewport">
-    <div id="app-side-nav-outer-toolbar">
-        <div class="layout-header">
-            @(Html.DevExtreme().Toolbar()
-                .Items(items => {
-                    items.Add()
-                        .Widget(w => w
-                            .Button()
-                            .Icon("menu")
-                            .OnClick("devextreme_asp_ui_template_gallery.onMenuButtonClick")
-                        )
-                        .Location(ToolbarItemLocation.Before)
-                        .CssClass("menu-button");
-                    items.Add()
-                        .Html("<div>devextreme_asp_ui_template_gallery</div>")
-                        .Location(ToolbarItemLocation.Before)
-                        .CssClass("header-title");
-                })
-            )
-        </div>
-        <div class="layout-body layout-body-hidden">
-            @(Html.DevExtreme().Drawer()
-                .ID("layout-drawer")
-                .Position(DrawerPosition.Left)
-                .Opened(new JS("devextreme_asp_ui_template_gallery.restoreDrawerOpened()"))
-                .Content(@<text>
-                    <div id="layout-drawer-scrollview" class="with-footer">
-                        <div class="content">
-                            @RenderBody()
+    <div id="app">
+        <div id="root">
+             <div class="content">
+                    <div id="side-nav-outer-toolbar">
+                        <header>
+                            <div class="header-component layout-header">
+                            @(Html.DevExtreme().Toolbar()
+                                .ElementAttr(new { @class = "header-toolbar" })
+                                .Items(items => {
+                                    items.Add()
+                                        .Widget(w => w
+                                            .Button()
+                                            .Icon("menu")
+                                            .StylingMode(ButtonStylingMode.Text)
+                                            .OnClick("devextreme_asp_ui_template_gallery.onMenuButtonClick")
+                                        )
+                                        .Location(ToolbarItemLocation.Before)
+                                        .CssClass("menu-button");
+                                    items.Add()
+                                        .Text("UI Template Gallery")
+                                        .Location(ToolbarItemLocation.Before)
+                                        .CssClass("header-title dx-toolbar-label");
+                                    items.Add()
+                                        .Location(ToolbarItemLocation.After)
+                                        .CssClass("global-search-box")
+                                        .Widget(w => w
+                                            .TextBox()
+                                            .Width(180)
+                                            .Placeholder("Search")
+                                            .Mode(TextBoxMode.Search)
+                                            .StylingMode(EditorStylingMode.Filled)
+                                        );
+                                    items.Add()
+                                        .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                        .Location(ToolbarItemLocation.After)
+                                        .Widget(w => w
+                                            .Button()
+                                            .OnInitialized("onThemeSwitcherInit")
+                                            .ElementAttr(new { @class = "theme-button" })
+                                            .StylingMode(ButtonStylingMode.Text)
+                                            .Icon("sun")
+                                            .OnClick("onThemeSwitcherClick")
+                                        );
+                                    items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .Template(@<text>
+                                        <div class="messages">
+                                            <div id="messages-button"></div>
+                                            <div class="dx-badge">4</div>
+                                        </div>
+                                    </text>);
+                                    items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                    .Template(@<text>
+                                        <div>
+                                            <div class="user-panel"><div id="userPanelDropDown" class="user-button"></div></div>
+                                        </div>
+                                    </text>);
+                                })
+                            )
                         </div>
-                        <div class="content-block">
-                            <div class="content-footer">
-                                <div id="footer">
-                                    Copyright (c) 2000-2024 Developer Express Inc.
-                                    <br />
-                                    All trademarks or registered trademarks are property of their respective owners.
-                                </div>
-                            </div>
-                        </div>
+                        </header>
+@*                          @(Html.DevExtreme().Drawer()
+                             .ID("layout-body")
+                             .Position(DrawerPosition.Before)
+                             .MinSize(48)
+                             .MaxSize(250)
+                             .CloseOnOutsideClick(false)
+                             .Shading(false)
+                             .Content(@<text>
+                                 <div class="content">
+                                     @RenderBody()
+                                 </div>
+                             </text>)
+                             .Template(new TemplateName("navigation-treeview"))
+                         )
+                         @using (Html.DevExtreme().NamedTemplate("navigation-treeview"))
+                         {
+                            
+                         } *@
+
+                      @* <div class="layout-body layout-body-hidden">
+                      </div> *@
+                        
+                          @(Html.DevExtreme().Drawer()
+                            .ID("layout-body")
+                            .Position(DrawerPosition.Before)
+                            .Opened(new JS("devextreme_asp_ui_template_gallery.restoreDrawerOpened()"))
+                            .MinSize(48)
+                            .MaxSize(250)
+                            .CloseOnOutsideClick(false)
+                            .Shading(false)
+                            .Content(@<text>
+                              @* <div id="layout-drawer-scrollview" class="with-footer"> *@
+                                  <div class="content">
+                                      @RenderBody()
+                                  </div>
+                                  @* <div class="content-block">
+                                      <div class="content-footer">
+                                          <div id="footer">
+                                              Copyright (c) 2000-2024 Developer Express Inc.
+                                              <br />
+                                              All trademarks or registered trademarks are property of their respective owners.
+                                          </div>
+                                      </div>
+                                  </div> *@
+                              @* </div> *@
+                              </text>)
+                            .Template(new TemplateName("navigation-menu"))
+                          )
+
+                          @using (Html.DevExtreme().NamedTemplate("navigation-menu"))
+                          {
+                              <div class="menu-container">
+
+                                @functions {
+                                    string GetUrl(string pageName) => Url.Page(pageName);
+                                    string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
+                                    bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
+                                }
+
+                              @(Html.DevExtreme().TreeView()
+                                  .Items(items =>
+                                  {
+                                      items.Add()
+                                      .Text("Home")
+                                      .Icon("home")
+                                      .Option("path", GetUrl("/Index"))
+                                      .Selected(IsCurrentUrl("/Index"));
+
+                                      items.Add()
+                                      .Text("About")
+                                      .Icon("info")
+                                      .Option("path", GetUrl("/About"))
+                                      .Selected(IsCurrentUrl("/About"));
+                                  })
+                                  .ExpandEvent(TreeViewExpandEvent.Click)
+                                  .SelectionMode(NavSelectionMode.Single)
+                                  .SelectedExpr("selected")
+                                  .FocusStateEnabled(false)
+                                  .Width("100%")
+                                  .OnItemClick("devextreme_asp_ui_template_gallery.onTreeViewItemClick")
+                                  )
+
+                              </div>
+                          }
                     </div>
-                </text>)
-                .Template(new TemplateName("navigation-menu"))
-            )
+             </div>
         </div>
     </div>
 
-    @using(Html.DevExtreme().NamedTemplate("navigation-menu")) {
-        <div class="menu-container dx-swatch-additional">
+    <script>
+        DevExpress.ui.themes.current(window.localStorage.getItem("dx-theme") || "fluent.blue.light");
 
-            @functions{
-                string GetUrl(string pageName) => Url.Page(pageName);
-                string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
-                bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
+        function onThemeSwitcherInit(e) {
+            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "sun") : e.component.option("icon", "moon");
+        }
+        function onThemeSwitcherClick(e) {
+            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "moon") : e.component.option("icon", "sun");
+            DevExpress.ui.themes.current() === "fluent.blue.light" ? DevExpress.ui.themes.current("fluent.blue.dark") : DevExpress.ui.themes.current("fluent.blue.light");
+        }
+
+        $(() => {
+            const userMenuItems = [{
+                text: "Logout",
+                icon: "runner",
+                onClick: () => onLogoutClick()
+            }];
+
+            function onLogoutClick(){
+                console.log("Log out");
             }
 
-            @(Html.DevExtreme().TreeView()
-                .Items(items =>
-                {
-                    items.Add()
-                        .Text("Home")
-                        .Icon("home")
-                        .Option("path", GetUrl("/Index"))
-                        .Selected(IsCurrentUrl("/Index"));
+            function onDrawerMenuButtonClick(){
+                $("#layout-body").dxDrawer("instance").toggle();
+            }
 
-                    items.Add()
-                        .Text("About")
-                        .Icon("info")
-                        .Option("path", GetUrl("/About"))
-                        .Selected(IsCurrentUrl("/About"));
-                })
-                .ExpandEvent(TreeViewExpandEvent.Click)
-                .SelectionMode(NavSelectionMode.Single)
-                .SelectedExpr("selected")
-                .FocusStateEnabled(false)
-                .Width(250)
-                .OnItemClick("devextreme_asp_ui_template_gallery.onTreeViewItemClick")
-            )
+            $("#messages-button").dxButton({
+                icon: "belloutline",
+                stylingMode: "text"
+            })
 
-        </div>
-    }
+            $("#userPanelDropDown").dxDropDownButton({
+                stylingMode: "text",
+                icon: user.avatarUrl,
+                showArrowIcon: false,
+                dropDownOptions: {
+                    width: "auto"
+                },
+                onContentReady: (e) => {
+                    e.component.registerKeyHandler('downArrow', () => {
+                        // userMenuSectionRef.value?.focusList();
+                    });
+                },
+                dropDownContentTemplate: (data) => {
+                    const wrapperDiv = $("<div class='user-info'></div>");
+                    wrapperDiv.append($(`<div class='user-name'>${user.name} ${user.lastName}</div>`));
+                    const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
+                    divList.dxList({
+                        items: userMenuItems,
+                        onItemClick: ({itemData}) => itemData.onClick(),
+                    });
+                    return wrapperDiv.add(divList);
+                },
+            });
+        });
 
-    <script>
-
-        var devextreme_asp_ui_template_gallery = (function() {
+        var devextreme_asp_ui_template_gallery = (function () {
 
             var DRAWER_OPENED_KEY = "devextreme_asp_ui_template_gallery-drawer-opened";
 
@@ -155,7 +292,7 @@
             };
 
             function getDrawer() {
-                return $("#layout-drawer").dxDrawer("instance");
+                return $("#layout-body").dxDrawer("instance");
             }
 
             function restoreDrawerOpened() {
@@ -199,6 +336,11 @@
                 updateDrawer();
 
                 $('.layout-body').removeClass('layout-body-hidden');
+
+                $("#messages-button").dxButton({
+                    icon: 'belloutline',
+                    stylingMode: "text"
+                });
             }
 
             function navigate(url, delay) {

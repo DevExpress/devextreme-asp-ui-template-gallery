@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace devextreme_asp_ui_template_gallery.Pages {
+namespace DevExtreme.Asp.Template.Gallery.Pages
+{
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ErrorModel : PageModel {
-        public void OnGet() {
+    public class ErrorModel : PageModel
+    {
+        public void OnGet()
+        {
         }
     }
 }

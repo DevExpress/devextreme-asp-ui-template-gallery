@@ -1,10 +1,10 @@
-body, html {
+/*body, html {
     margin: 0;
     min-height: 100%;
     height: 100%;
 }
 
-#app-side-nav-outer-toolbar {
+#side-nav-outer-toolbar {
     flex-direction: column;
     display: flex; 
     height: 100%;
@@ -169,3 +169,4 @@ body, html {
 .menu-container .dx-treeview .dx-treeview-node-container .dx-treeview-node:not(.dx-state-focused) > .dx-treeview-item.dx-state-hover {
     background-color: #3F3F4B;
 }
+*/
