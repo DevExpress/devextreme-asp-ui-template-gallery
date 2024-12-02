@@ -8,17 +8,8 @@ namespace DevExtreme.Asp.Template.Gallery.Controllers
         public object GetNavigationData() {
             return RoutingData.Routes;
         }
-        public IActionResult GetTasksComponent() {
-            return ViewComponent("Tasks");
-        }
-        public IActionResult GetAboutComponent() {
-            return ViewComponent("About");
-        }
-        public IActionResult GetNavigationRootComponent() {
-            return ViewComponent("NavigationRoot");
-        }
-        public IActionResult GetAuthComponent() {
-            return ViewComponent("Auth");
+        public IActionResult GetComponent(string componentName) {
+            return ViewComponent(componentName);
         }
     }
 }

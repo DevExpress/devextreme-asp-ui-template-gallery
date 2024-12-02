@@ -2,8 +2,9 @@
 
     const TOP_LEVEL_VIEW_SELECTOR = "#view-placeholder";
     const NAVIGATABLE_VIEW_SELECTOR = "#navigatable-view-placeholder";
-    const NAVIGATOR_URL = "Navigation/GetNavigationRootComponent";
+    const NAVIGATOR_VIEW_NAME = "NavigationRoot";
     const GET_NAVDATA_URL = "Navigation/GetNavigationData";
+    const GET_VIEW_URL = "Navigation/GetComponent";
     const startupView = "Tasks";
 
     let navigationData = null;
@@ -16,13 +17,22 @@
     $.get(GET_NAVDATA_URL, function (navData) {
         navigationData = navData;
         if (window.location.pathname === "/") {
-            loadView(startupView);
+            loadView(startupView, false);
         } else {
-            loadViewByUrl(url);
+            const viewName = window.location.pathname.replace("/", "");
+            loadView(viewName);
         }
     });
 
-    function loadView(viewName) {
+    history.replaceState(startupView, "", document.location.href);
+
+    window.addEventListener('popstate', (e) => {
+        if (e.state) {
+            loadView(e.state, false);
+        }
+    });
+
+    function loadView(viewName, pushHistory = true) {
         if (viewName === currentViewName) return;
         const navItem = navigationData.find(n => n.ViewName === viewName);
         if (navItem) {
@@ -30,29 +40,33 @@
                 ? !navigationData.find(n => n.ViewName === currentViewName).HideNavigation
                 : false;
             if (navigationVisible) {
-                loadViewByUrl(navItem.Path, navItem.HideNavigation ? TOP_LEVEL_VIEW_SELECTOR : NAVIGATABLE_VIEW_SELECTOR);
+                loadViewCore(navItem.ViewName, navItem.HideNavigation ? TOP_LEVEL_VIEW_SELECTOR : NAVIGATABLE_VIEW_SELECTOR);
             } else {
                 if (navItem.HideNavigation) {
-                    loadViewByUrl(navItem.Path, TOP_LEVEL_VIEW_SELECTOR);
+                    loadViewCore(navItem.ViewName, TOP_LEVEL_VIEW_SELECTOR);
                 } else {
-                    loadViewByUrl(NAVIGATOR_URL, TOP_LEVEL_VIEW_SELECTOR)
+                    loadViewCore(NAVIGATOR_VIEW_NAME, TOP_LEVEL_VIEW_SELECTOR)
                         .then(() => {
-                            loadViewByUrl(navItem.Path, NAVIGATABLE_VIEW_SELECTOR);
+                            loadViewCore(navItem.ViewName, NAVIGATABLE_VIEW_SELECTOR);
                         });
                 }
             }
+            if (pushHistory)
+                history.pushState(navItem.ViewName, "", navItem.ViewName);
             currentViewName = viewName;
         } else {
             console.error(`Cannot navigate to '${viewName}'. This view doesn't exist.`);
         }
     }
 
-    function loadViewByUrl(url, targetSelector) {
+    function loadViewCore(viewName, targetSelector) {
         const contentLoaded = new Promise(res => {
-            $.get(url, function (data) {
-                $(targetSelector).html(data);
-                res();
-            });
+            $.get(GET_VIEW_URL, { componentName: viewName },
+                function (data) {
+                    $(targetSelector).html(data);
+                    res();
+                }
+            );
         });
         return contentLoaded;
     }

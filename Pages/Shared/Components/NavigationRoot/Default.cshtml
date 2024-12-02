@@ -220,17 +220,20 @@
                     )
             </div>
         </header>
-
+        
         @(Html.DevExtreme().Drawer()
             .ID("layout-body")
             .Position(DrawerPosition.Before)
+            .RevealMode(DrawerRevealMode.Expand)
             .Opened(new JS("devextreme_asp_ui_template_gallery.restoreDrawerOpened()"))
             .MinSize(48)
             .MaxSize(250)
             .CloseOnOutsideClick(false)
             .Shading(false)
             .Content(@<text>
-                <div id="navigatable-view-placeholder"></div>
+                <div class="content">
+                    <div id="navigatable-view-placeholder"></div>
+                </div>
             </text>)
             .Template(new TemplateName("navigation-menu"))
         )
