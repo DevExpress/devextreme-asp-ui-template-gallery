@@ -1,5 +1,6 @@
 ﻿@page
-@model DevExtreme.Asp.Template.Gallery.Pages.Auth.SignUpModel
+@using DevExtreme.Asp.Template.Gallery.Models
+@model SignUpModel
 @{
     Layout = "_LayoutExtra";
 }
@@ -16,13 +17,12 @@
         <div class="content">
             <form class="create-account-form">
                 @(
-                        Html.DevExtreme().Form()
+                        Html.DevExtreme().Form<UserData>()
                         .ID("form-instance-register")
-                        .FormData(new JS("formData"))
+                        .FormData(Model.ClientAuth)
                         .Items(items =>
                         {
-                            items.AddSimple()
-                        .DataField("email")
+                            items.AddSimpleFor(m => m.Email)
                         .Editor(e => e
                         .TextBox()
                         .StylingMode(EditorStylingMode.Filled)
@@ -30,40 +30,22 @@
                         .Mode(TextBoxMode.Email)
                         .Value("jheart@dx-email.com")
                         )
-                        .Label(l => l.Visible(false))
-                        .ValidationRules(rules =>
-                        {
-                            rules.AddRequired().Message("Email is required");
-                            rules.AddEmail().Message("Email is invalid.");
-                        });
+                        .Label(l => l.Visible(false));
 
-                            items.AddSimple()
-                        .DataField("password")
+                            items.AddSimpleFor(m => m.Password)
                         .Editor(e => e
                         .TextBox()
                         .StylingMode(EditorStylingMode.Filled)
                         .Placeholder("Password")
                         .Mode(TextBoxMode.Password)
-                        .Value("password")
-                        ).Label(l => l.Visible(false))
-                        .ValidationRules(rules =>
-                        {
-                            rules.AddRequired().Message("Password is required");
-                        });
+                        ).Label(l => l.Visible(false));
 
-                            items.AddSimple()
-                        .DataField("confirmedPassword")
+                            items.AddSimpleFor(m => m.ConfirmPassword)
                         .Editor(e => e
                         .TextBox()
                         .StylingMode(EditorStylingMode.Filled)
                         .Placeholder("Confirm Password")
-                        .Mode(TextBoxMode.Password)
-                        .Value("password"))
-                        .ValidationRules(rules =>
-                        {
-                            rules.AddRequired().Message("Password is required");
-                            rules.AddCustom().Message("Password do not match").ValidationCallback("confirmPassword");
-                        })
+                        .Mode(TextBoxMode.Password))
                         .Label(l => l.Visible(false));
 
                             items.AddSimple()

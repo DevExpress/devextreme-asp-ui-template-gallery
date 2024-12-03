@@ -34,6 +34,7 @@
     <link href="~/css/styles-generated.css" rel="stylesheet"/>
     <link href="~/css/pages-generated.css" rel="stylesheet"/>
     <link href="~/css/app-generated.css" rel="stylesheet" />
+    <link href="~/css/Site.css" rel="stylesheet"/>
 
 
     @* Uncomment to use the Gantt control *@
@@ -91,9 +92,11 @@
                                         .Location(ToolbarItemLocation.Before)
                                         .CssClass("menu-button");
                                     items.Add()
-                                        .Text("UI Template Gallery")
                                         .Location(ToolbarItemLocation.Before)
-                                        .CssClass("header-title dx-toolbar-label");
+                                        .CssClass("header-title dx-toolbar-label header-title-width")
+                                        .Template(@<text>
+                                            <div>UI Template Gallery</div>
+                                        </text>);
                                     items.Add()
                                         .Location(ToolbarItemLocation.After)
                                         .CssClass("global-search-box")
