@@ -30,13 +30,24 @@
                 width: "auto"
             },
             onContentReady: (e) => {
+
+                $.ajax({
+                    url: '/api/UserDataController/',
+                    method: 'GET',
+                    success: (response) => {
+                        // Set the image source dynamically
+                        e.component.option("icon", response.url);
+                        $("#dropdown-username").text(response.name + " " + response.lastName);
+                    }
+                });
+
                 e.component.registerKeyHandler('downArrow', () => {
                     // userMenuSectionRef.value?.focusList();
                 });
             },
             dropDownContentTemplate: (data) => {
                 const wrapperDiv = $("<div class='user-info'></div>");
-                wrapperDiv.append($(`<div class='user-name'>${user.name} ${user.lastName}</div>`));
+                wrapperDiv.append($(`<div class='user-name' id='dropdown-username'></div>`));
                 const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
                 divList.dxList({
                     items: userMenuItems,

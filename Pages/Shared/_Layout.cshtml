@@ -34,6 +34,7 @@
     <link href="~/css/styles-generated.css" rel="stylesheet"/>
     <link href="~/css/pages-generated.css" rel="stylesheet"/>
     <link href="~/css/app-generated.css" rel="stylesheet" />
+    <link href="~/css/Site.css" rel="stylesheet"/>
 
 
     @* Uncomment to use the Gantt control *@
@@ -68,14 +69,159 @@
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
 
-    <script src="~/js/auth.js"></script>
     <script src="~/js/navigation.js"></script>
 </head>
 
-<body class="dx-viewport">
+<body class="dx-viewport dx-device-desktop dx-device-generic dx-theme-fluent dx-theme-fluent-typography dx-color-scheme-blue-dark">
     <div id="app">
         <div id="root">
-            @RenderBody()
+            <div class="app screen-large">
+                    <div id="side-nav-outer-toolbar">
+                        <header class="layout-header">
+                            @(Html.DevExtreme().Toolbar()
+                                .ElementAttr(new { @class = "header-toolbar" })
+                                .Items(items => {
+                                    items.Add()
+                                        .Widget(w => w
+                                            .Button()
+                                            .Icon("menu")
+                                            .StylingMode(ButtonStylingMode.Text)
+                                            .OnClick("devextreme_asp_ui_template_gallery.onMenuButtonClick")
+                                        )
+                                        .Location(ToolbarItemLocation.Before)
+                                        .CssClass("menu-button");
+                                    items.Add()
+                                        .Location(ToolbarItemLocation.Before)
+                                        .CssClass("header-title dx-toolbar-label header-title-width")
+                                        .Template(@<text>
+                                            <div>UI Template Gallery</div>
+                                        </text>);
+                                    items.Add()
+                                        .Location(ToolbarItemLocation.After)
+                                        .CssClass("global-search-box")
+                                        .Widget(w => w
+                                            .TextBox()
+                                            .Width(180)
+                                            .Placeholder("Search")
+                                            .Mode(TextBoxMode.Search)
+                                            .StylingMode(EditorStylingMode.Filled)
+                                        );
+                                    items.Add()
+                                        .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                        .Location(ToolbarItemLocation.After)
+                                        .Widget(w => w
+                                            .Button()
+                                            .OnInitialized("onThemeSwitcherInit")
+                                            .ElementAttr(new { @class = "theme-button" })
+                                            .StylingMode(ButtonStylingMode.Text)
+                                            .Icon("sun")
+                                            .OnClick("onThemeSwitcherClick")
+                                        );
+                                    items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .Template(@<text>
+                                        <div class="messages">
+                                            <div id="messages-button"></div>
+                                            <div class="dx-badge">4</div>
+                                        </div>
+                                    </text>);
+                                    items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                    .Template(@<text>
+                                        <div>
+                                            <div class="user-panel"><div id="userPanelDropDown" class="user-button"></div></div>
+                                        </div>
+                                    </text>);
+                                })
+                            )
+                        </header>
+@*                          @(Html.DevExtreme().Drawer()
+                             .ID("layout-body")
+                             .Position(DrawerPosition.Before)
+                             .MinSize(48)
+                             .MaxSize(250)
+                             .CloseOnOutsideClick(false)
+                             .Shading(false)
+                             .Content(@<text>
+                                 <div class="content">
+                                     @RenderBody()
+                                 </div>
+                             </text>)
+                             .Template(new TemplateName("navigation-treeview"))
+                         )
+                         @using (Html.DevExtreme().NamedTemplate("navigation-treeview"))
+                         {
+                            
+                         } *@
+
+                      @* <div class="layout-body layout-body-hidden">
+                      </div> *@
+                        
+                          @(Html.DevExtreme().Drawer()
+                            .ID("layout-body")
+                            .Position(DrawerPosition.Before)
+                            .Opened(new JS("devextreme_asp_ui_template_gallery.restoreDrawerOpened()"))
+                            .MinSize(48)
+                            .MaxSize(250)
+                            .CloseOnOutsideClick(false)
+                            .Shading(false)
+                            .Content(@<text>
+                              @* <div id="layout-drawer-scrollview" class="with-footer"> *@
+                                  <div class="content">
+                                      @RenderBody()
+                                  </div>
+                                  @* <div class="content-block">
+                                      <div class="content-footer">
+                                          <div id="footer">
+                                              Copyright (c) 2000-2024 Developer Express Inc.
+                                              <br />
+                                              All trademarks or registered trademarks are property of their respective owners.
+                                          </div>
+                                      </div>
+                                  </div> *@
+                              @* </div> *@
+                              </text>)
+                            .Template(new TemplateName("navigation-menu"))
+                          )
+
+                          @using (Html.DevExtreme().NamedTemplate("navigation-menu"))
+                          {
+                              <div class="menu-container">
+
+                                @functions {
+                                    string GetUrl(string pageName) => Url.Page(pageName);
+                                    string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
+                                    bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
+                                }
+
+                              @(Html.DevExtreme().TreeView()
+                                  .Items(items =>
+                                  {
+                                      items.Add()
+                                      .Text("Home")
+                                      .Icon("home")
+                                      .Option("path", GetUrl("/Index"))
+                                      .Selected(IsCurrentUrl("/Index"));
+
+                                      items.Add()
+                                      .Text("About")
+                                      .Icon("info")
+                                      .Option("path", GetUrl("/About"))
+                                      .Selected(IsCurrentUrl("/About"));
+                                  })
+                                  .ExpandEvent(TreeViewExpandEvent.Click)
+                                  .SelectionMode(NavSelectionMode.Single)
+                                  .SelectedExpr("selected")
+                                  .FocusStateEnabled(false)
+                                  .Width("100%")
+                                  .OnItemClick("devextreme_asp_ui_template_gallery.onTreeViewItemClick")
+                                  )
+
+                              </div>
+                          }
+                    </div>
+              </div>
         </div>
     </div>
 
@@ -84,161 +230,337 @@
 
         function onThemeSwitcherInit(e) {
             DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "sun") : e.component.option("icon", "moon");
+            window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
         }
         function onThemeSwitcherClick(e) {
             DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "moon") : e.component.option("icon", "sun");
             DevExpress.ui.themes.current() === "fluent.blue.light" ? DevExpress.ui.themes.current("fluent.blue.dark") : DevExpress.ui.themes.current("fluent.blue.light");
+            window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
         }
 
-        // $(() => {
-        //     const userMenuItems = [{
-        //         text: "Logout",
-        //         icon: "runner",
-        //         onClick: () => onLogoutClick()
-        //     }];
+        $(() => {
+            const userMenuItems = [{
+                text: "Logout",
+                icon: "runner",
+                onClick: () => onLogoutClick()
+            }];
 
-        //     function onLogoutClick(){
-        //         console.log("Log out");
-        //     }
+            function onLogoutClick(){
+                // console.log("Log out");
+                location.href = "/Auth/Login";
+            }
 
-        //     function onDrawerMenuButtonClick(){
-        //         $("#layout-body").dxDrawer("instance").toggle();
-        //     }
+            function onDrawerMenuButtonClick(){
+                $("#layout-body").dxDrawer("instance").toggle();
+            }
 
-        //     $("#messages-button").dxButton({
-        //         icon: "belloutline",
-        //         stylingMode: "text"
-        //     })
+            $("#messages-button").dxButton({
+                icon: "belloutline",
+                stylingMode: "text"
+            })
 
-        //     $("#userPanelDropDown").dxDropDownButton({
-        //         stylingMode: "text",
-        //         icon: user.avatarUrl,
-        //         showArrowIcon: false,
-        //         dropDownOptions: {
-        //             width: "auto"
-        //         },
-        //         onContentReady: (e) => {
-        //             e.component.registerKeyHandler('downArrow', () => {
-        //                 // userMenuSectionRef.value?.focusList();
-        //             });
-        //         },
-        //         dropDownContentTemplate: (data) => {
-        //             const wrapperDiv = $("<div class='user-info'></div>");
-        //             wrapperDiv.append($(`<div class='user-name'>${user.name} ${user.lastName}</div>`));
-        //             const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
-        //             divList.dxList({
-        //                 items: userMenuItems,
-        //                 onItemClick: ({itemData}) => itemData.onClick(),
-        //             });
-        //             return wrapperDiv.add(divList);
-        //         },
-        //     });
-        // });
+            $("#userPanelDropDown").dxDropDownButton({
+                stylingMode: "text",
+                icon: "user",
+                showArrowIcon: false,
+                dropDownOptions: {
+                    width: "auto"
+                },
+                onContentReady: (e) => {
 
-        // var devextreme_asp_ui_template_gallery = (function () {
+                    $.ajax({
+                        url: '/api/userdata/',
+                        method: 'GET',
+                        success: (response) => {
+                            console.log(response);
+                            // Set the image source dynamically
+                            e.component.option("icon",response.url);
+                            $("#dropdown-username").text(response.name+" "+response.lastName);
+                        }
+                    });
 
-        //     var DRAWER_OPENED_KEY = "devextreme_asp_ui_template_gallery-drawer-opened";
+                    e.component.registerKeyHandler('downArrow', () => {
+                        // userMenuSectionRef.value?.focusList();
+                    });
+                },
+                dropDownContentTemplate: (data) => {
+                    const wrapperDiv = $("<div class='user-info'></div>");
+                    wrapperDiv.append($(`<div class='user-name' id='dropdown-username'></div>`));
+                    const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
+                    divList.dxList({
+                        items: userMenuItems,
+                        onItemClick: ({itemData}) => itemData.onClick(),
+                    });
+                    return wrapperDiv.add(divList);
+                },
+            });
+        });
 
-        //     var breakpoints = {
-        //         xSmallMedia: window.matchMedia("(max-width: 599.99px)"),
-        //         smallMedia: window.matchMedia("(min-width: 600px) and (max-width: 959.99px)"),
-        //         mediumMedia: window.matchMedia("(min-width: 960px) and (max-width: 1279.99px)"),
-        //         largeMedia: window.matchMedia("(min-width: 1280px)")
-        //     };
+        var devextreme_asp_ui_template_gallery = (function () {
 
-        //     function getDrawer() {
-        //         return $("#layout-body").dxDrawer("instance");
-        //     }
+            var DRAWER_OPENED_KEY = "devextreme_asp_ui_template_gallery-drawer-opened";
 
-        //     function restoreDrawerOpened() {
-        //         var isLarge = breakpoints.largeMedia.matches;
-        //         if(!isLarge)
-        //             return false;
+            var breakpoints = {
+                xSmallMedia: window.matchMedia("(max-width: 599.99px)"),
+                smallMedia: window.matchMedia("(min-width: 600px) and (max-width: 959.99px)"),
+                mediumMedia: window.matchMedia("(min-width: 960px) and (max-width: 1279.99px)"),
+                largeMedia: window.matchMedia("(min-width: 1280px)")
+            };
 
-        //         var state = sessionStorage.getItem(DRAWER_OPENED_KEY);
-        //         if(state === null)
-        //             return isLarge;
+            function getDrawer() {
+                return $("#layout-body").dxDrawer("instance");
+            }
 
-        //         return state === "true";
-        //     }
+            function restoreDrawerOpened() {
+                var isLarge = breakpoints.largeMedia.matches;
+                if(!isLarge)
+                    return false;
 
-        //     function saveDrawerOpened() {
-        //         sessionStorage.setItem(DRAWER_OPENED_KEY, getDrawer().option("opened"));
-        //     }
+                var state = sessionStorage.getItem(DRAWER_OPENED_KEY);
+                if(state === null)
+                    return isLarge;
 
-        //     function updateDrawer() {
-        //         var isXSmall = breakpoints.xSmallMedia.matches,
-        //             isLarge = breakpoints.largeMedia.matches;
+                return state === "true";
+            }
 
-        //         getDrawer().option({
-        //             openedStateMode: isLarge ? "shrink" : "overlap",
-        //             revealMode: isXSmall ? "slide" : "expand",
-        //             minSize: isXSmall ? 0 : 60,
-        //             shading: !isLarge,
-        //         });
-        //     }
+            function saveDrawerOpened() {
+                sessionStorage.setItem(DRAWER_OPENED_KEY, getDrawer().option("opened"));
+            }
 
-        //     function init() {
-        //         $("#layout-drawer-scrollview").dxScrollView({ direction: "vertical" });
+            function updateDrawer() {
+                var isXSmall = breakpoints.xSmallMedia.matches,
+                    isLarge = breakpoints.largeMedia.matches;
 
-        //         $.each(breakpoints, function(_, size) {
-        //             size.addListener(function(e) {
-        //                 if(e.matches)
-        //                     updateDrawer();
-        //             });
-        //         });
+                getDrawer().option({
+                    openedStateMode: isLarge ? "shrink" : "overlap",
+                    revealMode: isXSmall ? "slide" : "expand",
+                    minSize: isXSmall ? 0 : 60,
+                    shading: !isLarge,
+                });
+            }
 
-        //         updateDrawer();
+            function init() {
+                $("#layout-drawer-scrollview").dxScrollView({ direction: "vertical" });
 
-        //         $('.layout-body').removeClass('layout-body-hidden');
+                $.each(breakpoints, function(_, size) {
+                    size.addListener(function(e) {
+                        if(e.matches)
+                            updateDrawer();
+                    });
+                });
 
-        //         $("#messages-button").dxButton({
-        //             icon: 'belloutline',
-        //             stylingMode: "text"
-        //         });
-        //     }
+                updateDrawer();
 
-        //     function navigate(url, delay) {
-        //         if(url)
-        //             setTimeout(function() { location.href = url }, delay);
-        //     }
+                $('.layout-body').removeClass('layout-body-hidden');
 
-        //     function onMenuButtonClick() {
-        //         getDrawer().toggle();
-        //         saveDrawerOpened();
-        //     }
+                $("#messages-button").dxButton({
+                    icon: 'belloutline',
+                    stylingMode: "text"
+                });
+            }
 
-        //     function onTreeViewItemClick(e) {
-        //         var drawer = getDrawer();
-        //         var savedOpened = restoreDrawerOpened();
-        //         var actualOpened = drawer.option("opened");
+            function navigate(url, delay) {
+                if(url)
+                    setTimeout(function() { location.href = url }, delay);
+            }
 
-        //         if(!actualOpened) {
-        //             drawer.show();
-        //         } else {
-        //             var willHide = !savedOpened || !breakpoints.largeMedia.matches;
-        //             var willNavigate = !e.itemData.selected;
+            function onMenuButtonClick() {
+                getDrawer().toggle();
+                saveDrawerOpened();
+            }
 
-        //             if(willHide)
-        //                 drawer.hide();
+            function onTreeViewItemClick(e) {
+                var drawer = getDrawer();
+                var savedOpened = restoreDrawerOpened();
+                var actualOpened = drawer.option("opened");
 
-        //             if(willNavigate)
-        //                 navigate(e.itemData.path, willHide ? 400 : 0);
-        //         }
-        //     }
+                if(!actualOpened) {
+                    drawer.show();
+                } else {
+                    var willHide = !savedOpened || !breakpoints.largeMedia.matches;
+                    var willNavigate = !e.itemData.selected;
 
-        //     return {
-        //         init: init,
-        //         restoreDrawerOpened: restoreDrawerOpened,
-        //         onMenuButtonClick: onMenuButtonClick,
-        //         onTreeViewItemClick: onTreeViewItemClick
-        //     };
-        // })();
+                    if(willHide)
+                        drawer.hide();
 
-        // document.addEventListener("DOMContentLoaded", function documentReady() {
-        //     this.removeEventListener("DOMContentLoaded", documentReady);
-        //     devextreme_asp_ui_template_gallery.init();
-        // });
+                    if(willNavigate)
+                        navigate(e.itemData.path, willHide ? 400 : 0);
+                }
+            }
+
+            return {
+                init: init,
+                restoreDrawerOpened: restoreDrawerOpened,
+                onMenuButtonClick: onMenuButtonClick,
+                onTreeViewItemClick: onTreeViewItemClick
+            };
+        })();
+
+        document.addEventListener("DOMContentLoaded", function documentReady() {
+            this.removeEventListener("DOMContentLoaded", documentReady);
+            devextreme_asp_ui_template_gallery.init();
+        });
+        $(() => {
+            const userMenuItems = [{
+                text: "Logout",
+                icon: "runner",
+                onClick: () => onLogoutClick()
+            }];
+
+            function onLogoutClick(){
+                console.log("Log out");
+            }
+
+            function onDrawerMenuButtonClick(){
+                $("#layout-body").dxDrawer("instance").toggle();
+            }
+
+            $("#messages-button").dxButton({
+                icon: "belloutline",
+                stylingMode: "text"
+            })
+
+            $("#userPanelDropDown").dxDropDownButton({
+                stylingMode: "text",
+                icon: "user",
+                showArrowIcon: false,
+                dropDownOptions: {
+                    width: "auto"
+                },
+                onContentReady: (e) => {
+
+                    $.ajax({
+                        url: '/api/userdata/',
+                        method: 'GET',
+                        success: (response) => {
+                            console.log(response);
+                            // Set the image source dynamically
+                            e.component.option("icon", response.url);
+                            $("#dropdown-username").text(response.name + " " + response.lastName);
+                        }
+                    });
+
+                    e.component.registerKeyHandler('downArrow', () => {
+                        // userMenuSectionRef.value?.focusList();
+                    });
+                },
+                dropDownContentTemplate: (data) => {
+                    const wrapperDiv = $("<div class='user-info'></div>");
+                    wrapperDiv.append($(`<div class='user-name' id='dropdown-username'></div>`));
+                    const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
+                    divList.dxList({
+                        items: userMenuItems,
+                        onItemClick: ({itemData}) => itemData.onClick(),
+                    });
+                    return wrapperDiv.add(divList);
+                },
+            });
+        });
+
+        var devextreme_asp_ui_template_gallery = (function () {
+
+            var DRAWER_OPENED_KEY = "devextreme_asp_ui_template_gallery-drawer-opened";
+
+            var breakpoints = {
+                xSmallMedia: window.matchMedia("(max-width: 599.99px)"),
+                smallMedia: window.matchMedia("(min-width: 600px) and (max-width: 959.99px)"),
+                mediumMedia: window.matchMedia("(min-width: 960px) and (max-width: 1279.99px)"),
+                largeMedia: window.matchMedia("(min-width: 1280px)")
+            };
+
+            function getDrawer() {
+                return $("#layout-body").dxDrawer("instance");
+            }
+
+            function restoreDrawerOpened() {
+                var isLarge = breakpoints.largeMedia.matches;
+                if(!isLarge)
+                    return false;
+
+                var state = sessionStorage.getItem(DRAWER_OPENED_KEY);
+                if(state === null)
+                    return isLarge;
+
+                return state === "true";
+            }
+
+            function saveDrawerOpened() {
+                sessionStorage.setItem(DRAWER_OPENED_KEY, getDrawer().option("opened"));
+            }
+
+            function updateDrawer() {
+                var isXSmall = breakpoints.xSmallMedia.matches,
+                    isLarge = breakpoints.largeMedia.matches;
+
+                getDrawer().option({
+                    openedStateMode: isLarge ? "shrink" : "overlap",
+                    revealMode: isXSmall ? "slide" : "expand",
+                    minSize: isXSmall ? 0 : 60,
+                    shading: !isLarge,
+                });
+            }
+
+            function init() {
+                $("#layout-drawer-scrollview").dxScrollView({ direction: "vertical" });
+
+                $.each(breakpoints, function(_, size) {
+                    size.addListener(function(e) {
+                        if(e.matches)
+                            updateDrawer();
+                    });
+                });
+
+                updateDrawer();
+
+                $('.layout-body').removeClass('layout-body-hidden');
+
+                $("#messages-button").dxButton({
+                    icon: 'belloutline',
+                    stylingMode: "text"
+                });
+            }
+
+            function navigate(url, delay) {
+                if(url)
+                    setTimeout(function() { location.href = url }, delay);
+            }
+
+            function onMenuButtonClick() {
+                getDrawer().toggle();
+                saveDrawerOpened();
+            }
+
+            function onTreeViewItemClick(e) {
+                var drawer = getDrawer();
+                var savedOpened = restoreDrawerOpened();
+                var actualOpened = drawer.option("opened");
+
+                if(!actualOpened) {
+                    drawer.show();
+                } else {
+                    var willHide = !savedOpened || !breakpoints.largeMedia.matches;
+                    var willNavigate = !e.itemData.selected;
+
+                    if(willHide)
+                        drawer.hide();
+
+                    if(willNavigate)
+                        navigate(e.itemData.path, willHide ? 400 : 0);
+                }
+            }
+
+            return {
+                init: init,
+                restoreDrawerOpened: restoreDrawerOpened,
+                onMenuButtonClick: onMenuButtonClick,
+                onTreeViewItemClick: onTreeViewItemClick
+            };
+        })();
+
+        document.addEventListener("DOMContentLoaded", function documentReady() {
+            this.removeEventListener("DOMContentLoaded", documentReady);
+            devextreme_asp_ui_template_gallery.init();
+        });
     </script>
 </body>
 

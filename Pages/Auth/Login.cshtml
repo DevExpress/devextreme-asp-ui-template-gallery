@@ -1,0 +1,127 @@
+﻿@page
+@{
+    Layout = "_LayoutExtra";
+}
+@using DevExtreme.Asp.Template.Gallery.Models
+@model LoginModel
+
+<div class="auth-card">
+    <div class="dx-card content">
+        <div class="header">
+            <div class="title" id="sign-in-title">
+                Sign In
+            </div>
+            <div class="description">
+            </div>
+        </div>
+        <div class="content">
+            <form class="login-form">
+                @(Html.DevExtreme().Form<UserData>()
+                    .ID("form-instance")
+                    .FormData(Model.ClientAuth)
+                    .Items(items =>
+                    {
+                        items.AddSimpleFor(m => m.Email)
+                        .Editor(e => e
+                        .TextBox()
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Placeholder("Email")
+                        .Mode(TextBoxMode.Email)
+                        .Value("jheart@dx-email.com")
+                        )
+                        .Label(l => l.Visible(false));
+
+                        items.AddSimpleFor(m => m.Password)
+                        .Editor(e => e
+                        .TextBox()
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Placeholder("Password")
+                        .Mode(TextBoxMode.Password)
+                        .Value("password")
+                        ).Label(l => l.Visible(false))
+                        .ValidationRules(rules =>
+                        {
+                            rules.AddRequired().Message("Password is required");
+                        });
+
+                        items.AddSimple()
+                        .DataField("rememberMe")
+                        .Editor(e => e
+                        .CheckBox()
+                        .Text("Remember me")
+                        .ElementAttr(new { @class = "form-text" })
+                        ).Label(l => l.Visible(false));
+
+                        items.AddButton()
+                        .ButtonOptions(b => b
+                        .Width("100%")
+                        .Type(ButtonType.Default)
+                        .OnClick("onSubmit")
+                        .Template(new TemplateName("submit-button"))
+                        );
+                    })
+                    )
+
+                <div class="reset-link">
+                    <a href="/Auth/ForgotPassword">Forgot password?</a>
+                </div>
+
+                @(Html.DevExtreme().Button()
+                    .Text("Create an account")
+                    .Width("100%")
+                    .StylingMode(ButtonStylingMode.Contained)
+                    .OnClick("onCreateAccountClick")
+                    )
+            </form>
+
+            @using (Html.DevExtreme().NamedTemplate("submit-button"))
+            {
+                <div>
+                    <span class="dx-button-text">
+                        @(Html.DevExtreme().LoadIndicator()
+                            .Width("24px")
+                            .Height("24px")
+                            .Visible(false)
+                            .ID("submitLoadingIndicator")
+                            )
+                        <span id="sign-in-text">Sign In</span>
+                    </span>
+                </div>
+            }
+
+            <div class="oauth-button-container">
+                <p>or</p>
+                @(Html.DevExtreme().Button()
+                    .Width("100%")
+                    .Icon("/css/icons/google-logo.svg")
+                    .Text("Login with Google")
+                    .StylingMode(ButtonStylingMode.Contained)
+                    )
+                @(Html.DevExtreme().Button()
+                    .Width("100%")
+                    .Icon("/css/icons/microsoft-logo.svg")
+                    .Text("Login with Microsoft")
+                    .StylingMode(ButtonStylingMode.Contained)
+                    )
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+<script>
+    function onSubmit(e){
+        const data = $("#form-instance").dxForm("instance").option("formData");
+
+        $("#submitLoadingIndicator").dxLoadIndicator("instance").option("visible", true);
+        $("#sign-in-text").hide();
+        
+        location.href = "/";
+    }
+
+    function onCreateAccountClick() {
+        location.href = "/Auth/SignUp";
+    }
+
+</script>
