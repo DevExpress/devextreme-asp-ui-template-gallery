@@ -111,24 +111,13 @@
 </div>
 
 <script>
-    const formData = {
-        email: 'jheart@dx-email.com',
-        password: 'password',
-    }
-
     function onSubmit(e){
         const data = $("#form-instance").dxForm("instance").option("formData");
 
         $("#submitLoadingIndicator").dxLoadIndicator("instance").option("visible", true);
         $("#sign-in-text").hide();
         
-        const result = logIn(data);
-        if (!result.isOk) {
-            $("#submitLoadingIndicator").dxLoadIndicator("instance").option("visible", false);
-            $("#sign-in-text").show();
-        } else {
-            location.href = "/";
-        }
+        location.href = "/";
     }
 
     function onCreateAccountClick() {
