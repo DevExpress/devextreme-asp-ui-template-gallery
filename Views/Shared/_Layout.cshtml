@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>devextreme_asp_ui_template_gallery</title>
+    <title>ASP Template Gallery</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     @* Uncomment to use the HtmlEditor control *@
@@ -34,6 +34,7 @@
     @*<script src="~/js/devextreme/dx-diagram.js"></script>*@
 
     <script src="~/js/devextreme/jquery.js"></script>
+    <script src="~/js/router.js"></script>
 
     @* Uncomment to use Globalize for localization *@
     @* Docs: https://docs.devexpress.com/AspNetCore/400577#globalize *@
@@ -69,12 +70,12 @@
                         .Widget(w => w
                             .Button()
                             .Icon("menu")
-                            .OnClick("devextreme_asp_ui_template_gallery.onMenuButtonClick")
+                            .OnClick("DevExtremeVSTemplateMVC.onMenuButtonClick")
                         )
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("menu-button");
                     items.Add()
-                        .Html("<div>devextreme_asp_ui_template_gallery</div>")
+                        .Html("<div>ASP Template Gallery</div>")
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("header-title");
                 })
@@ -84,11 +85,14 @@
             @(Html.DevExtreme().Drawer()
                 .ID("layout-drawer")
                 .Position(DrawerPosition.Left)
-                .Opened(new JS("devextreme_asp_ui_template_gallery.restoreDrawerOpened()"))
+                .Opened(new JS("DevExtremeVSTemplateMVC.restoreDrawerOpened()"))
                 .Content(@<text>
                     <div id="layout-drawer-scrollview" class="with-footer">
-                        <div class="content">
+                        <div class="content" data-placeholder-id="main-layout-body">
                             @RenderBody()
+                        </div>
+                        <div data-placeholder-id="main-layout-section">
+                            @RenderSection("MySection", false)
                         </div>
                         <div class="content-block">
                             <div class="content-footer">
@@ -110,9 +114,12 @@
         <div class="menu-container dx-swatch-additional">
 
             @functions{
-                string GetUrl(string pageName) => Url.Page(pageName);
-                string GetCurrentUrl() => Url.Page(ViewContext.RouteData.Values["page"].ToString());
-                bool IsCurrentUrl(string pageName) => GetUrl(pageName) == GetCurrentUrl();
+            string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
+            string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
+            bool IsCurrentUrl(string action, string controller = "Home") {
+                System.Diagnostics.Debugger.Break();
+                return GetUrl(action, controller) == GetCurrentUrl();
+                }
             }
 
             @(Html.DevExtreme().TreeView()
@@ -121,21 +128,28 @@
                     items.Add()
                         .Text("Home")
                         .Icon("home")
-                        .Option("path", GetUrl("/Index"))
-                        .Selected(IsCurrentUrl("/Index"));
+                        .Option("path", GetUrl("Index"))
+                        .Selected(IsCurrentUrl("Index"));
 
                     items.Add()
                         .Text("About")
                         .Icon("info")
-                        .Option("path", GetUrl("/About"))
-                        .Selected(IsCurrentUrl("/About"));
+                        .Option("path", GetUrl("About"))
+                        .Selected(IsCurrentUrl("About"));
+
+
+                    items.Add()
+                        .Text("Login")
+                        .Icon("user")
+                        .Option("path", GetUrl("Login", "Auth"))
+                        .Selected(IsCurrentUrl("Login", "Auth"));
                 })
                 .ExpandEvent(TreeViewExpandEvent.Click)
                 .SelectionMode(NavSelectionMode.Single)
                 .SelectedExpr("selected")
                 .FocusStateEnabled(false)
                 .Width(250)
-                .OnItemClick("devextreme_asp_ui_template_gallery.onTreeViewItemClick")
+                .OnItemClick("DevExtremeVSTemplateMVC.onTreeViewItemClick")
             )
 
         </div>
@@ -143,9 +157,9 @@
 
     <script>
 
-        var devextreme_asp_ui_template_gallery = (function() {
+        var DevExtremeVSTemplateMVC = (function() {
 
-            var DRAWER_OPENED_KEY = "devextreme_asp_ui_template_gallery-drawer-opened";
+            var DRAWER_OPENED_KEY = "DevExtremeVSTemplateMVC-drawer-opened";
 
             var breakpoints = {
                 xSmallMedia: window.matchMedia("(max-width: 599.99px)"),
@@ -203,7 +217,10 @@
 
             function navigate(url, delay) {
                 if(url)
-                    setTimeout(function() { location.href = url }, delay);
+                    setTimeout(function() {
+                        //location.href = url
+                        SPARouter.navigate(url);
+                    }, delay);
             }
 
             function onMenuButtonClick() {
@@ -225,7 +242,7 @@
                     if(willHide)
                         drawer.hide();
 
-                    if(willNavigate)
+                    if(true || willNavigate)
                         navigate(e.itemData.path, willHide ? 400 : 0);
                 }
             }
@@ -240,7 +257,8 @@
 
         document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
-            devextreme_asp_ui_template_gallery.init();
+            DevExtremeVSTemplateMVC.init();
+            SPARouter.init();
         });
     </script>
 </body>

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace devextreme_asp_ui_template_gallery.Models {
-    static class SampleData {
+namespace DevExtreme.Asp.Template.Gallery.Models
+{
+    static class SampleData
+    {
         public static List<SampleOrder> Orders = new List<SampleOrder>() {
             new SampleOrder {
                 OrderID = 10248,
