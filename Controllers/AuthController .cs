@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevExtremeVSTemplateMVC.Controllers
+namespace DevExtreme.Asp.Template.Gallery.Controllers
 {
     public class AuthController : Controller
     {

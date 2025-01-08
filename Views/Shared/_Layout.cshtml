@@ -70,7 +70,7 @@
                         .Widget(w => w
                             .Button()
                             .Icon("menu")
-                            .OnClick("DevExtremeVSTemplateMVC.onMenuButtonClick")
+                    .OnClick("DevExtremeASPTemplateGallery.onMenuButtonClick")
                         )
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("menu-button");
@@ -85,7 +85,7 @@
             @(Html.DevExtreme().Drawer()
                 .ID("layout-drawer")
                 .Position(DrawerPosition.Left)
-                .Opened(new JS("DevExtremeVSTemplateMVC.restoreDrawerOpened()"))
+                .Opened(new JS("DevExtremeASPTemplateGallery.restoreDrawerOpened()"))
                 .Content(@<text>
                     <div id="layout-drawer-scrollview" class="with-footer">
                         <div class="content" data-placeholder-id="main-layout-body">
@@ -149,7 +149,7 @@
                 .SelectedExpr("selected")
                 .FocusStateEnabled(false)
                 .Width(250)
-                .OnItemClick("DevExtremeVSTemplateMVC.onTreeViewItemClick")
+                .OnItemClick("DevExtremeASPTemplateGallery.onTreeViewItemClick")
             )
 
         </div>
@@ -157,9 +157,9 @@
 
     <script>
 
-        var DevExtremeVSTemplateMVC = (function() {
+        var DevExtremeASPTemplateGallery = (function () {
 
-            var DRAWER_OPENED_KEY = "DevExtremeVSTemplateMVC-drawer-opened";
+            var DRAWER_OPENED_KEY = "DevExtremeASPTemplateGallery-drawer-opened";
 
             var breakpoints = {
                 xSmallMedia: window.matchMedia("(max-width: 599.99px)"),
@@ -218,7 +218,6 @@
             function navigate(url, delay) {
                 if(url)
                     setTimeout(function() {
-                        //location.href = url
                         SPARouter.navigate(url);
                     }, delay);
             }
@@ -257,7 +256,7 @@
 
         document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
-            DevExtremeVSTemplateMVC.init();
+            DevExtremeASPTemplateGallery.init();
             SPARouter.init();
         });
     </script>
