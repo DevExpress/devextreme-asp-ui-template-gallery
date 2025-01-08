@@ -1,21 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj": {}
+    "C:\\x-folder\\proactive\\Examples\\ASP_Template\\GitHub\\devextreme-asp-ui-template-gallery.csproj": {}
   },
   "projects": {
-    "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj": {
+    "C:\\x-folder\\proactive\\Examples\\ASP_Template\\GitHub\\devextreme-asp-ui-template-gallery.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj",
+        "projectUniqueName": "C:\\x-folder\\proactive\\Examples\\ASP_Template\\GitHub\\devextreme-asp-ui-template-gallery.csproj",
         "projectName": "devextreme-asp-ui-template-gallery",
-        "projectPath": "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj",
-        "packagesPath": "C:\\Users\\ReocurringDM\\.nuget\\packages\\",
-        "outputPath": "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\obj\\",
+        "projectPath": "C:\\x-folder\\proactive\\Examples\\ASP_Template\\GitHub\\devextreme-asp-ui-template-gallery.csproj",
+        "packagesPath": "C:\\Users\\SERGEYEV.ANDREY\\.nuget\\packages\\",
+        "outputPath": "C:\\x-folder\\proactive\\Examples\\ASP_Template\\GitHub\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
+          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
+          "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages",
+          "C:\\Program Files\\DevExpress 24.2\\Components\\Offline Packages"
+        ],
         "configFilePaths": [
-          "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\NuGet.Config",
-          "C:\\Users\\ReocurringDM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\x-folder\\proactive\\Examples\\ASP_Template\\GitHub\\NuGet.Config",
+          "C:\\Users\\SERGEYEV.ANDREY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.1.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -23,10 +33,13 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "W:\\DevExpress\\System\\DevExtreme\\Bin\\AspNetCore": {},
+          "C:\\Program Files\\DevExpress 22.2\\Components\\System\\Components\\Packages": {},
+          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
+          "C:\\Program Files\\DevExpress 24.1\\Components\\System\\Components\\Packages": {},
+          "C:\\Program Files\\DevExpress 24.2\\Components\\System\\Components\\Packages": {},
           "W:\\DevExtreme2415\\System\\DevExtreme\\Bin\\AspNetCore": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/6egqEOF4zWpRgjtGzCvZpnuzjsp92knpuoHKZ214gbvL6JnKpS/api": {}
         },
         "frameworks": {
           "net6.0": {
@@ -38,11 +51,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -56,6 +64,10 @@
             "DevExtreme.AspNet.Data": {
               "target": "Package",
               "version": "[4.0.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[6.0.36, )"
             }
           },
           "imports": [
@@ -72,19 +84,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.36, 6.0.36]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.36, 6.0.36]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.36, 6.0.36]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.36, 6.0.36]"
             }
           ],
           "frameworkReferences": {
@@ -95,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }
