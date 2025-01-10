@@ -420,3 +420,332 @@
     margin-top: 10px;
     margin-left: 11px
 }
+
+
+.form-popup .dx-toolbar-center {
+    width: 100%
+}
+
+.form-popup-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--popup-toolbar-item-spacing)
+}
+
+.form-popup-buttons-container.flex-buttons .dx-button {
+    flex: 1
+}
+
+.status span {
+    font-size: 13px
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+.dx-texteditor.form-editor .form-editor-icon:first-child {
+    margin-left: 0;
+    pointer-events: none;
+    border-color: transparent;
+    background-color: transparent
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+.dx-toolbar {
+    margin-bottom: var(--toolbar-margin-bottom)
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+#task-form {
+    min-height: 250px
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+#tasks-grid {
+    min-height: 300px
+}
+
+    #tasks-grid .priority span {
+        font-size: 13px
+    }
+
+ .edit-cell {
+    position: relative
+}
+
+.dx-dropdownbutton-content .dx-list-item {
+    display: block
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+.circle[data-letters]:before {
+    content: attr(data-letters);
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--base-bg)
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+.card {
+    --low-priorety-color: #dfb32f;
+    --normal-priorety-color: #6fbaca;
+    --high-priorety-color: #d9534f;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block
+}
+
+ .card-wrapper {
+    padding: 10px
+}
+
+     .card-wrapper .dx-button {
+        position: absolute;
+        right: 10px;
+        font-size: 18px;
+        opacity: .87
+    }
+
+     .card-wrapper.priority-low .card-priority {
+        background: var(--low-priorety-color)
+    }
+
+     .card-wrapper.priority-low span.priority {
+        color: var(--low-priorety-color)
+    }
+
+     .card-wrapper.priority-normal .card-priority {
+        background: var(--normal-priorety-color)
+    }
+
+     .card-wrapper.priority-normal span.priority {
+        color: var(--normal-priorety-color)
+    }
+
+     .card-wrapper.priority-high .card-priority {
+        background: var(--high-priorety-color)
+    }
+
+     .card-wrapper.priority-high span.priority {
+        color: var(--high-priorety-color)
+    }
+
+     .card-wrapper .card-content {
+        padding-left: 14px
+    }
+
+         .card-wrapper .card-content span.priority {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 14px
+        }
+
+         .card-wrapper .card-content span.date {
+            padding-left: 8px;
+            font-size: 12px;
+            line-height: 14px;
+            opacity: .87
+        }
+
+     .card-wrapper .card-subject {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        padding-right: 40px
+    }
+
+     .card-wrapper .card-assignee {
+        padding-top: 14px;
+        font-size: 12px;
+        line-height: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+    }
+
+     .card-wrapper .card-priority {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        left: 10px;
+        width: 4px
+    }
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+.scrollable-board {
+    white-space: nowrap
+}
+
+.list {
+    border-radius: 4px;
+    margin: 10px;
+    background-color: var(--background-gray-color);
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal
+}
+
+.list .list-title {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: -10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between
+}
+
+.list .list-title .dx-button {
+    background-color: transparent
+}
+
+.scrollable-list {
+    width: 260px
+}
+
+ .sortable-cards {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 100px
+}
+
+     .sortable-cards .dx-sortable {
+        display: block
+    }
+
+.add-task {
+    padding: 10px
+}
+
+ .add-task .dx-button-text,  .add-task .dx-icon {
+    color: var(--accent-color)
+}
+
+:root {
+    --toolbar-vertical-padding: 16px
+}
+
+:root .dx-theme-generic {
+    --change-password-popup-height: 190px
+}
+
+:root .dx-theme-material {
+    --change-password-popup-height: 260px
+}
+
+.view-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0
+}
+
+.view-wrapper .dx-toolbar {
+    padding: var(--toolbar-margin-bottom) var(--content-padding)
+}
+
+.view-wrapper .dx-toolbar .toolbar-header {
+    font-size: 22px;
+    font-weight: 400;
+    padding-right: 25px
+}
+
+.view-wrapper .gantt, .view-wrapper .grid, .view-wrapper .kanban {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    max-height: calc(100% - var(--toolbar-height) - var(--content-padding)*2)
+}
+
+.view-wrapper .gantt {
+    padding: 0 var(--content-padding) var(--content-padding)
+}
+
+.view-wrapper .kanban {
+    padding: 0 0 var(--content-padding) calc(var(--content-padding)/2)
+}
