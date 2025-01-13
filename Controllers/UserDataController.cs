@@ -1,4 +1,4 @@
-﻿using DevExtreme.Asp.Template.Gallery.Models;
+﻿using devextreme_asp_ui_template_gallery.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;

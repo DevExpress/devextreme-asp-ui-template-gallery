@@ -355,7 +355,7 @@ header .header-toolbar  .dx-toolbar-item.menu-button {
 
 .auth-card  {
     display: flex;
-    height: 100vh
+    height: calc(100vh - 200px)
 }
 
     .auth-card  .dx-button-text {

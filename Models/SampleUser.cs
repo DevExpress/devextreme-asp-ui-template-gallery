@@ -1,4 +1,4 @@
-﻿namespace DevExtreme.Asp.Template.Gallery.Models
+﻿namespace devextreme_asp_ui_template_gallery.Models
 {
     public class SampleUser
     {

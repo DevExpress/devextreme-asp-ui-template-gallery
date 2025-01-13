@@ -14,7 +14,6 @@
     }
 
     function handleRoute(targetUrl) {
-        debugger;
         const url = new URL(targetUrl, window.location.origin);
         url.searchParams.append('__PARTIAL', 'true');
         $.get(url.href, function (markup) {

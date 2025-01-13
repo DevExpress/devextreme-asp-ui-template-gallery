@@ -17,6 +17,10 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return View();
         }
 
+        public IActionResult PlanningTasks() {
+            return View("../PlanningTasks/PlanningTasks");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
             return View();

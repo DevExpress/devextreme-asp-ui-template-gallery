@@ -1,4 +1,4 @@
-using DevExtreme.Asp.Template.Gallery.Models;
+using devextreme_asp_ui_template_gallery.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
