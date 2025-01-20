@@ -1,4 +1,7 @@
-﻿<script>
+﻿<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
+<link href="~/css/components/tasklistgrid.css" rel="stylesheet" />
+<script src="~/js/views/planningtasklist.js"></script>
+<script>
     function priorityCellTemplate(container, options){
         const statusCSSClass = "status-indicator-" + options.value.toLowerCase();
         container.addClass("input-with-bar status status-indicator "+statusCSSClass);
@@ -157,9 +160,16 @@
 
     }
 </script>
-<div class="view-rapper list-page">
+@(Html.DevExtreme().LoadPanel()
+        .Width("auto")
+        .ShowPane(true)
+        .Visible(false)
+        .Container(".content")
+        .Position(p => p.Of(".content"))
+        .ID("planning-load-panel"))
+<div class="view-wrapper view-wrapper-task-list list-page">
     @(Html.DevExtreme().Toolbar()
-            .ElementAttr(new { @class = "toolbar-details theme-dependent" })
+            .ElementAttr(new { @class = "toolbar-common theme-dependent" })
             .Items(items =>
             {
                 items.Add().Location(ToolbarItemLocation.Before)
@@ -230,19 +240,11 @@
                     .OnInput("searchDataGrid"));
             })
         )
-    @(Html.DevExtreme().LoadPanel()
-        .Width("auto")
-        .ShowPane(true)
-        .Visible(false)
-        .Container(".content")
-        .Position(p => p.Of(".content"))
-        .ID("planning-load-panel"))
-    <div id="task-list-grid">
-        <div class="grid">
+
             @(
                 Html.DevExtreme().DataGrid()
                 .ID("tasks-grid")
-                .ElementAttr(new { @class = "theme-dependent" })
+                .ElementAttr(new { @class = "planning-grid theme-dependent" })
                 .Height("100%")
                 .HoverStateEnabled(true)
                 .ColumnAutoWidth(true)
@@ -321,8 +323,6 @@
         
                 })
             )
-        </div>
-    </div>
     <div id="task-list-kanban" style="display: none;"></div>
     <div id="task-list-gantt" style="display: none;"></div>
 </div>
@@ -358,5 +358,5 @@
 }
 
 <script>
-    loadFilteredTasksAsync();
+    $(()=>loadFilteredTasksAsync());
 </script>
