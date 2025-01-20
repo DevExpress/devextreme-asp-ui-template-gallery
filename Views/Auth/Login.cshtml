@@ -1,18 +1,19 @@
 @using devextreme_asp_ui_template_gallery.Models;
 @model UserData
+@{
+    bool topLayout = this.Context.Request.Path.Value.Contains("Home");
+}
 
 <script>
-    function onSubmit(e){
-        const data = $("#form-instance").dxForm("instance").option("formData");
-
+    var keepTopLayout = '@Html.Raw(topLayout)' === "True";
+    function onSubmit(e) {
         $("#submitLoadingIndicator").dxLoadIndicator("instance").option("visible", true);
         $("#sign-in-text").hide();
-
         location.href = "/";
     }
 
     function onCreateAccountClick() {
-        location.href = "/Auth/SignUp";
+        SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/SignUp`);
     }
 
 </script>
@@ -74,7 +75,8 @@
                         )
 
                     <div class="reset-link">
-                        <a href="/Auth/ForgotPassword">Forgot password?</a>
+                        @* <a href="/Auth/ForgotPassword">Forgot password?</a> *@
+                        <a onclick="SPARouter.navigate('@(Url.Action("ForgotPassword", topLayout ? "Home" : "Auth"))');">Forgot password?</a>
                     </div>
 
                     @(Html.DevExtreme().Button()

@@ -21,6 +21,18 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return View("../PlanningTasks/PlanningTasks");
         }
 
+        public IActionResult Login() {
+            return View("../Auth/Login");
+        }
+
+        public IActionResult SignUp() {
+            return View("../Auth/SignUp");
+        }
+
+        public IActionResult ForgotPassword() {
+            return View("../Auth/ForgotPassword");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
             return View();

@@ -1,3 +1,9 @@
 @{
-    Layout = this.Context.Request.Query["__PARTIAL"] == "true" ? "_AuthLayoutPartial" : "_AuthLayout";
+    bool partial = this.Context.Request.Query["__PARTIAL"] == "true";
+    bool keepLayout = this.Context.Request.Path.Value.Contains("Home");
+    string layoutName = "Layout";
+    if (partial) layoutName += "Partial";
+    layoutName = (keepLayout ? "_" : "_Auth") + layoutName;
+    Layout = layoutName;
+    //Layout = this.Context.Request.Query["__PARTIAL"] == "true" ? "_AuthLayoutPartial" : "_AuthLayout";
 }

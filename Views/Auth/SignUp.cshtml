@@ -1,12 +1,14 @@
 @using devextreme_asp_ui_template_gallery.Models;
 @model UserData
-
+@{
+    bool topLayout = this.Context.Request.Path.Value.Contains("Home");
+}
 @* <h2 class="content-block">Sign Up Form</h2> *@
 
 <script>
-
+    var keepTopLayout = '@Html.Raw(topLayout)' === "True";
     function onCreateSubmit(e) {
-        location.href = "/Auth/Login";
+        SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/Login`);
     }
 
     function confirmPassword(e) {
@@ -62,8 +64,10 @@
                         .Template(@<text>
                     <div class="policy-info">
                         By creating an account, you agree to the
-                        <a href="/Auth/Login">Terms of Service</a> and
-                        <a href="/Auth/Login">Privacy Policy</a>
+                        <a onclick="SPARouter.navigate('@(Url.Action("Login", topLayout ? "Home" : "Auth"))');">Terms of Service?</a> and
+                        <a onclick="SPARouter.navigate('@(Url.Action("Login", topLayout ? "Home" : "Auth"))');">Privacy Policy?</a>
+                        @* <a href="/Auth/Login">Terms of Service</a> and
+                        <a href="/Auth/Login">Privacy Policy</a> *@
                     </div>
                 </text>);
 
@@ -78,7 +82,9 @@
                     )
 
                 <div class="login-link">
-                    Have an account? <a href="/Auth/Login">Sign In</a>
+                    Have an account?
+                    @* <a href="/Auth/Login">Sign In</a> *@
+                    <a onclick="SPARouter.navigate('@(Url.Action("Login", topLayout ? "Home" : "Auth"))');">Sign In</a>
                 </div>
             </form>
 

@@ -73,69 +73,69 @@
     <div id="app-side-nav-outer-toolbar">
         <div class="layout-header">
             @(Html.DevExtreme().Toolbar()
-                    .ElementAttr(new { @class = "header-toolbar" })
-                    .Items(items =>{
-                        items.Add()
-                            .Widget(w => w
-                            .Button()
-                            .Icon("menu")
-                            .StylingMode(ButtonStylingMode.Text)
-                            .OnClick("LayoutController.onMenuButtonClick")
-                            )
-                            .Location(ToolbarItemLocation.Before)
-                            .CssClass("menu-button");
-                        items.Add()
-                            .Location(ToolbarItemLocation.Before)
-                            .CssClass("header-title dx-toolbar-label header-title-width")
-                            .Template(@<text>
+                            .ElementAttr(new { @class = "header-toolbar" })
+                            .Items(items =>{
+                                items.Add()
+                                    .Widget(w => w
+                                    .Button()
+                                    .Icon("menu")
+                                    .StylingMode(ButtonStylingMode.Text)
+                                    .OnClick("LayoutController.onMenuButtonClick")
+                                    )
+                                    .Location(ToolbarItemLocation.Before)
+                                    .CssClass("menu-button");
+                                items.Add()
+                                    .Location(ToolbarItemLocation.Before)
+                                    .CssClass("header-title dx-toolbar-label header-title-width")
+                                    .Template(@<text>
                             <div>UI Template Gallery</div>
                         </text>);
-                        items.Add()
-                            .Location(ToolbarItemLocation.After)
-                            .CssClass("global-search-box")
-                            .Widget(w => w
-                            .TextBox()
-                            .Width(180)
-                            .Placeholder("Search")
-                            .Mode(TextBoxMode.Search)
-                            .StylingMode(EditorStylingMode.Filled)
-                            );
-                        items.Add()
-                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                            .Location(ToolbarItemLocation.After)
-                            .Widget(w => w
-                            .Button()
-                            .OnInitialized("onThemeSwitcherInit")
-                            .ElementAttr(new { @class = "theme-button" })
-                            .StylingMode(ButtonStylingMode.Text)
-                            .Icon("moon")
-                            .OnClick("onThemeSwitcherClick")
-                            );
-                        items.Add()
-                            .Location(ToolbarItemLocation.After)
-                            .Template(@<text>
+                                items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .CssClass("global-search-box")
+                                    .Widget(w => w
+                                    .TextBox()
+                                    .Width(180)
+                                    .Placeholder("Search")
+                                    .Mode(TextBoxMode.Search)
+                                    .StylingMode(EditorStylingMode.Filled)
+                                    );
+                                items.Add()
+                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                    .Location(ToolbarItemLocation.After)
+                                    .Widget(w => w
+                                    .Button()
+                                    .OnInitialized("onThemeSwitcherInit")
+                                    .ElementAttr(new { @class = "theme-button" })
+                                    .StylingMode(ButtonStylingMode.Text)
+                                    .Icon("moon")
+                                    .OnClick("onThemeSwitcherClick")
+                                    );
+                                items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .Template(@<text>
                             <div class="messages">
                                 <div id="messages-button"></div>
                                 <div class="dx-badge">4</div>
                             </div>
                         </text>);
-                        items.Add()
-                            .Location(ToolbarItemLocation.After)
-                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                            .Template(@<text>
+                                items.Add()
+                                    .Location(ToolbarItemLocation.After)
+                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                    .Template(@<text>
                             <div>
                                 <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
                             </div>
                         </text>);
-                    })
-                    )
+                            })
+                            )
         </div>
         <div class="layout-body layout-body-hidden">
             @(Html.DevExtreme().Drawer()
-                    .ID("layout-drawer")
-                    .Position(DrawerPosition.Left)
-                    .Opened(new JS("LayoutController.restoreDrawerOpened()"))
-                    .Content(@<text>
+                            .ID("layout-drawer")
+                            .Position(DrawerPosition.Left)
+                            .Opened(new JS("LayoutController.restoreDrawerOpened()"))
+                            .Content(@<text>
                 <div id="layout-drawer-scrollview" class="with-footer">
                     <div class="content" data-placeholder-id="main-layout-body">
                         @RenderBody()
@@ -154,8 +154,8 @@
                     </div>
                 </div>
             </text>)
-                    .Template(new TemplateName("navigation-menu"))
-                    )
+                            .Template(new TemplateName("navigation-menu"))
+                            )
         </div>
     </div>
 
@@ -163,10 +163,11 @@
     {
         <div class="menu-container dx-swatch-additional">
 
-        @functions {
+            @functions {
             string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
             string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
             bool IsCurrentUrl(string action, string controller = "Home") => GetUrl(action, controller) == GetCurrentUrl();
+            const string pathFieldName = "path";
         }
 
         @(
@@ -180,11 +181,11 @@
                 {
                     planningItems.Add()
                         .Text("Home (to be removed)")
-                        .Option("path", GetUrl("Index"))
+                        .Option(pathFieldName, GetUrl("Index"))
                         .Selected(IsCurrentUrl("Index"));
                     planningItems.Add()
                         .Text("Task List")
-                        .Option("path", GetUrl("PlanningTasks"))
+                        .Option(pathFieldName, GetUrl("PlanningTasks"))
                         .Selected(IsCurrentUrl("PlanningTasks"));
                 });
                 items.Add().Text("Authentication").Icon("user")
@@ -193,15 +194,15 @@
                 {
                     authItems.Add()
                         .Text("Sign In Form")
-                        .Option("path", GetUrl("Login", "Auth"))
+                        .Option(pathFieldName, GetUrl("Login"))
                         .Selected(IsCurrentUrl("Login", "Auth"));
                     authItems.Add()
                         .Text("Sign Up Form")
-                        .Option("path", GetUrl("SignUp", "Auth"))
+                        .Option(pathFieldName, GetUrl("SignUp"))
                         .Selected(IsCurrentUrl("SignUp", "Auth"));
                     authItems.Add()
                         .Text("Reset Password")
-                        .Option("path", GetUrl("ForgotPassword", "Auth"))
+                        .Option(pathFieldName, GetUrl("ForgotPassword"))
                         .Selected(IsCurrentUrl("ForgotPassword", "Auth"));
                 });
             })
@@ -229,8 +230,8 @@
         }
 
         const ToolbarContentController = (function() {
-            function onLogoutClick(){
-                console.log("Log out");
+            function onLogoutClick() {
+                SPARouter.navigate("/Auth/Login");
             }
 
             const userMenuItems = [{
