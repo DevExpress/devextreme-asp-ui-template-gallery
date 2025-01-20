@@ -1,4 +1,6 @@
-﻿<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
+﻿@using devextreme_asp_ui_template_gallery.Utils;
+
+<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
 <link href="~/css/components/tasklistgrid.css" rel="stylesheet" />
 <script src="~/js/views/planningtasklist.js"></script>
 <script>
@@ -244,6 +246,12 @@
             @(
                 Html.DevExtreme().DataGrid()
                 .ID("tasks-grid")
+                .DataSource(ds => ds.RemoteController()
+                    .Key("id")
+                    .LoadUrl(Constants.BaseUrlAPI + "/Employees/AllTasks")
+                    .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
+                )
+                .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
                 .ElementAttr(new { @class = "planning-grid theme-dependent" })
                 .Height("100%")
                 .HoverStateEnabled(true)
@@ -358,5 +366,5 @@
 }
 
 <script>
-    $(()=>loadFilteredTasksAsync());
+    // $(()=>loadFilteredTasksAsync());
 </script>
