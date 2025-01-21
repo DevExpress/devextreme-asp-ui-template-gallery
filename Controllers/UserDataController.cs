@@ -1,9 +1,9 @@
-﻿using devextreme_asp_ui_template_gallery.Models;
+﻿using DevExtremeVSTemplateMVC.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevExtreme.Asp.Template.Gallery.Controllers
+namespace DevExtremeVSTemplateMVC.Controllers
 {
     [Route("api/[controller]")]
     public class UserDataController : Controller

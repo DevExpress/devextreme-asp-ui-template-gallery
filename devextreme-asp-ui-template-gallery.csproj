@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
 		<NodeModulesDir>$(ProjectDir)node_modules\</NodeModulesDir>
 		<WwwRootDir>$(ProjectDir)wwwroot\</WwwRootDir>
+		<RootNamespace>DevExtremeVSTemplateMVC</RootNamespace>
     </PropertyGroup>
 
 	<Target Name="CopyFilesFromNodeModules" BeforeTargets="Build">

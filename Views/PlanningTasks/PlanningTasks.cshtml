@@ -1,370 +1,302 @@
-﻿@using devextreme_asp_ui_template_gallery.Utils;
+﻿@using DevExtremeVSTemplateMVC.Utils;
+@using DevExtremeVSTemplateMVC.Utils.Data;
 
 <link href="~/css/views/planningtasklist.css" rel="stylesheet" />
 <link href="~/css/components/tasklistgrid.css" rel="stylesheet" />
 <script src="~/js/views/planningtasklist.js"></script>
 <script>
-    function priorityCellTemplate(container, options){
-        const statusCSSClass = "status-indicator-" + options.value.toLowerCase();
-        container.addClass("input-with-bar status status-indicator "+statusCSSClass);
-
-        const span = $("<span class='"+statusCSSClass+"'></span>");
-        span.text("| "+options.value);
-
-        container.append(span);
-    }
-
-    function statusCellTemplate(container, options) {
-        const statusCSSClass = "status-indicator-" + options.value.toLowerCase().replace(/\s+/g, '-');
-        container.addClass("input-with-bar status status-indicator " + statusCSSClass);
-
-        const span = $("<span class='" + statusCSSClass + "'></span>");
-        span.text(options.value);
-
-        container.append(span);
-    }
-
-    function priorityEditTemplate(cellElement, cellInfo) {
-        return $('<div class="edit-cell">').dxSelectBox({
-            value: cellInfo.value,
-            items: taskPriorityList,
-            onValueChanged: (e) => onSelectChange(e.value, cellInfo),
-            onSelectionChanged: () => cellInfo.component.updateDimensions,
-            itemTemplate: (data) => {
-                const statusCSSClass = "status-indicator-" + data.toLowerCase();
-                const classList = "input-with-bar status status-indicator " + statusCSSClass;
-
-                return $(`<div class="${classList}"><span class="${statusCSSClass}">| ${data}<span></div>`);
-            },
-            fieldTemplate: (data, container) => {
-                const statusCSSClass = "status-indicator-" + data.toLowerCase();
-                const classList = "input-with-bar status status-indicator " + statusCSSClass;
-                const div = $(`<div class="${classList}"></div>`);
-                const textBox = $(`<div class="${statusCSSClass}"></div>`).dxTextBox({
-                    readOnly: true,
-                    inputAttr: {
-                        class: 'status-input status-editor-input'
-                    },
-                    hoverStateEnabled: false,
-                    value: `| ${data}`
-                });
-                div.append(textBox);
-
-                container.append(div);
-            }
-        });
-    }
-
-    function statusEditTemplate(cellElement, cellInfo) {
-        return $('<div class="edit-cell">').dxSelectBox({
-            value: cellInfo.value,
-            items: taskStatusList,
-            onValueChanged: (e) => onSelectChange(e.value, cellInfo),
-            onSelectionChanged: () => cellInfo.component.updateDimensions,
-            itemTemplate: (data) => {
-                const statusCSSClass = "status-indicator-" + data.toLowerCase().replace(/\s+/g, '-');
-                const classList = "input-with-bar status status-indicator " + statusCSSClass;
-
-                return $(`<div class="${classList}"><span class="${statusCSSClass}">${data}<span></div>`);
-            },
-            fieldTemplate: (data, container) => {
-                const statusCSSClass = "status-indicator-" + data.toLowerCase().replace(/\s+/g, '-');
-                const classList = "input-with-bar status status-indicator " + statusCSSClass;
-                const div = $(`<div class="${classList}"></div>`);
-                const textBox = $(`<div class="${statusCSSClass}"></div>`).dxTextBox({
-                    readOnly: true,
-                    inputAttr: {
-                        class: 'status-input status-editor-input'
-                    },
-                    hoverStateEnabled: false,
-                    value: `${data}`
-                });
-                div.append(textBox);
-
-                container.append(div);
-            }
-        });
-    }
-
-    function onSelectChange(value, cellData){
-        cellData.setValue(value);
-        cellData.component.refresh();
-        cellData.component.focus();
-    }
-
-    async function loadFilteredTasksAsync() {
-        const loadPanel = $("#planning-load-panel").dxLoadPanel("instance");
-        loadPanel.option("position.of", "#task-list-grid");
-        loadPanel.option("visible", true);
-
-        let filteredTasks = await getTasks();
-        filteredTasks = filteredTasks.filter((item) => !!item.status && !!item.priority);
-
-        $("#tasks-grid").dxDataGrid("instance").option("dataSource", filteredTasks);
-
-        loadPanel.option("visible", false);
-    }
-
-    var taskPanelItems = [
-        { id: 'grid', text: 'List' },
-        { id: 'kanban', text: 'Kanban Board' },
-        { id: 'gantt', text: 'Gantt' },
-    ];
-
-    var taskStatusList = [
-        'Open',
-        'In Progress',
-        'Deferred',
-        'Completed',
-    ];
-
-    var taskPriorityList = [
-        'Low',
-        'Normal',
-        'High',
-    ];
-
-    function tabValueChange(e) {
-        console.log("tabValueChanged", e);
-        // const { itemData } = e;
-        // displayTaskComponent.value = itemData.text;
-        // const tabId = taskPanelItems.find((item) => displayTaskComponent.value === item.text)?.id;
-        // activeTabId.value = tabId || 'grid';
-
-        // if (tabId !== 'grid' && kanbanData.value.length === 0) {
-        //     loadFilteredTasksAsync();
-        // } else if (tabId === 'grid' && gridData.value.length === 0) {
-        //     loadTasksAsync();
-        // }
-    }
-
-    function reload() {
-
-    }
-
-    function addTask(e) {
-
-    }
-
-    function chooseColumnDataGrid() {
-
-    }
-
-    function exportToPdf() {
-
-    }
-
-    function exportToXlsx(){
-
-    }
-
-    function searchDataGrid(e) {
-
-    }
+    var CLASS_STATUS_PREFIX = "status-indicator-";
+    var CLASS_CELL_STATUS = "input-with-bar status status-indicator ";
 </script>
+
 @(Html.DevExtreme().LoadPanel()
-        .Width("auto")
-        .ShowPane(true)
-        .Visible(false)
-        .Container(".content")
-        .Position(p => p.Of(".content"))
-        .ID("planning-load-panel"))
+    .Width("auto")
+    .ShowPane(true)
+    .Visible(false)
+    .Container(".content")
+    .Position(p => p.Of(".content"))
+    .ID("planning-load-panel")
+)
+
 <div class="view-wrapper view-wrapper-task-list list-page">
     @(Html.DevExtreme().Toolbar()
-            .ElementAttr(new { @class = "toolbar-common theme-dependent" })
-            .Items(items =>
-            {
-                items.Add().Location(ToolbarItemLocation.Before)
-                .Template(@<text>
-                    <span class="toolbar-header">Tasks</span>
-                </text>);
+        .ElementAttr(new { @class = "toolbar-common theme-dependent" })
+        .Items(items =>
+        {
+            items.Add().Location(ToolbarItemLocation.Before)
+            .Template(@<text>
+                <span class="toolbar-header">Tasks</span>
+            </text>);
 
-                items.Add().Location(ToolbarItemLocation.Before)
-                .Template(new TemplateName("TabsView"));
+            items.Add().Location(ToolbarItemLocation.Before)
+            .Template(new TemplateName("TabsView"));
 
-                items.Add().Location(ToolbarItemLocation.After)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .CssClass("add-grid-row")
-                .Template(new TemplateName("AddTaskButton"));
+            items.Add().Location(ToolbarItemLocation.After)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .CssClass("add-grid-row")
+            .Widget(w => w.Button()
+                .Text("Add Task")
+                .Icon("plus")
+                .Type(ButtonType.Default)
+                .StylingMode(ButtonStylingMode.Contained)
+                .OnClick("addTask"));
 
-                items.Add().Location(ToolbarItemLocation.After)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .Widget(w => w.Button()
-                    .Text("Refresh")
-                    .Icon("refresh")
-                    .StylingMode(ButtonStylingMode.Text)
-                    .OnClick("reload"))
-                .ShowText(ToolbarItemShowTextMode.InMenu);   
-                
-                items.Add().Location(ToolbarItemLocation.After)
-                .Disabled(true)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .ShowText(ToolbarItemShowTextMode.InMenu)
-                .Widget(w => w.Button()
-                    .Text("Column Chooser")
-                    .Icon("columnchooser")
-                    .StylingMode(ButtonStylingMode.Text)
-                    .OnClick("chooseColumnDataGrid"));
+            items.Add().Location(ToolbarItemLocation.After)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Widget(w => w.Button()
+                .Text("Refresh")
+                .Icon("refresh")
+                .StylingMode(ButtonStylingMode.Text)
+                .OnClick("reload"))
+            .ShowText(ToolbarItemShowTextMode.InMenu);   
+            
+            items.Add().Location(ToolbarItemLocation.After)
+            .Disabled(true)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .ShowText(ToolbarItemShowTextMode.InMenu)
+            .Widget(w => w.Button()
+                .Text("Column Chooser")
+                .Icon("columnchooser")
+                .StylingMode(ButtonStylingMode.Text)
+                .OnClick("chooseColumnDataGrid"));
 
-                items.Add().Location(ToolbarItemLocation.After)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .Template(@<text>
-                    <div><div class="separator"/></div>
-                </text>);
+            items.Add().Location(ToolbarItemLocation.After)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Template(@<text>
+                <div><div class="separator"/></div>
+            </text>);
 
-                items.Add().Location(ToolbarItemLocation.After)
-                .Disabled(true)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .ShowText(ToolbarItemShowTextMode.InMenu)
-                .Widget(w => w.Button()
-                    .Text("Export to PDF")
-                    .Icon("exportpdf")
-                    .StylingMode(ButtonStylingMode.Text)
-                    .OnClick("exportToPdf"));
+            items.Add().Location(ToolbarItemLocation.After)
+            .Disabled(true)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .ShowText(ToolbarItemShowTextMode.InMenu)
+            .Widget(w => w.Button()
+                .Text("Export to PDF")
+                .Icon("exportpdf")
+                .StylingMode(ButtonStylingMode.Text)
+                .OnClick("exportToPdf"));
 
+            items.Add().Location(ToolbarItemLocation.After)
+            .Disabled(true)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .ShowText(ToolbarItemShowTextMode.InMenu)
+            .Widget(w => w.Button()
+                .Text("Export to Exel")
+                .Icon("exportxlsx")
+                .StylingMode(ButtonStylingMode.Text)
+                .OnClick("exportToXlsx"));
 
-                items.Add().Location(ToolbarItemLocation.After)
-                .Disabled(true)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .ShowText(ToolbarItemShowTextMode.InMenu)
-                .Widget(w => w.Button()
-                    .Text("Export to Exel")
-                    .Icon("exportxlsx")
-                    .StylingMode(ButtonStylingMode.Text)
-                    .OnClick("exportToXlsx"));
+            items.Add().Location(ToolbarItemLocation.After)
+            .Disabled(true)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Widget(w => w.TextBox()
+                .Placeholder("Task Search")
+                .Mode(TextBoxMode.Search)
+                .OnInput("searchDataGrid"));
+        })
+    )
 
-                items.Add().Location(ToolbarItemLocation.After)
-                .Disabled(true)
-                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                .Widget(w => w.TextBox()
-                    .Placeholder("Task Search")
-                    .Mode(TextBoxMode.Search)
-                    .OnInput("searchDataGrid"));
-            })
+    @(
+        Html.DevExtreme().DataGrid()
+        .ID("tasks-grid")
+        .DataSource(ds => ds.RemoteController()
+            .Key("id")
+            .LoadUrl(Constants.BaseUrlAPI + "/Employees/AllTasks")
+            .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
         )
+        .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
+        .ElementAttr(new { @class = "planning-grid theme-dependent" })
+        .Height("100%")
+        .HoverStateEnabled(true)
+        .ColumnAutoWidth(true)
+        .ShowBorders(true)
+        .LoadPanel(lp => lp.Enabled(false))
+        .Scrolling(s => s.Mode(GridScrollingMode.Standard))
+        .Paging(p => p.PageSize(15))
+        .Pager(p => 
+            p.Visible(true).ShowPageSizeSelector(true))
+        .Editing(e => e.Mode(GridEditMode.Row)
+            .AllowUpdating(true))
+        .Selection(s => s.SelectAllMode(SelectAllMode.AllPages)
+            .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always)
+            .Mode(SelectionMode.Multiple))
+        .Sorting(s => s.Mode(GridSortingMode.Multiple))
+        .HeaderFilter(h => h.Visible(true))
+        .Columns(c =>
+        {
+            c.Add().DataField("text")
+            .Caption("Subject")
+            .HidingPriority(7)
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            });
 
-            @(
-                Html.DevExtreme().DataGrid()
-                .ID("tasks-grid")
-                .DataSource(ds => ds.RemoteController()
-                    .Key("id")
-                    .LoadUrl(Constants.BaseUrlAPI + "/Employees/AllTasks")
-                    .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
-                )
-                .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
-                .ElementAttr(new { @class = "planning-grid theme-dependent" })
-                .Height("100%")
-                .HoverStateEnabled(true)
-                .ColumnAutoWidth(true)
-                .ShowBorders(true)
-                .LoadPanel(lp => lp.Enabled(false))
-                .Scrolling(s => s.Mode(GridScrollingMode.Standard))
-                .Paging(p => p.PageSize(15))
-                .Pager(p => 
-                    p.Visible(true).ShowPageSizeSelector(true))
-                .Editing(e => e.Mode(GridEditMode.Row)
-                    .AllowUpdating(true))
-                .Selection(s => s.SelectAllMode(SelectAllMode.AllPages)
-                    .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always)
-                    .Mode(SelectionMode.Multiple))
-                .Sorting(s => s.Mode(GridSortingMode.Multiple))
-                .HeaderFilter(h => h.Visible(true))
-                .Columns(c =>
-                {
-                    c.Add().DataField("text")
-                    .Caption("Subject")
-                    .HidingPriority(7)
-                    .ValidationRules(r =>
-                    {
-                        r.AddRequired();
-                    });
+            c.Add().DataField("company")
+            .Caption("Company")
+            .HidingPriority(6)
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            });
 
-                    c.Add().DataField("company")
-                    .Caption("Company")
-                    .HidingPriority(6)
-                    .ValidationRules(r =>
-                    {
-                        r.AddRequired();
-                    });
+            c.Add().DataField("priority")
+            .Caption("Priority")
+            .HidingPriority(4)
+            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            })
+            .CellTemplate(new TemplateName("PriorityCellTemplate"))
+            .EditCellTemplate(new TemplateName("PriorityEditCellTemplate"));
 
-                    c.Add().DataField("priority")
-                    .Caption("Priority")
-                    .HidingPriority(4)
-                    .Lookup(l => l.DataSource(new JS("taskPriorityList")))
-                    .ValidationRules(r =>
-                    {
-                        r.AddRequired();
-                    })
-                    .CellTemplate(new JS("priorityCellTemplate"))
-                    .EditCellTemplate(new JS("priorityEditTemplate"));
+            c.Add().DataField("startDate")
+            .Caption("Start Date")
+            .DataType(GridColumnDataType.Date)
+            .SortOrder(SortOrder.Asc)
+            .HidingPriority(2)
+            .ValidationRules(r => { r.AddRequired(); });
 
-                    c.Add().DataField("startDate")
-                    .Caption("Start Date")
-                    .DataType(GridColumnDataType.Date)
-                    .SortOrder(SortOrder.Asc)
-                    .HidingPriority(2)
-                    .ValidationRules(r => { r.AddRequired(); });
+            c.Add().DataField("dueDate")
+            .Caption("Due Date")
+            .DataType(GridColumnDataType.Date)
+            .SortOrder(SortOrder.Asc)
+            .HidingPriority(1)
+            .ValidationRules(r => { r.AddRequired(); });
 
-                    c.Add().DataField("dueDate")
-                    .Caption("Due Date")
-                    .DataType(GridColumnDataType.Date)
-                    .SortOrder(SortOrder.Asc)
-                    .HidingPriority(1)
-                    .ValidationRules(r => { r.AddRequired(); });
+            c.Add().DataField("owner")
+            .Caption("Owner")
+            .HidingPriority(5)
+            .ValidationRules(r => { r.AddRequired(); });
 
-                    c.Add().DataField("owner")
-                    .Caption("Owner")
-                    .HidingPriority(5)
-                    .ValidationRules(r => { r.AddRequired(); });
-
-                    c.Add().DataField("status")
-                    .Caption("Status")
-                    .HidingPriority(3)
-                    .MinWidth(120)
-                    .Lookup(l => l.DataSource(new JS("taskStatusList")))
-                    .ValidationRules(r =>
-                    {
-                        r.AddRequired();
-                    })
-                    .CellTemplate(new JS("statusCellTemplate"))
-                    .EditCellTemplate(new JS("statusEditTemplate"));
-        
-                })
-            )
+            c.Add().DataField("status")
+            .Caption("Status")
+            .HidingPriority(3)
+            .MinWidth(120)
+            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            })
+            .CellTemplate(new TemplateName("StatusCellTemplate"))
+            .EditCellTemplate(new TemplateName("StatusEditCellTemplate"));
+    
+        })
+    )
     <div id="task-list-kanban" style="display: none;"></div>
     <div id="task-list-gantt" style="display: none;"></div>
 </div>
+
+<!-- #region Grid Templates-->
+@using (Html.DevExtreme().NamedTemplate("PriorityCellTemplate")) {
+    <text><%
+        const statusCSSClass = CLASS_STATUS_PREFIX + value.toLowerCase();
+    %></text>
+    <span class="<%- statusCSSClass %>">
+        <%- "| " + value %>
+    </span>
+}
+
+@using (Html.DevExtreme().NamedTemplate("PriorityEditCellTemplate")) {
+    @(Html.DevExtreme().SelectBox()
+        .ElementAttr(new JS("{ class: 'edit-cell' }"))
+        .Items(System.Enum.GetNames(typeof(PlanningTaskPriority)))
+        .Value(new JS("value"))
+        .OnValueChanged("(e) => setValue(e.value)")
+        .OnSelectionChanged("() => component.updateDimensions()")
+        .ItemTemplate(@<text>
+            <%
+                const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
+                const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="<%- classList %>">
+                <span class="<%- statusCSSClass %>">
+                    <%- obj %>
+                </span>
+            </div>
+        </text>)
+        .FieldTemplate(@<text>
+            <%
+                const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
+                const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="<%- classList %>">
+                @(Html.DevExtreme().TextBox()
+                    .ElementAttr(new JS("{ class: statusCSSClass }"))
+                    .ReadOnly(true)
+                    .InputAttr(new JS("{ class: 'status-input status-editor-input' }"))
+                    .HoverStateEnabled(false)
+                    .Value(new JS("'| ' + obj"))
+                )
+            </div>
+        </text>)
+    )
+}
+
+@using (Html.DevExtreme().NamedTemplate("StatusCellTemplate")) {
+    <text><%
+        const statusCSSClass = CLASS_STATUS_PREFIX + value.toLowerCase().replace(/\s+/g, '-');
+        const classList = CLASS_CELL_STATUS + statusCSSClass;
+    %></text>
+    <div class="<%- classList %>">
+        <span class="<%- statusCSSClass %>">
+            <%- value %>
+        </span>
+    </div>
+}
+
+@using (Html.DevExtreme().NamedTemplate("StatusEditCellTemplate")) {
+    @(Html.DevExtreme().SelectBox()
+        .ElementAttr(new JS("{ class: 'edit-cell' }"))
+        .Items(System.Enum.GetNames(typeof(PlanningTaskStatus)))
+        .Value(new JS("value"))
+        .OnValueChanged("(e) => setValue(e.value)")
+        .OnSelectionChanged("() => component.updateDimensions()")
+        .ItemTemplate(@<text>
+            <%
+                const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
+                const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="<%- classList %>">
+                <span class="<%- statusCSSClass %>">
+                    <%- obj %>
+                </span>
+            </div>
+        </text>)
+        .FieldTemplate(@<text>
+            <%
+                const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
+                const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="<%- classList %>">
+                @(Html.DevExtreme().TextBox()
+                    .ElementAttr(new JS("{ class: statusCSSClass }"))
+                    .ReadOnly(true)
+                    .InputAttr(new JS("{ class: 'status-input status-editor-input' }"))
+                    .HoverStateEnabled(false)
+                    .Value(new JS("obj"))
+                )
+            </div>
+        </text>)
+    )
+}
+<!-- #endregion -->
 
 @using (Html.DevExtreme().NamedTemplate("TabsView"))
 {
     @(
     Html.DevExtreme().Tabs()
-    .Width("auto")
-    .ShowNavButtons(false)
-    .ScrollByContent(true)
-    .SelectedIndex(0)
-    .Items(items =>
-    {
-        items.Add().Text("List");
-        items.Add().Text("Kanban Board");
-        items.Add().Text("Gantt");
-    })
-    .OnItemClick("tabValueChange")
-)
+        .Width("auto")
+        .ShowNavButtons(false)
+        .ScrollByContent(true)
+        .SelectedIndex(0)
+        .Items(items =>
+        {
+            items.Add().Text("List");
+            items.Add().Text("Kanban Board");
+            items.Add().Text("Gantt");
+        })
+        .OnItemClick("tabValueChange")
+    )
 }
-
-@using (Html.DevExtreme().NamedTemplate("AddTaskButton"))
-{
-    <div>
-        @(Html.DevExtreme().Button()
-        .Icon("plus")
-        .Text("Add Task")
-        .Type(ButtonType.Default)
-        .StylingMode(ButtonStylingMode.Contained)
-        .OnClick("addTask"))
-    </div>
-}
-
-<script>
-    // $(()=>loadFilteredTasksAsync());
-</script>
