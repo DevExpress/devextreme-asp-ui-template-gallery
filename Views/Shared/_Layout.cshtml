@@ -12,13 +12,21 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <link href="~/css/fluent-light.css" rel="dx-theme" data-theme="fluent.blue.light"
-    data-active="true" />
+          data-active="true" />
     <link href="~/css/fluent-dark.css" rel="dx-theme" data-theme="fluent.blue.dark"
-    data-active="false" />
+          data-active="false" />
 
-    <link href="~/css/layout/layout.css" rel="stylesheet" />
+    @* <link href="~/css/layout/layout.css" rel="stylesheet" /> *@
     <link href="~/css/styles.css" rel="stylesheet" />
-    <link href="~/css/Site.css" rel="stylesheet" />
+    @* <link href="~/css/Site.css" rel="stylesheet" /> *@
+
+    <link href="~/css/layout/side-nav-outer-toolbar.css" rel="stylesheet" />
+
+    <link href="~/css/components/SideNavigationMenu.css" rel="stylesheet" />
+    <link href="~/css/components/UserPanel.css" rel="stylesheet" />
+    <link href="~/css/components/UserMenuSection.css" rel="stylesheet" />
+    <link href="~/css/components/AppHeader.css" rel="stylesheet" />
+    <link href="~/css/components/AppFooter.css" rel="stylesheet" />
 
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/router.js"></script>
@@ -35,29 +43,30 @@
 </head>
 
 <body class="dx-viewport">
-    <div class="app screen-large">
-        <div class="side-nav-outer-toolbar">
+    <div id="root">
+        <div class="app screen-large">
+            <div class="side-nav-outer-toolbar">
             <header class="header-component layout-header">
                 @(Html.DevExtreme().Toolbar()
-                            .ElementAttr(new { @class = "header-toolbar" })
-                            .ID("header-toolbar")
-                            .Items(items =>
-                            {
-                                items.Add()
+                        .ElementAttr(new { @class = "header-toolbar" })
+                        .ID("header-toolbar")
+                        .Items(items =>
+                        {
+                            items.Add()
                             .Widget(w => w
-                            .Button()
-                            .Icon("menu")
-                            .StylingMode(ButtonStylingMode.Text)
-                            .OnClick("LayoutController.onMenuButtonClick")
-                            )
-                            .Location(ToolbarItemLocation.Before)
-                            .CssClass("menu-button");
-                                items.Add()
-                            .Location(ToolbarItemLocation.Before)
-                            .CssClass("header-title dx-toolbar-label header-title-width")
-                            .Template(@<text>
-                    <div>UI Template Gallery</div>
-                </text>);
+                                .Button()
+                                .Icon("menu")
+                                .StylingMode(ButtonStylingMode.Text)
+                                .OnClick("LayoutController.onMenuButtonClick")
+                                )
+                                .Location(ToolbarItemLocation.Before)
+                                .CssClass("menu-button");
+                             items.Add()
+                                .Location(ToolbarItemLocation.Before)
+                                .CssClass("header-title dx-toolbar-label header-title-width")
+                                .Template(@<text>
+                            <div>UI Template Gallery</div>
+                            </text>);
                                 items.Add()
                             .Location(ToolbarItemLocation.After)
                             .CssClass("global-search-box")
@@ -82,39 +91,40 @@
                                 items.Add()
                             .Location(ToolbarItemLocation.After)
                             .Template(@<text>
-                    <div class="messages">
-                        <div id="messages-button"></div>
-                        <div class="dx-badge">4</div>
-                    </div>
-                </text>);
+                        <div class="messages">
+                            <div id="messages-button"></div>
+                            <div class="dx-badge">4</div>
+                        </div>
+                    </text>);
                                 items.Add()
                             .Location(ToolbarItemLocation.After)
                             .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
                             .Template(@<text>
-                    <div>
-                        <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
-                    </div>
-                </text>);
+                        <div>
+                            <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
+                        </div>
+                    </text>);
                             })
-                        )
+                    )
             </header>
             @(
-                    Html.DevExtreme().Drawer()
-                    .ID("layout-drawer")
-                    .ElementAttr(new { @class = "layout-body" })
-                    .Position(DrawerPosition.Left)
-                    .Opened(new JS("LayoutController.restoreDrawerOpened()"))
-                    .Content(
-                    @<text>
-                        <div class="content" data-placeholder-id="main-layout-body">
-                            @RenderBody()
-                        </div>
-                        <div data-placeholder-id="main-layout-section">
-                            @RenderSection("MySection", false)
-                        </div>
-                    </text>)
-                    .Template(new TemplateName("navigation-menu"))
-                    )
+                Html.DevExtreme().Drawer()
+                .ID("layout-drawer")
+                .ElementAttr(new { @class = "drawer layout-body" })
+                .Position(DrawerPosition.Left)
+                .Opened(new JS("LayoutController.restoreDrawerOpened()"))
+                .Content(
+            @<text>
+                <div class="content" data-placeholder-id="main-layout-body">
+                    @RenderBody()
+                </div>
+                <div data-placeholder-id="main-layout-section">
+                    @RenderSection("MySection", false)
+                </div>
+            </text>)
+                .Template(new TemplateName("navigation-menu"))
+                )
+        </div>
         </div>
     </div>
     @using (Html.DevExtreme().NamedTemplate("navigation-menu"))
@@ -126,52 +136,56 @@
                 string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
                 bool IsCurrentUrl(string action, string controller = "Home") => GetUrl(action, controller) == GetCurrentUrl();
                 const string pathFieldName = "path";
-        }
+            }
 
             @(
-                        Html.DevExtreme().TreeView()
-                            .ID("navigationTree")
-                            .Items(items =>
-                            {
-                                items.Add().Text("Planning").Icon("event")
-                                .Expanded(true)
-                                .Items(planningItems =>
-                                {
-                                    planningItems.Add()
-                                .Text("Home (to be removed)")
-                                .Option(pathFieldName, GetUrl("Index"))
-                                .Selected(IsCurrentUrl("Index"));
-                                    planningItems.Add()
-                                .Text("Task List")
-                                .Option(pathFieldName, GetUrl("PlanningTasks"))
-                                .Selected(IsCurrentUrl("PlanningTasks"));
-                                });
-                                items.Add().Text("Authentication").Icon("user")
-                                .Expanded(true)
-                                .Items(authItems =>
-                                {
-                                    authItems.Add()
-                                .Text("Sign In Form")
-                                .Option(pathFieldName, GetUrl("Login"))
-                                .Selected(IsCurrentUrl("Login"));
-                                    authItems.Add()
-                                .Text("Sign Up Form")
-                                .Option(pathFieldName, GetUrl("SignUp"))
-                                .Selected(IsCurrentUrl("SignUp"));
-                                    authItems.Add()
-                                .Text("Reset Password")
-                                .Option(pathFieldName, GetUrl("ForgotPassword"))
-                                .Selected(IsCurrentUrl("ForgotPassword"));
-                                });
-                            })
-                            .ExpandEvent(TreeViewExpandEvent.Click)
-                            .SelectionMode(NavSelectionMode.Single)
-                            .SelectedExpr("selected")
-                            .FocusStateEnabled(false)
-                            .Width(250)
-                            .OnItemClick("LayoutController.onTreeViewItemClick")
-                            )
+                    Html.DevExtreme().TreeView()
+                    .ID("navigationTree")
+                    .Items(items =>
+                    {
+                        items.Add().Text("Planning").Icon("event")
+                        .Expanded(true)
+                        .Items(planningItems =>
+                        {
+                            planningItems.Add()
+                        .Text("Home (to be removed)")
+                        .Option(pathFieldName, GetUrl("Index"))
+                        .Selected(IsCurrentUrl("Index"));
+                            planningItems.Add()
+                        .Text("Task List")
+                        .Option(pathFieldName, GetUrl("PlanningTasks"))
+                        .Selected(IsCurrentUrl("PlanningTasks"));
+                        });
+                        items.Add().Text("Authentication").Icon("user")
+                        .Expanded(true)
+                        .Items(authItems =>
+                        {
+                            authItems.Add()
+                        .Text("Sign In Form")
+                        .Option(pathFieldName, GetUrl("Login"))
+                        .Selected(IsCurrentUrl("Login"));
+                            authItems.Add()
+                        .Text("Sign Up Form")
+                        .Option(pathFieldName, GetUrl("SignUp"))
+                        .Selected(IsCurrentUrl("SignUp"));
+                            authItems.Add()
+                        .Text("Reset Password")
+                        .Option(pathFieldName, GetUrl("ForgotPassword"))
+                        .Selected(IsCurrentUrl("ForgotPassword"));
+                        });
+                    })
+                    .ExpandEvent(TreeViewExpandEvent.Click)
+                    .SelectionMode(NavSelectionMode.Single)
+                    .SelectedExpr("selected")
+                    .FocusStateEnabled(false)
+                    .Width("100%")
+                    .OnItemClick("LayoutController.onTreeViewItemClick")
+                    )
             </div>
+            <footer class="footer">
+                Copyright &copy; <span id="year"></span> <br />
+                Developer Express Inc.
+            </footer>
         </div>
     }
     @{
@@ -314,6 +328,9 @@
                     tree.selectItem(targetItem);
                 });
                 updateDrawer();
+
+                $("#year").text(new Date().getFullYear());
+                console.log($("#year"), $("#year").text())
             }
 
             function navigate(url, delay) {

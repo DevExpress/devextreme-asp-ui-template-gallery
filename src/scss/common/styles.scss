@@ -1,14 +1,24 @@
 @use "./variables.scss" as *;
 
+.view-wrapper-scroll > .dx-scrollable-wrapper > .dx-scrollable-container > .dx-scrollable-content {
+    height: 100%;
+
+    & > .dx-scrollview-content {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+}
+
 html,
 body {
     margin: 0;
     min-height: 100%;
     height: 100%;
-}
 
-* {
-    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
 }
 
 .theme-text-color {
@@ -34,6 +44,10 @@ body {
     font-weight: 400;
 }
 
+#root {
+    height: 100%;
+}
+
 .app {
     background-color: var(--side-panel-background);
     display: flex;
@@ -55,6 +69,25 @@ body {
     }
 }
 
+.separator {
+    height: 24px;
+    width: 1px;
+    background: var(--border-color);
+
+    .dx-toolbar-menu-section & {
+        height: 1px;
+        width: auto;
+    }
+}
+
+.view-wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    padding: 0 var(--page-padding);
+}
+
 .responsive-paddings {
     padding: 20px;
 
@@ -63,10 +96,8 @@ body {
     }
 }
 
-.dx-dropdownbutton-content {
-    .dx-list-item {
-        display: block;
-    }
+.cards .card .card-contents {
+    box-sizing: content-box;
 }
 
 .dx-card.wide-card {
@@ -77,21 +108,20 @@ body {
     border-left: 0;
 }
 
-.view-wrapper-scroll > .dx-scrollable-wrapper > .dx-scrollable-container > .dx-scrollable-content {
-    height: 100%;
-
-    & > .dx-scrollview-content {
-        display: flex;
-        flex-direction: column;
-        min-height: 100%;
-    }
+.dx-texteditor-label {
+    height: auto;
 }
 
-.embedded.embedded {
+.dx-label {
+    line-height: 1;
+}
+
+
+.embedded {
     .layout-header,
     .dx-swatch-additional,
     .dx-drawer-shader {
-        display: none;
+        display: none !important;
     }
 
     .dx-drawer-content {
@@ -101,36 +131,6 @@ body {
     .dx-drawer-panel-content,
     .dx-drawer-panel-content .dx-overlay-content {
         width: initial !important;
-    }
-}
-
-.separator {
-    height: 24px;
-    width: 1px;
-    background: var(--border-color);
-
-    ::ng-deep .dx-toolbar-menu-section & {
-        height: 1px;
-        width: auto;
-    }
-}
-
-.view-wrapper {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 0 var(--page-padding);
-}
-
-.dx-card.details-card {
-    border: none;
-}
-
-.dx-texteditor-label {
-    height: auto;
-
-    .dx-label {
-        line-height: 1;
     }
 }
 
@@ -149,17 +149,25 @@ body {
         &.contact-fields-group {
             padding: 15px 0;
         }
+
+        .task-priority {
+            line-height: 18px;
+            font-size: 13px;
+        }
     }
 
     &.view-mode {
         .accent {
-            .dx-texteditor.form-editor .form-editor-input {
-                color: var(--accent-color);
+            .dx-texteditor.form-editor.dx-editor-filled,
+            .dx-texteditor.form-editor {
+                .form-editor-input {
+                    color: var(--accent-color);
+                }
             }
         }
 
         .dx-texteditor,
-        .dx-texteditor.dx-editor-filled,
+        .dx-texteditor.form-editor.dx-editor-filled,
         .dx-texteditor.form-editor {
             pointer-events: none;
 
@@ -168,6 +176,7 @@ body {
             }
 
             &,
+            &.dx-state-readonly,
             & > * {
                 background-color: transparent;
             }
@@ -182,67 +191,81 @@ body {
     }
 }
 
-.dx-tooltip-wrapper:has(.planning-calendar-appointment-tooltip) {
-    .dx-popup-content,
-    .dx-popup-normal {
-        max-height: 600px !important;
-        border-radius: 8px;
-    }
-}
-
-@mixin status($status-color) {
-    color: $status-color;
-
-    &.dx-texteditor,
-    &.dx-texteditor.dx-editor-filled {
-        .status-input.status-editor-input {
-            color: $status-color;
-        }
-    }
-
-    &::before {
-        background: $status-color;
-    }
+.dx-card.details-card {
+    border: none;
 }
 
 .status-commission {
-    @include status(#03a9f4);
+    @include status-contact(#03a9f4);
 }
 
 .status-salaried {
-    @include status(#2eb52c);
+    @include status-contact(#2eb52c);
 }
 
 .status-terminated {
-    @include status(#de8e8c);
+    @include status-contact(#de8e8c);
 }
 
-.status-indicator-open {
-    @include status(#505ed9);
+@mixin item-field($status-color) {
+    color: $status-color;
+
+    &.dx-texteditor {
+        .item-editor-input {
+            color: $status-color;
+            padding-left: 0;
+        }
+    }
 }
 
-.status-indicator-in-progress {
-    @include status(#34aa95);
+.item-editor-field .item-field,
+.item-field {
+    &.item-open {
+        @include item-field(#505ed9);
+    }
+
+    &.item-in-progress {
+        @include item-field(#34aa95);
+    }
+
+    &.item-deferred {
+        @include item-field(#969696);
+    }
+
+    &.item-completed {
+        @include item-field(#2b9029);
+    }
+
+    &.item-low {
+        @include item-field(#d3a268);
+    }
+
+    &.item-normal {
+        @include item-field(#6fbaca);
+    }
+
+    &.item-high {
+        @include item-field(#ff5722);
+    }
+
+    span {
+        font-size: 13px;
+    }
 }
 
-.status-indicator-deferred {
-    @include status(#969696);
+.item-editor-field {
+    display: flex;
+    padding-left: var(--list-padding-left);
+
+    .item-field {
+        align-self: flex-end;
+    }
 }
 
-.status-indicator-completed {
-    @include status(#2b9029);
-}
-
-.status-indicator-low {
-    @include status(#d3a268);
-}
-
-.status-indicator-normal {
-    @include status(#6fbaca);
-}
-
-.status-indicator-high {
-    @include status(#ff5722);
+.messages-content {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--base-bg);
 }
 
 .dx-theme-fluent-typography {
@@ -259,7 +282,7 @@ body {
     }
 
     .layout-body .menu-container.theme-dependent,
-    app-footer {
+    .footer {
         background-color: var(--base-bg);
     }
 
@@ -291,12 +314,12 @@ body {
                 @include card-shadow();
             }
 
-            .theme-dependent.right {
+            .right {
                 flex: 1 calc(100% - var(--left-panel-width) - 110px) !important;
             }
         }
 
-        &.crm-contact-list {
+        &.view-wrapper-contact-list {
             margin-bottom: var(--content-padding);
         }
     }
@@ -314,7 +337,7 @@ body {
         @include card-shadow();
     }
 
-    .plain-styled-form .photo {
+    .plain-styled-form .form-photo {
         border-radius: 50%;
     }
 
@@ -329,12 +352,16 @@ body {
         }
     }
 
-    .form-editor.dx-state-readonly {
-        .status.status-indicator {
-            .dx-state-readonly {
-                .status-input.status-editor-input {
-                    padding-left: 0;
-                }
+    .contact-form {
+        .dx-state-readonly {
+            .status-editor-field {
+                padding-left: 0;
+            }
+        }
+
+        .status-editor-field {
+            .status-contact {
+                align-items: center;
             }
         }
 
@@ -343,30 +370,27 @@ body {
         }
     }
 
-    .contact-status.dx-state-readonly {
-        .status-editor-field {
-            .status-indicator {
-                padding-left: 0;
-                align-self: center !important;
-            }
-        }
-    }
-
-    .contact-status .status-editor-field .status-indicator {
-        align-self: center !important;
-
-        & .status {
-            display: flex !important;
-        }
-    }
-
-    .cards:not(.grey) {
+    .cards:not(.compact) {
         .card {
             border-radius: 8px;
             border: 0;
             background: var(--base-bg);
 
             @include card-shadow();
+        }
+    }
+
+    .dx-state-readonly {
+        .item-editor-field {
+            padding-left: 0;
+        }
+
+        .form-editor-input {
+            padding-left: 0;
+        }
+
+        .status-input.status-editor-input {
+            padding-left: 0;
         }
     }
 
@@ -377,14 +401,8 @@ body {
         }
     }
 
-    .contact-form {
-        .form-editor-input {
-            padding-left: 0;
-        }
-    }
-
     div.gantt {
-        padding: 0 !important;
+        padding: 0;
     }
 
     .dx-datagrid-headers.dx-datagrid-nowrap.dx-bordered-top-view {
@@ -399,11 +417,9 @@ body {
         }
     }
 
-    .profile-card {
-        .panel {
-            @include card-shadow();
-            background-color: var(--base-bg);
-        }
+    .profile-card-panel {
+        @include card-shadow();
+        background-color: var(--base-bg);
     }
 
     .right-side-panel.open {

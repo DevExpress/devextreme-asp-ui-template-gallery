@@ -1,5 +1,7 @@
 ﻿<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
 <link href="~/css/components/tasklistgrid.css" rel="stylesheet" />
+<link href="~/css/components/tasklistkanaban.css" rel="stylesheet" />
+
 <script src="~/js/views/planningtasklist.js"></script>
 
 @(Html.DevExtreme().LoadPanel()
@@ -91,7 +93,8 @@
     <div id="planning-tasks-content">
         @await Html.PartialAsync("../PlanningTasks/_PlanningTasksGrid")
     </div>
-    <div id="task-list-kanban" style="display: none;"></div>
+    <div id="task-list-kanban" style="display: none;">
+    </div>
     <div id="task-list-gantt" style="display: none;"></div>
 </div>
 
