@@ -33,6 +33,18 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return View("../Auth/ForgotPassword");
         }
 
+        #region Partial Views
+        public ActionResult GetPlanningTasksGrid() {
+            return PartialView("../PlanningTasks/_PlanningTasksGrid");
+        }
+        public ActionResult GetPlanningTasksGantt() {
+            return PartialView("../PlanningTasks/_PlanningTasksGantt");
+        }
+        public ActionResult GetPlanningTasksKanban() {
+            return PartialView("../PlanningTasks/_PlanningTasksKanban");
+        }
+        #endregion
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
             return View();

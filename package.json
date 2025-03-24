@@ -1,0 +1,14 @@
+{
+    "version": "1.0.0",
+    "name": "asp.net.ui.template.gallery",
+    "private": true,
+    "dependencies": {
+      "devextreme-aspnet-data": "^4.0.0",
+      "devextreme-dist": "^24.1",
+      "jquery": "3.7.1"
+    },
+    "devDependencies": {
+      "@types/jquery": "3.5.32",
+      "typescript": "^5.7.2"
+    }
+  }

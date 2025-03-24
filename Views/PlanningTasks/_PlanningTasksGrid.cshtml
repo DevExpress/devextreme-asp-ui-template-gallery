@@ -1,0 +1,197 @@
+﻿@using DevExtremeVSTemplateMVC.Utils;
+@using DevExtremeVSTemplateMVC.Utils.Data;
+
+<script>
+    var CLASS_STATUS_PREFIX = "item-field item-";
+    var CLASS_CELL_STATUS = "input-with-bar status status-indicator ";
+</script>
+
+
+@(Html.DevExtreme().DataGrid()
+    .ID("tasks-grid")
+    .DataSource(ds => ds.RemoteController()
+        .Key("id")
+        .LoadUrl(Constants.BaseUrlAPI + "/Employees/AllTasks")
+        .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
+    )
+    .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
+    .ElementAttr(new { @class = "planning-grid theme-dependent" })
+    .Height("100%")
+    .HoverStateEnabled(true)
+    .ColumnAutoWidth(true)
+    .ShowBorders(true)
+    .LoadPanel(lp => lp.Enabled(false))
+    .Scrolling(s => s.Mode(GridScrollingMode.Standard))
+    .Paging(p => p.PageSize(15))
+    .Pager(p =>
+        p.Visible(true).ShowPageSizeSelector(true))
+    .Editing(e => e.Mode(GridEditMode.Row)
+        .AllowUpdating(true))
+    .Selection(s => s.SelectAllMode(SelectAllMode.AllPages)
+        .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always)
+        .Mode(SelectionMode.Multiple))
+    .Sorting(s => s.Mode(GridSortingMode.Multiple))
+    .HeaderFilter(h => h.Visible(true))
+    .Columns(c =>
+    {
+        c.Add().DataField("text")
+        .Caption("Subject")
+        .HidingPriority(7)
+        .ValidationRules(r =>
+        {
+            r.AddRequired();
+        });
+    
+        c.Add().DataField("company")
+        .Caption("Company")
+        .HidingPriority(6)
+        .ValidationRules(r =>
+        {
+            r.AddRequired();
+        });
+    
+        c.Add().DataField("priority")
+        .Caption("Priority")
+        .HidingPriority(4)
+        .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
+        .ValidationRules(r =>
+        {
+            r.AddRequired();
+        })
+        .CellTemplate(new TemplateName("PriorityCellTemplate"))
+        .EditCellTemplate(new TemplateName("PriorityEditCellTemplate"));
+    
+        c.Add().DataField("startDate")
+        .Caption("Start Date")
+        .DataType(GridColumnDataType.Date)
+        .SortOrder(SortOrder.Asc)
+        .HidingPriority(2)
+        .ValidationRules(r => { r.AddRequired(); });
+    
+        c.Add().DataField("dueDate")
+        .Caption("Due Date")
+        .DataType(GridColumnDataType.Date)
+        .SortOrder(SortOrder.Asc)
+        .HidingPriority(1)
+        .ValidationRules(r => { r.AddRequired(); });
+    
+        c.Add().DataField("owner")
+        .Caption("Owner")
+        .HidingPriority(5)
+        .ValidationRules(r => { r.AddRequired(); });
+    
+        c.Add().DataField("status")
+        .Caption("Status")
+        .HidingPriority(3)
+        .MinWidth(120)
+        .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))
+        .ValidationRules(r =>
+        {
+            r.AddRequired();
+        })
+        .CellTemplate(new TemplateName("StatusCellTemplate"))
+        .EditCellTemplate(new TemplateName("StatusEditCellTemplate"));
+    
+    })
+)
+
+@using (Html.DevExtreme().NamedTemplate("PriorityCellTemplate"))
+{
+    <text>
+        <%
+        const statusCSSClass = CLASS_STATUS_PREFIX + value.toLowerCase();
+        %>
+    </text>
+    <span class="<%- statusCSSClass %>">
+        <%- "| " + value %>
+    </span>
+}
+
+@using (Html.DevExtreme().NamedTemplate("PriorityEditCellTemplate"))
+{
+    @(Html.DevExtreme().SelectBox()
+        .ElementAttr(new JS("{ class: 'edit-cell' }"))
+        .Items(System.Enum.GetNames(typeof(PlanningTaskPriority)))
+        .Value(new JS("value"))
+        .OnValueChanged("(e) => setValue(e.value)")
+        .OnSelectionChanged("() => component.updateDimensions()")
+        .ItemTemplate(@<text>
+            <%
+            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
+            const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="<%- classList %>">
+                <span class="<%- statusCSSClass %>">
+                    <%- obj %>
+                </span>
+            </div>
+        </text>)
+        .FieldTemplate(@<text>
+            <%
+            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
+            const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="status-editor-field">
+                @(Html.DevExtreme().TextBox()
+                .ElementAttr(new JS("{ class: statusCSSClass }"))
+                .ReadOnly(true)
+                .InputAttr(new JS("{ class: statusCSSClass }"))
+                .HoverStateEnabled(false)
+                .Value(new JS("'| ' + obj"))
+                )
+            </div>
+        </text>)
+    )
+}
+
+@using (Html.DevExtreme().NamedTemplate("StatusCellTemplate"))
+{
+    <text>
+        <%
+        const statusCSSClass = CLASS_STATUS_PREFIX + value.toLowerCase().replace(/\s+/g, '-');
+        const classList = CLASS_CELL_STATUS + statusCSSClass;
+        %>
+    </text>
+    <div class="<%- classList %>">
+        <span class="<%- statusCSSClass %>">
+            <%- value %>
+        </span>
+    </div>
+}
+
+@using (Html.DevExtreme().NamedTemplate("StatusEditCellTemplate"))
+{
+    @(Html.DevExtreme().SelectBox()
+        .ElementAttr(new JS("{ class: 'edit-cell' }"))
+        .Items(System.Enum.GetNames(typeof(PlanningTaskStatus)))
+        .Value(new JS("value"))
+        .OnValueChanged("(e) => setValue(e.value)")
+        .OnSelectionChanged("() => component.updateDimensions()")
+        .ItemTemplate(@<text>
+            <%
+            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
+            const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="<%- classList %>">
+                <span class="<%- statusCSSClass %>">
+                    <%- obj %>
+                </span>
+            </div>
+        </text>)
+        .FieldTemplate(@<text>
+            <%
+            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
+            const classList = CLASS_CELL_STATUS + statusCSSClass;
+            %>
+            <div class="status-editor-field">
+                @(Html.DevExtreme().TextBox()
+                .ElementAttr(new JS("{ class: statusCSSClass }"))
+                .ReadOnly(true)
+                .InputAttr(new JS("{ class: statusCSSClass }"))
+                .HoverStateEnabled(false)
+                .Value(new JS("obj"))
+                )
+            </div>
+        </text>)
+    )
+}

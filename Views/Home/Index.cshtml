@@ -1,7 +1,7 @@
-@using devextreme_asp_ui_template_gallery.Models
+@using DevExtremeVSTemplateMVC.Models
 
 <h2 class="content-block">Home</h2>
-
+<div class="test"></div>
 @(Html.DevExtreme().DataGrid<SampleOrder>()
     .ID("MyDataGrid")
     .ElementAttr(new { @class = "dx-card wide-card" })
@@ -30,3 +30,5 @@
 @section MySection {
     <p class="content-block dx-card responsive-paddings">Main page Section content</p>
 }
+
+ 

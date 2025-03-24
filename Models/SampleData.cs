@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace devextreme_asp_ui_template_gallery.Models {
+namespace DevExtremeVSTemplateMVC.Models {
     static class SampleData {
         public static List<SampleOrder> Orders = new List<SampleOrder>() {
             new SampleOrder {

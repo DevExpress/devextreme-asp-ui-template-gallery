@@ -1,18 +1,16 @@
-﻿var SPARouter = (function () {
+"use strict";
+var SPARouter = (function () {
     const PLACEHOLDER_ATTR = 'data-placeholder-id';
     const TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';
-
     function init() {
         window.addEventListener('popstate', function () {
-            handleRoute(document.location);
+            handleRoute(document.location.toString());
         });
     }
-
     function navigate(url) {
         history.pushState({}, '', url);
         handleRoute(url);
     }
-
     function handleRoute(targetUrl) {
         const url = new URL(targetUrl, window.location.origin);
         url.searchParams.append('__PARTIAL', 'true');
@@ -31,7 +29,6 @@
             });
         });
     }
-
     return {
         init,
         navigate,

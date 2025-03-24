@@ -1,0 +1,28 @@
+@use "../common/variables.scss" as *;
+@use "sass:math";
+
+.dx-texteditor-with-floating-label .status-editor-field .status-indicator {
+    align-self: flex-end;
+
+    .status {
+        display: inline;
+    }
+}
+
+.status-editor-field {
+    display: flex;
+
+    .status-indicator {
+        display: flex;
+        align-self: center;
+        padding-left: var(--list-padding-left);
+    }
+
+    .status {
+        display: flex;
+    }
+
+    .status-input[statuseditorinput][readonly] {
+        padding-left: 0;
+    }
+}
