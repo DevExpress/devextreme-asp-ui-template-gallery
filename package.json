@@ -4,7 +4,7 @@
     "private": true,
     "dependencies": {
       "devextreme-aspnet-data": "^4.0.0",
-      "devextreme-dist": "^24.1",
+      "devextreme-dist": "^24.2",
       "jquery": "3.7.1"
     },
     "devDependencies": {
