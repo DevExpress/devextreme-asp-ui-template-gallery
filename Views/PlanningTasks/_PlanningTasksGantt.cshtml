@@ -1,1 +1,41 @@
-﻿<h2>Gantt</h2>
+﻿@using DevExtremeVSTemplateMVC.Utils;
+
+@(Html.DevExtreme().Gantt()
+    .ID("tasks-gantt")
+    .TaskListWidth(500)
+    .ScaleType(GanttScaleType.Weeks)
+    .Height(700)
+    .Tasks(tasks => tasks
+        .DataSource(ds => ds.RemoteController()
+            .Key("id")
+            .LoadUrl(Constants.BaseUrlAPI + "/Employees/FilteredTasks")
+            .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
+        )
+        .StartExpr("startDate")
+        .EndExpr("dueDate")
+        .TitleExpr("text")
+    )
+    .Columns(columns =>
+    {
+        columns.Add().DataField("text").Caption("Subject").Width(300);
+        columns.Add().DataField("startDate").Caption("Start Date").DataType(GridColumnDataType.Date).SortOrder(SortOrder.Asc);
+        columns.Add().DataField("dueDate").Caption("Due Date").DataType(GridColumnDataType.Date);
+    })
+    .Toolbar(toolbar => {
+        toolbar.Items(items => {
+            items.Add().Name(GanttToolbarItem.Undo);
+            items.Add().Name(GanttToolbarItem.Redo);
+            items.Add().Name(GanttToolbarItem.Separator);
+            items.Add().Name(GanttToolbarItem.CollapseAll);
+            items.Add().Name(GanttToolbarItem.ExpandAll);
+            items.Add().Name(GanttToolbarItem.Separator);
+            items.Add().Name(GanttToolbarItem.AddTask);
+            items.Add().Name(GanttToolbarItem.DeleteTask);
+            items.Add().Name(GanttToolbarItem.Separator);
+            items.Add().Name(GanttToolbarItem.ZoomIn);
+            items.Add().Name(GanttToolbarItem.ZoomOut);
+        });
+    })
+    .Validation(validation => validation.AutoUpdateParentTasks(true))
+    .Editing(editing => editing.Enabled(true))
+)

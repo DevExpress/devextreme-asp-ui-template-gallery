@@ -1,45 +1,44 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-		<NodeModulesDir>$(ProjectDir)node_modules\</NodeModulesDir>
-		<WwwRootDir>$(ProjectDir)wwwroot\</WwwRootDir>
-		<RootNamespace>DevExtremeVSTemplateMVC</RootNamespace>
-    </PropertyGroup>
-
-	<Target Name="CopyFilesFromNodeModules" BeforeTargets="Build">
-		<ItemGroup>
-		    <JSFiles Include="$(NodeModulesDir)jquery/dist/jquery.min.js" />
-			<JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.all.js" />
-			<JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.aspnet.mvc.js" />
-			<JSFiles Include="$(NodeModulesDir)devextreme-aspnet-data\js\dx.aspnet.data.js" />
-		</ItemGroup>
-		<Copy SourceFiles="@(JSFiles)" DestinationFolder="$(WwwRootDir)js\%(RecursiveDir)" SkipUnchangedFiles="true" />
-		
-		<ItemGroup>
-			<FontFiles Include="$(NodeModulesDir)devextreme-dist\css\**\*.woff;$(NodeModulesDir)devextreme-dist\css\**\*.woff2;$(NodeModulesDir)devextreme-dist\css\**\*.ttf" />
-		</ItemGroup>
-		<Copy SourceFiles="@(FontFiles)" DestinationFolder="$(WwwRootDir)css\%(RecursiveDir)" SkipUnchangedFiles="true" />
-	</Target>
-
-	<ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NodeModulesDir>$(ProjectDir)node_modules\</NodeModulesDir>
+    <WwwRootDir>$(ProjectDir)wwwroot\</WwwRootDir>
+    <RootNamespace>DevExtremeVSTemplateMVC</RootNamespace>
+  </PropertyGroup>
+  <Target Name="CopyFilesFromNodeModules" BeforeTargets="Build">
+    <ItemGroup>
+      <JSFiles Include="$(NodeModulesDir)jquery/dist/jquery.min.js" />
+      <JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.all.js" />
+      <JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.aspnet.mvc.js" />
+      <JSFiles Include="$(NodeModulesDir)devextreme-aspnet-data\js\dx.aspnet.data.js" />
+      <JSFiles Include="$(NodeModulesDir)devexpress-gantt\dist\dx-gantt.min.js" />
+    </ItemGroup>
+    <Copy SourceFiles="@(JSFiles)" DestinationFolder="$(WwwRootDir)js\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <StyleFiles Include="$(NodeModulesDir)devextreme-dist\css\**\*.woff;$(NodeModulesDir)devextreme-dist\css\**\*.woff2;$(NodeModulesDir)devextreme-dist\css\**\*.ttf" />
+      <StyleFiles Include="$(NodeModulesDir)devexpress-gantt\dist\dx-gantt.min.css" />
+    </ItemGroup>
+    <Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(WwwRootDir)css\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <ItemGroup>
     <PackageReference Include="AspNetCore.SassCompiler" Version="1.83.1" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="4.0.0" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="24.1.5" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="5.0.0" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="24.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.36" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.7.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="src\ts\common\" />
-      <Folder Include="src\ts\components\" />
-      <Folder Include="src\ts\layouts\" />
-    </ItemGroup>
-
-    <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE" /></VisualStudio></ProjectExtensions>
-
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\ts\common\" />
+    <Folder Include="src\ts\components\" />
+    <Folder Include="src\ts\layouts\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TemplateFeatures="NETCORE" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
