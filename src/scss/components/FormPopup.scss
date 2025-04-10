@@ -1,0 +1,19 @@
+@use "../common/variables.scss" as *;
+@use "sass:math";
+
+.form-popup .dx-toolbar-center {
+    width: 100%;
+}
+
+.form-popup-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--popup-toolbar-item-spacing);
+
+    &.flex-buttons {
+        .dx-button {
+            flex: 1;
+        }
+    }
+}

@@ -1,0 +1,310 @@
+﻿@using DevExtremeVSTemplateMVC.Utils
+@model DevExtremeVSTemplateMVC.Models.EmployeeProfile
+
+<link href="~/css/views/userprofile.css" rel="stylesheet" />
+<link href="~/css/components/profilecard.css" rel="stylesheet"/>
+<link href="~/css/components/formphoto.css" rel="stylesheet"/>
+<link href="~/css/components/pictureditemselectbox.css" rel="stylesheet"/>
+<link href="~/css/components/statusselectbox.css" rel="stylesheet"/>
+<link href="~/css/components/contactstatus.css" rel="stylesheet"/>
+<link href="~/css/components/changeprofilepasswordform.css" rel="stylesheet" />
+<link href="~/css/components/formpopup.css" rel="stylesheet" />
+
+<script src="~/js/views/userprofile.js"></script>
+
+<div class='view-host user-profile'>
+    <div class='view-wrapper'>
+        @(
+            Html.DevExtreme().Toolbar()
+                .ElementAttr(new { @class = "theme-dependent scrolled" })
+                .Items(item => {
+                    item.Add()
+                    .Location(ToolbarItemLocation.Before)
+                    .Template(@<text>
+                    <div class='header-text'>User Profile</div>
+                </text>);
+                    item.Add()
+                    .Location(ToolbarItemLocation.After)
+                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                    .Template(new TemplateName("CancelButton"));
+                    item.Add()
+                    .Location(ToolbarItemLocation.After)
+                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                    .Template(new TemplateName("SaveButton"));
+                })
+            )
+
+        @(Html.DevExtreme().ScrollView()
+            .ElementAttr(new { @class = "view-wrapper-scroll" })
+            .OnScroll("onScroll")
+            .Content(@<text>
+            <div class="cards-container">
+                <div class="profile-card basic-info-card">
+                    <div class='profile-card-panel'>
+                        <div class='title-text profile-card-panel-header'>
+                            Basic Info
+                        </div>
+                        <div class='form-container'>
+                            <div class='basic-info-top-item profile-card-top-item'>
+                                <div class='form-photo-view'>
+                                    <div class="form-photo editable"
+                                         style="width: 80px; height: 80px; max-height: 80px; background-image: url('data:image/png;base64,@Model.Image'">
+                                        <i class='edit-icon dx-icon-photooutline'></i>
+                                    </div>
+                                    @(Html.DevExtreme().FileUploader()
+                                    .Accept("image/*")
+                                    .Visible(false)
+                                    .DialogTrigger(".edit-icon"))
+                                </div>
+                                <div>
+                                    <div class="title-text">@Model.Name</div>
+                                    <div class="subtitle-text with-clipboard-copy">
+                                        <span>ID: @Model.Id</span>
+                                        @(Html.DevExtreme().Button()
+                                            .Icon("copy")
+                                            .ElementAttr(new { @class = "copy-clipboard-button" })
+                                            .StylingMode(ButtonStylingMode.Text)
+                                            .ActiveStateEnabled(true)
+                                            .FocusStateEnabled(true)
+                                            .HoverStateEnabled(true)
+                                            .OnClick("copyToClipboard")
+                                        )
+                                    </div>
+                                    @(Html.DevExtreme().Button()
+                                        .Text("Change Password")
+                                        .ElementAttr(new { @class = "change-password-button" })
+                                        .StylingMode(ButtonStylingMode.Contained)
+                                        .Icon("lock")
+                                        .OnClick("handleChangePasswordClick")
+                                    )
+                                </div>
+                            </div>
+
+                            @* @(Html.ConfigureItems(new JS("profileCardItems"), 4).ID("basic-info-card-id")) *@
+                            @(Html.BasicInfoCard(Model))
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card contacts-card">
+                    <div class='profile-card-panel'>
+                        <div class='title-text profile-card-panel-header'>
+                            Contacts
+                        </div>
+                        <div class='form-container'>
+                            <div class='profile-card-top-item'>
+                                <div class='image-wrapper'>
+                                    <i class='dx-icon dx-icon-mention'></i>
+                                </div>
+                                <div>
+                                    <div class='title-text'>
+                                        <script>
+                                            document.write(formatPhone('@Model.Phone'));
+                                        </script>
+                                    </div>
+                                    <div class='subtitle-text with-clipboard-copy'>
+                                        <span>@Model.Email</span>
+                                        @(Html.DevExtreme().Button()
+                                            .Icon("copy")
+                                            .ElementAttr(new { @class = "copy-clipboard-button" })
+                                            .StylingMode(ButtonStylingMode.Text)
+                                            .ActiveStateEnabled(false)
+                                            .FocusStateEnabled(false)
+                                            .HoverStateEnabled(false)
+                                            .OnClick("copyToClipboard"))
+                                    </div>
+                                </div>
+                            </div>
+                            @* @(Html.ConfigureItems(new JS("contactItemes"), 2).ID("contacts-card-id")) *@
+                            @(Html.ContactsCard(Model))
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card contacts-card">
+                    <div class='profile-card-panel'>
+                        <div class='title-text profile-card-panel-header'>
+                            Address
+                        </div>
+                        <div class='form-container'>
+                            <div class='profile-card-top-item'>
+                                <div class='image-wrapper'>
+                                    <i class='dx-icon dx-icon-map'></i>
+                                </div>
+                                <div>
+                                    <div class="title-text">
+                                        @Model.Address, @Model.City, @Model.State, @Model.Country
+                                    </div>
+                                </div>
+                             </div>
+                             @(Html.AddressCard(Model))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </text>))
+    </div>
+</div>
+
+@using (Html.DevExtreme().NamedTemplate("StatusItemTemplate"))
+{
+    <div>
+        <div class="status status-contact status-<%- obj.toLowerCase() %>">
+            <span><%- obj %></span>
+        </div>
+    </div>
+}
+
+@using (Html.DevExtreme().NamedTemplate("SupervisorItemTemplate"))
+{
+    <img alt="<%- obj.name %>" class="pictured-item-image" height="20"
+        src="data:image/png;base64,<%- obj.image %>" /><span>
+    <%- obj.name %>
+    </span>
+}
+
+@using (Html.DevExtreme().NamedTemplate("StatusFieldTemplate"))
+{
+    <div class='status-editor-field'>
+        <div class="status status-contact status-<%- String(obj).toLowerCase() %> status-indicator">
+            <span></span>
+        </div>
+        @(Html.DevExtreme().TextBox()
+            .Value(new JS("obj"))
+            .ReadOnly(true)
+            .HoverStateEnabled(true)
+            .InputAttr(new {
+                @class = "status-<%- String(obj).toLowerCase() %>",
+                @picturedItemEditorInput = ""
+            }))
+    </div>
+}
+
+@(Html.DevExtreme().Popup()
+    .ID("change-password-popup")
+    .Title("Change Password")
+    .Visible(false)
+    .FullScreen(false)
+    .Width(360)
+    .Height(410)
+    .WrapperAttr(new {
+        @class = "change-profile-password-popup form-popup"
+    })
+    .ToolbarItems(items => {
+        items.Add()
+            .Toolbar(Toolbar.Bottom)
+            .Location(ToolbarItemLocation.Center)
+            .Template(@<text>
+                <div class="form-popup-buttons-container flex-buttons">
+                    @(Html.DevExtreme().Button()
+                        .Text("Cancel")
+                        .StylingMode(ButtonStylingMode.Outlined)
+                        .Type(ButtonType.Normal)
+                        .OnClick("onCancelClick"))
+                    @(Html.DevExtreme().Button()
+                        .Text("Save")
+                        .StylingMode(ButtonStylingMode.Outlined)
+                        .Type(ButtonType.Default)
+                        .OnClick("onSaveClick"))
+                </div>
+            </text>);
+    })
+    .ContentTemplate(@<text>
+        @using(Html.DevExtreme().ValidationGroup()) {
+            @(Html.DevExtreme().Form()
+                .LabelMode(FormLabelMode.Outside)
+                .ShowColonAfterLabel(true)
+                .LabelLocation(FormLabelLocation.Top)
+                .Items(items => {
+                    items.AddSimple()
+                        .Label(l => l.Text("Current Password"))
+                        .Editor(editor => editor.TextBox()
+                            .Value("12345")
+                            .Placeholder("Current password")
+                            .StylingMode(EditorStylingMode.Filled)
+                            .Mode(TextBoxMode.Password)
+                            .Buttons(buttons => {
+                                buttons.Add()
+                                    .Name("Today")
+                                    .Location(TextEditorButtonLocation.After)
+                                    .Widget(w => w.Button()
+                                        .StylingMode(ButtonStylingMode.Text)
+                                        .Icon("eyeopen")
+                                        .OnClick("passwordEyeClicked"));
+                            }));
+                    items.AddSimple()
+                        .Template("<div class='h-separator'></div>");
+                    items.AddSimple()
+                        .Label(l => l.Text("Password"))
+                        .Editor(editor => editor.TextBox()
+                            .Value("12345")
+                            .Placeholder("Password")
+                            .StylingMode(EditorStylingMode.Filled)
+                            .Mode(TextBoxMode.Password)
+                            .Buttons(buttons => {
+                                buttons.Add()
+                                    .Name("Today")
+                                    .Location(TextEditorButtonLocation.After)
+                                    .Widget(w => w.Button()
+                                        .StylingMode(ButtonStylingMode.Text)
+                                        .Icon("eyeopen")
+                                        .OnClick("passwordEyeClicked"));
+                            }));
+                    items.AddSimple()
+                        .Label(l => l.Text("Confirm Password"))
+                            .Editor(editor => editor.TextBox()
+                            .Value("12345")
+                            .Placeholder("Confirm password")
+                            .StylingMode(EditorStylingMode.Filled)
+                            .Mode(TextBoxMode.Password)
+                                .Buttons(buttons => {
+                                    buttons.Add()
+                                    .Name("Today")
+                                    .Location(TextEditorButtonLocation.After)
+                                    .Widget(w => w.Button()
+                                        .StylingMode(ButtonStylingMode.Text)
+                                        .Icon("eyeopen")
+                                        .OnClick("passwordEyeClicked"));
+                            }));
+                }))
+        }
+    </text>)
+)
+
+@using (Html.DevExtreme().NamedTemplate("SupervisorFieldTemplate"))
+{
+    <div class="pictured-item-select-field">
+        <img class="pictured-item-image" alt="<%- obj ? obj.name : '' %>"
+             src="data:image/png;base64,<%- obj ? obj.image : '' %>"/>
+        @(Html.DevExtreme().TextBox()
+            .Value(new JS("obj ? obj.name : ''"))
+        .ReadOnly(true)
+        .HoverStateEnabled(true)
+        .InputAttr(new
+        {
+            @picturedItemEditorInput = ""
+        }))
+    </div>
+}
+
+@using (Html.DevExtreme().NamedTemplate("CancelButton"))
+{
+    @(Html.DevExtreme().Button()
+    .ElementAttr(new { @class = "cancel-button" })
+    .Text("Cancel")
+    .Disabled(true)
+    .StylingMode(ButtonStylingMode.Outlined)
+    .Type(ButtonType.Normal)
+    .OnClick("onTCancel"))
+}
+
+@using (Html.DevExtreme().NamedTemplate("SaveButton"))
+{
+    @(Html.DevExtreme().Button()
+    .Text("Save")
+    .Icon("save")
+    .Disabled(false)
+    .StylingMode(ButtonStylingMode.Contained)
+    .Type(ButtonType.Default)
+    .OnClick("onTSave"))
+}
