@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevExtremeVSTemplateMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
@@ -19,6 +21,11 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         public IActionResult PlanningTasks() {
             return View("../PlanningTasks/PlanningTasks");
+        }
+
+        public IActionResult UserProfile()
+        {
+            return View("../CommonUserProfile/UserProfile", ProfileData.Profiles[0]);
         }
 
         public IActionResult Login() {
