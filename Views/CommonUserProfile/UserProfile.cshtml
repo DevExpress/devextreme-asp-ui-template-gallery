@@ -154,9 +154,9 @@
 
 @using (Html.DevExtreme().NamedTemplate("SupervisorItemTemplate"))
 {
-    <img alt="<%- obj.name %>" class="pictured-item-image" height="20"
-        src="data:image/png;base64,<%- obj.image %>" /><span>
-    <%- obj.name %>
+    <img alt="<%- obj.Name %>" class="pictured-item-image" height="20"
+        src="data:image/png;base64,<%- obj.Image %>" /><span>
+    <%- obj.Name %>
     </span>
 }
 
@@ -180,10 +180,10 @@
 @using (Html.DevExtreme().NamedTemplate("SupervisorFieldTemplate"))
 {
     <div class="pictured-item-select-field">
-        <img class="pictured-item-image" alt="<%- obj ? obj.name : '' %>"
-             src="data:image/png;base64,<%- obj ? obj.image : '' %>"/>
+        <img class="pictured-item-image" alt="<%- obj ? obj.Name : '' %>"
+             src="data:image/png;base64,<%- obj ? obj.Image : '' %>"/>
         @(Html.DevExtreme().TextBox()
-            .Value(new JS("obj ? obj.name : ''"))
+            .Value(new JS("obj ? obj.Name : ''"))
         .ReadOnly(true)
         .HoverStateEnabled(true)
         .InputAttr(new

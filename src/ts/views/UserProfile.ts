@@ -9,7 +9,17 @@ const formatPhone = (value: string) => {
 };
 
 function copyToClipboard(e: DevExpress.ui.dxButton.ClickEvent) {
-
+    const tipText = 'Text copied';
+    DevExpress.ui.notify(
+        {
+            message: tipText,
+            minWidth: `${tipText.length + 2}ch`,
+            width: 'auto',
+            position: { of: e.element, offset: '0 -30' }
+        },
+        'info',
+        500
+    );
 }
 
 function handleChangePasswordClick(e: DevExpress.ui.dxButton.ClickEvent) {
