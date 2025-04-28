@@ -1,3 +1,5 @@
+﻿using DevExtremeVSTemplateMVC.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,7 +13,22 @@ if (builder.Environment.IsDevelopment()) {
     viewBuilder.AddRazorRuntimeCompilation();
 }
 
+builder.Services.AddHttpClient();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
+builder.Services.AddScoped<RwaContext>();
+
 var app = builder.Build();
+
+
+
+app.Lifetime.ApplicationStarted.Register(async () => {
+    using var scope = app.Services.CreateScope();
+    var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
+    await DatabaseFromRemoteService.Download(httpClient);
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
@@ -20,8 +37,8 @@ if (!app.Environment.IsDevelopment()) {
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

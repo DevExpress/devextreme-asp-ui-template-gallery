@@ -37,6 +37,9 @@ wwwroot/
 !wwwroot/css/icons/google-logo.svg
 !wwwroot/css/icons/microsoft-logo.svg
 
+# Database from a remote service
+App_Data/
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*

@@ -1,4 +1,5 @@
-﻿@using DevExtremeVSTemplateMVC.Utils;
+﻿@using DevExtremeVSTemplateMVC.Models
+@using DevExtremeVSTemplateMVC.Utils;
 @using DevExtremeVSTemplateMVC.Utils.Data;
 
 <script>
@@ -7,16 +8,16 @@
 </script>
 
 
-@(Html.DevExtreme().DataGrid()
+@(Html.DevExtreme().DataGrid<EmployeeTask>()
     .ID("tasks-grid")
-    .DataSource(ds => ds.RemoteController()
-        .Key("id")
-        .LoadUrl(Constants.BaseUrlAPI + "/Employees/AllTasks")
-        .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
+    .DataSource(ds => 
+        ds.Mvc().Controller("Tasks").Key("TaskId")
+        .LoadAction("GetTasks").UpdateAction("UpdateTask")
     )
     .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
     .ElementAttr(new { @class = "planning-grid theme-dependent" })
     .Height("100%")
+    .RemoteOperations(true)
     .HoverStateEnabled(true)
     .ColumnAutoWidth(true)
     .ShowBorders(true)
@@ -34,7 +35,7 @@
     .HeaderFilter(h => h.Visible(true))
     .Columns(c =>
     {
-        c.Add().DataField("text")
+        c.AddFor(m => m.Text)
         .Caption("Subject")
         .HidingPriority(7)
         .ValidationRules(r =>
@@ -42,16 +43,14 @@
             r.AddRequired();
         });
     
-        c.Add().DataField("company")
-        .Caption("Company")
+        c.AddFor(m => m.Company)
         .HidingPriority(6)
         .ValidationRules(r =>
         {
             r.AddRequired();
         });
     
-        c.Add().DataField("priority")
-        .Caption("Priority")
+        c.AddFor(m => m.Priority)
         .HidingPriority(4)
         .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
         .ValidationRules(r =>
@@ -61,27 +60,23 @@
         .CellTemplate(new TemplateName("PriorityCellTemplate"))
         .EditCellTemplate(new TemplateName("PriorityEditCellTemplate"));
     
-        c.Add().DataField("startDate")
-        .Caption("Start Date")
+        c.AddFor(m => m.StartDate)
         .DataType(GridColumnDataType.Date)
         .SortOrder(SortOrder.Asc)
         .HidingPriority(2)
         .ValidationRules(r => { r.AddRequired(); });
     
-        c.Add().DataField("dueDate")
-        .Caption("Due Date")
+        c.AddFor(m => m.DueDate)
         .DataType(GridColumnDataType.Date)
         .SortOrder(SortOrder.Asc)
         .HidingPriority(1)
         .ValidationRules(r => { r.AddRequired(); });
     
-        c.Add().DataField("owner")
-        .Caption("Owner")
+        c.AddFor(m => m.Owner)
         .HidingPriority(5)
         .ValidationRules(r => { r.AddRequired(); });
     
-        c.Add().DataField("status")
-        .Caption("Status")
+        c.AddFor(m => m.Status)
         .HidingPriority(3)
         .MinWidth(120)
         .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))

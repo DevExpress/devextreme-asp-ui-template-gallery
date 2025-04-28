@@ -1,25 +1,27 @@
-﻿@using DevExtremeVSTemplateMVC.Utils;
+﻿@using DevExtremeVSTemplateMVC.Models;
+@using DevExtremeVSTemplateMVC.Utils;
 
-@(Html.DevExtreme().Gantt()
+@(Html.DevExtreme().Gantt<FilteredTask>()
     .ID("tasks-gantt")
     .TaskListWidth(500)
     .ScaleType(GanttScaleType.Weeks)
     .Height(700)
     .Tasks(tasks => tasks
-        .DataSource(ds => ds.RemoteController()
-            .Key("id")
-            .LoadUrl(Constants.BaseUrlAPI + "/Employees/FilteredTasks")
-            .UpdateUrl(Constants.BaseUrlAPI + "/Employees/UpdateTask")
+        .DataSource(ds =>
+            ds.Mvc().Controller("FilteredTasks").Key("Id")
+            .LoadAction("GetTasks").UpdateAction("UpdateTask")
         )
-        .StartExpr("startDate")
-        .EndExpr("dueDate")
-        .TitleExpr("text")
+        .KeyExpr("Id")
+        .ParentIdExpr("ParentId")
+        .StartExpr("StartDate")
+        .EndExpr("DueDate")
+        .TitleExpr("Text")
     )
     .Columns(columns =>
     {
-        columns.Add().DataField("text").Caption("Subject").Width(300);
-        columns.Add().DataField("startDate").Caption("Start Date").DataType(GridColumnDataType.Date).SortOrder(SortOrder.Asc);
-        columns.Add().DataField("dueDate").Caption("Due Date").DataType(GridColumnDataType.Date);
+        columns.AddFor(m => m.Text).Caption("Subject").Width(300);
+        columns.AddFor(m => m.StartDate).Caption("Start Date").DataType(GridColumnDataType.Date).SortOrder(SortOrder.Asc);
+        columns.AddFor(m => m.DueDate).Caption("Due Date").DataType(GridColumnDataType.Date);
     })
     .Toolbar(toolbar => {
         toolbar.Items(items => {
