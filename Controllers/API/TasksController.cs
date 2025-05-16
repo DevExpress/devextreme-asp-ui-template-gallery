@@ -17,7 +17,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
         public TasksController(RwaContext context, IHttpContextAccessor accessor) {
             _context = context;
         }
-
+        
         [HttpGet]
         public object GetTasks(DataSourceLoadOptions loadOptions) {
             return DataSourceLoader.Load(_context.Tasks, loadOptions);

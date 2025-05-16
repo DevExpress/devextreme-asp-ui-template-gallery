@@ -1,4 +1,5 @@
 ﻿using DevExtremeVSTemplateMVC.DAL;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,18 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 builder.Services.AddScoped<RwaContext>();
+//builder.Services.AddScoped<RwaContext>(provider => {
+//    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+//    var sessionId = accessor.HttpContext?.Session?.Id
+//        ?? throw new InvalidOperationException("Session not available");
+//    var options = new DbContextOptionsBuilder<RwaContext>()
+//        .UseInMemoryDatabase($"session_{sessionId}")
+//        .Options;
+    
+//    RwaContext context = new RwaContext(options);
+//    //context.SeedFromMasterIfNeeded(accessor);
+//    return context;
+//});
 
 var app = builder.Build();
 
@@ -35,10 +48,10 @@ if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
+//app.UseMiddleware<SeedMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
