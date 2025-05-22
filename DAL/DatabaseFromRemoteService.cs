@@ -9,7 +9,6 @@ namespace DevExtremeVSTemplateMVC.DAL
 
         static Dictionary<string, string> apiMapping = new Dictionary<string, string>() {
             { nameof(RwaContext.Tasks), "/Employees/AllTasks" },
-            { nameof(RwaContext.FilteredTasks), "/Employees/FilteredTasks" }
         };
 
         public static async Task Download(HttpClient httpClient) {
@@ -17,8 +16,6 @@ namespace DevExtremeVSTemplateMVC.DAL
             for (int i = 0; i < allTasks.Count; i++) {
                 allTasks[i].TaskId = i + 1;
             }
-
-            IList<FilteredTask> filteredTasks = await FetchFromApiAsync<FilteredTask>(httpClient, apiMapping[nameof(RwaContext.FilteredTasks)]);
 
             Directory.CreateDirectory(Constants.DatabasePathDirectory);
 
@@ -31,7 +28,6 @@ namespace DevExtremeVSTemplateMVC.DAL
             db.Database.EnsureCreated();
 
             db.Tasks.AddRange(allTasks);
-            db.FilteredTasks.AddRange(filteredTasks);
 
             await db.SaveChangesAsync();
         }

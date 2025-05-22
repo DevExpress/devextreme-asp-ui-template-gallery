@@ -23,6 +23,13 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return DataSourceLoader.Load(_context.Tasks, loadOptions);
         }
 
+        [HttpGet("GetFilteredTasks")]
+        public object GetFilteredTasks(DataSourceLoadOptions loadOptions) {
+            const string ownerName = "Sammy Hill";
+            var filteredTasks = _context.Tasks.Where(t => t.Owner == ownerName);
+            return DataSourceLoader.Load(filteredTasks, loadOptions);
+        }
+
         [HttpPut]
         public IActionResult UpdateTask([FromForm] int key, [FromForm] string values) {
             EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.TaskId == key);

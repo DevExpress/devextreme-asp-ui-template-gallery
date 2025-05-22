@@ -18,20 +18,10 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = RwaContext.CACHE_IDLE_TIMEOUT;
+});
 builder.Services.AddScoped<RwaContext>();
-//builder.Services.AddScoped<RwaContext>(provider => {
-//    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
-//    var sessionId = accessor.HttpContext?.Session?.Id
-//        ?? throw new InvalidOperationException("Session not available");
-//    var options = new DbContextOptionsBuilder<RwaContext>()
-//        .UseInMemoryDatabase($"session_{sessionId}")
-//        .Options;
-    
-//    RwaContext context = new RwaContext(options);
-//    //context.SeedFromMasterIfNeeded(accessor);
-//    return context;
-//});
 
 var app = builder.Build();
 
@@ -51,7 +41,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
-//app.UseMiddleware<SeedMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

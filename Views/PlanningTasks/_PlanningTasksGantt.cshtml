@@ -1,15 +1,15 @@
 ﻿@using DevExtremeVSTemplateMVC.Models;
 @using DevExtremeVSTemplateMVC.Utils;
 
-@(Html.DevExtreme().Gantt<FilteredTask>()
+@(Html.DevExtreme().Gantt<EmployeeTask>()
     .ID("tasks-gantt")
     .TaskListWidth(500)
     .ScaleType(GanttScaleType.Weeks)
     .Height(700)
     .Tasks(tasks => tasks
         .DataSource(ds =>
-            ds.Mvc().Controller("FilteredTasks").Key("Id")
-            .LoadAction("GetTasks").UpdateAction("UpdateTask")
+            ds.Mvc().Controller("Tasks").Key("Id")
+            .LoadAction("GetFilteredTasks").UpdateAction("UpdateTask")
         )
         .KeyExpr("Id")
         .ParentIdExpr("ParentId")
