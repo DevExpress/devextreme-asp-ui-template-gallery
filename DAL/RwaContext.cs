@@ -15,6 +15,7 @@ namespace DevExtremeVSTemplateMVC.DAL
         const string SESSION_KEEP_FLAG = "keep";
 
         public DbSet<EmployeeTask> Tasks { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         public RwaContext(IHttpContextAccessor accessor, IMemoryCache cache) : base(CreateInMemoryOptions(accessor, cache)) {
             this.cache = cache;
@@ -31,7 +32,6 @@ namespace DevExtremeVSTemplateMVC.DAL
         private static DbContextOptions<RwaContext> CreateInMemoryOptions(IHttpContextAccessor accessor, IMemoryCache cache) {
             var sessionId = accessor.HttpContext?.Session?.Id
                 ?? throw new InvalidOperationException("Session not available");
-            System.Diagnostics.Debug.WriteLine("CREATE: " + sessionId);
             var cacheKey = $"seeded_{sessionId}";
             if (!cache.TryGetValue(cacheKey, out CacheEntry cacheEntry)) {
                 SqliteConnection connection = new SqliteConnection("DataSource=:memory:");

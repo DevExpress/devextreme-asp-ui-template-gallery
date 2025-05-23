@@ -13,6 +13,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
     public class TasksController : Controller
     {
         private readonly RwaContext _context;
+        const string OWNER_NAME_TO_FILTER = "Sammy Hill";
 
         public TasksController(RwaContext context, IHttpContextAccessor accessor) {
             _context = context;
@@ -25,14 +26,23 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         [HttpGet("GetFilteredTasks")]
         public object GetFilteredTasks(DataSourceLoadOptions loadOptions) {
-            const string ownerName = "Sammy Hill";
-            var filteredTasks = _context.Tasks.Where(t => t.Owner == ownerName);
+            var filteredTasks = _context.Tasks.Where(t => t.Owner == OWNER_NAME_TO_FILTER);
             return DataSourceLoader.Load(filteredTasks, loadOptions);
         }
 
-        [HttpPut]
+        [HttpPut("UpdateTask")]
         public IActionResult UpdateTask([FromForm] int key, [FromForm] string values) {
             EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.TaskId == key);
+            return UpdateTaskProperties(task, values);
+        }
+
+        [HttpPut("UpdateFilteredTask")]
+        public IActionResult UpdateFilteredTask([FromForm] int key, [FromForm] string values) {
+            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == OWNER_NAME_TO_FILTER && t.Id == key);
+            return UpdateTaskProperties(task, values);
+        }
+
+        IActionResult UpdateTaskProperties(EmployeeTask task, string values) {
             if (task == null) return NotFound();
             var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
             PopulateModel(task, updatedValues);
@@ -44,7 +54,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
         }
 
         void PopulateModel(EmployeeTask task, Dictionary<string, JsonElement> updatedValues) {
-            //_context.Entry(task).CurrentValues.SetValues(updatedValues);
             foreach (var entry in updatedValues) {
                 var property = typeof(EmployeeTask).GetProperty(entry.Key);
                 if (property != null) {

@@ -9,7 +9,7 @@
     .Tasks(tasks => tasks
         .DataSource(ds =>
             ds.Mvc().Controller("Tasks").Key("Id")
-            .LoadAction("GetFilteredTasks").UpdateAction("UpdateTask")
+            .LoadAction("GetFilteredTasks").UpdateAction("UpdateFilteredTask")
         )
         .KeyExpr("Id")
         .ParentIdExpr("ParentId")
