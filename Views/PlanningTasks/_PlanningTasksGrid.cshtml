@@ -21,7 +21,7 @@
     .ColumnAutoWidth(true)
     .ShowBorders(true)
     .LoadPanel(lp => lp.Enabled(false))
-    .Scrolling(s => s.Mode(GridScrollingMode.Standard))
+    .Scrolling(s => s.Mode(GridScrollingMode.Virtual))
     .Paging(p => p.PageSize(15))
     .Pager(p =>
         p.Visible(true).ShowPageSizeSelector(true))
