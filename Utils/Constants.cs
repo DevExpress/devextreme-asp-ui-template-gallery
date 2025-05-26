@@ -1,8 +1,10 @@
 ﻿namespace DevExtremeVSTemplateMVC.Utils
 {
     public static class Constants {
-        public static string BaseUrlAPI = "https://js.devexpress.com/Demos/RwaService/api";
-        public static string DatabasePathDirectory = "App_Data";
-        public static string DatabasePath = Path.Combine(DatabasePathDirectory, "master.sqlite");
+        public static string BaseUrlAPIKey = "BaseUrlAPI";
+        public static string DatabasePathDirectoryKey = "DatabasePathDirectory";
+        public static string DatabaseFileNameKey = "DatabaseFileName";
+        public static int UserProfileId = 22;
+        public static string FilteredOwnerName = "Sammy Hill";
     }
 }

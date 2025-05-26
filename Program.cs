@@ -1,4 +1,6 @@
 ﻿using DevExtremeVSTemplateMVC.DAL;
+using DevExtremeVSTemplateMVC.Middleware;
+using DevExtremeVSTemplateMVC.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,19 +20,27 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession(options => {
-    options.IdleTimeout = RwaContext.CACHE_IDLE_TIMEOUT;
+builder.Services.AddScoped<IDbConnectionAccessor, DbConnectionAccessor>();
+builder.Services.AddScoped<RwaContext>(provider => {
+    var conn = provider.GetRequiredService<IDbConnectionAccessor>().GetConnection();
+    var options = new DbContextOptionsBuilder<RwaContext>()
+        .UseSqlite(conn)
+        .Options;
+
+    return new RwaContext(options);
 });
-builder.Services.AddScoped<RwaContext>();
+builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = SessionDbContextMiddleware.CACHE_IDLE_TIMEOUT;
+});
+//builder.Services.AddScoped<RwaContext>();
 
 var app = builder.Build();
-
-
 
 app.Lifetime.ApplicationStarted.Register(async () => {
     using var scope = app.Services.CreateScope();
     var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
-    await DatabaseFromRemoteService.Download(httpClient);
+    await DatabaseFromRemoteService.Download(httpClient, builder.Configuration);
 });
 
 // Configure the HTTP request pipeline.
@@ -41,6 +51,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
+
+app.UseMiddleware<SessionDbContextMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

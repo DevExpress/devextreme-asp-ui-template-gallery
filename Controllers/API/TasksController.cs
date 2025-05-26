@@ -2,8 +2,10 @@
 using DevExtreme.AspNet.Mvc;
 using DevExtremeVSTemplateMVC.DAL;
 using DevExtremeVSTemplateMVC.Models;
+using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers
@@ -13,7 +15,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
     public class TasksController : Controller
     {
         private readonly RwaContext _context;
-        const string OWNER_NAME_TO_FILTER = "Sammy Hill";
 
         public TasksController(RwaContext context, IHttpContextAccessor accessor) {
             _context = context;
@@ -24,30 +25,30 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return DataSourceLoader.Load(_context.Tasks, loadOptions);
         }
 
-        [HttpGet("GetFilteredTasks")]
-        public object GetFilteredTasks(DataSourceLoadOptions loadOptions) {
-            var filteredTasks = _context.Tasks.Where(t => t.Owner == OWNER_NAME_TO_FILTER);
-            return DataSourceLoader.Load(filteredTasks, loadOptions);
-        }
-
         [HttpPut("UpdateTask")]
         public IActionResult UpdateTask([FromForm] int key, [FromForm] string values) {
             EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.TaskId == key);
+            if (task == null) return NotFound();
             return UpdateTaskProperties(task, values);
         }
 
         [HttpPut("UpdateFilteredTask")]
         public IActionResult UpdateFilteredTask([FromForm] int key, [FromForm] string values) {
-            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == OWNER_NAME_TO_FILTER && t.Id == key);
+            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == Constants.FilteredOwnerName && t.Id == key);
+            if (task == null) return NotFound();
             return UpdateTaskProperties(task, values);
         }
 
         IActionResult UpdateTaskProperties(EmployeeTask task, string values) {
-            if (task == null) return NotFound();
             var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
             PopulateModel(task, updatedValues);
-            if (!TryValidateModel(task))
-                return BadRequest("Validation Failed");
+            if (!TryValidateModel(task)) {
+                string[] errors = ModelState
+                    .Where(kvp => kvp.Value.Errors.Count > 0)
+                    .SelectMany(kvp => kvp.Value.Errors)
+                    .Select(e => e.ErrorMessage).ToArray();
+                return BadRequest(String.Join(Environment.NewLine, errors));
+            }
 
             _context.SaveChanges();
             return Ok();

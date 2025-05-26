@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DevExtremeVSTemplateMVC.Utils.Data
+namespace DevExtremeVSTemplateMVC.Models
 {
-    public enum PlanningTaskStatus {
+    public enum PlanningTaskStatus
+    {
         Open,
         [Display(Name = "In Progress")]
         InProgress,
@@ -10,7 +11,8 @@ namespace DevExtremeVSTemplateMVC.Utils.Data
         Completed
     }
 
-    public enum PlanningTaskPriority {
+    public enum PlanningTaskPriority
+    {
         Low, Normal, High
     }
 }
