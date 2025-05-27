@@ -15,7 +15,9 @@ namespace DevExtremeVSTemplateMVC.Services
             var masterOptions = new DbContextOptionsBuilder<RwaContext>().UseSqlite($"Data Source={dbPath}").Options;
             using var master = new RwaContext(masterOptions);
             var tasks = master.Tasks.AsNoTracking().ToList();
+            var contacts = master.Contacts.AsNoTracking().ToList();
             context.Tasks.AddRange(tasks);
+            context.Contacts.AddRange(contacts);
             await context.SaveChangesAsync();
         }
     }
