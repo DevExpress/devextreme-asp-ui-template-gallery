@@ -13,12 +13,12 @@ namespace DevExtremeVSTemplateMVC.DAL
         };
 
         public static async Task Download(HttpClient httpClient, IConfiguration config) {
-            string baseUrlAPI = config.GetValue<string>(Constants.BaseUrlAPIKey);
+            string baseUrlAPI = config.GetValue<string>(ConfigKeys.BaseUrlAPIKey);
             IList<EmployeeTask> allTasks = await FetchListFromApiAsync<EmployeeTask>(httpClient, baseUrlAPI + apiMapping[nameof(RwaContext.Tasks)]);
             for (int i = 0; i < allTasks.Count; i++) {
                 allTasks[i].TaskId = i + 1;
             }
-            Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], Constants.UserProfileId));
+            Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], DemoData.DemoUserProfileId));
             contact.Activities = null;
             contact.Opportunities = null;
 
@@ -26,8 +26,8 @@ namespace DevExtremeVSTemplateMVC.DAL
             Directory.CreateDirectory(config.GetValue<string>("DatabasePathDirectory"));
 
             string databasePath = string.Format("{0}/{1}",
-                config.GetValue<string>(Constants.DatabasePathDirectoryKey),
-                config.GetValue<string>(Constants.DatabaseFileNameKey));
+                config.GetValue<string>(ConfigKeys.DatabasePathDirectoryKey),
+                config.GetValue<string>(ConfigKeys.DatabaseFileNameKey));
             var options = new DbContextOptionsBuilder<RwaContext>()
                 .UseSqlite($"Data Source={databasePath}")
                 .Options;

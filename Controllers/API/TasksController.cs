@@ -34,7 +34,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         [HttpPut("UpdateFilteredTask")]
         public IActionResult UpdateFilteredTask([FromForm] int key, [FromForm] string values) {
-            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == Constants.FilteredOwnerName && t.Id == key);
+            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == DemoData.DemoFilteredOwnerName && t.Id == key);
             if (task == null) return NotFound();
             return UpdateTaskProperties(task, values);
         }

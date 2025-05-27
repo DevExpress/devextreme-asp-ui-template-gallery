@@ -44,8 +44,8 @@ namespace DevExtremeVSTemplateMVC.Middleware
                 context.Session.SetString(SESSION_KEEP_FLAG, "true");
 
                 string databasePath = string.Format("{0}/{1}",
-                        _config.GetValue<string>(Constants.DatabasePathDirectoryKey),
-                        _config.GetValue<string>(Constants.DatabaseFileNameKey));
+                        _config.GetValue<string>(ConfigKeys.DatabasePathDirectoryKey),
+                        _config.GetValue<string>(ConfigKeys.DatabaseFileNameKey));
                 await seeder.SeedFromFileDbAsync(tempContext, databasePath);
 
                 entry.SlidingExpiration = CACHE_IDLE_TIMEOUT;

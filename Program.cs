@@ -33,7 +33,6 @@ builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 builder.Services.AddSession(options => {
     options.IdleTimeout = SessionDbContextMiddleware.CACHE_IDLE_TIMEOUT;
 });
-//builder.Services.AddScoped<RwaContext>();
 
 var app = builder.Build();
 
