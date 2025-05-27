@@ -32,11 +32,11 @@ namespace DevExtremeVSTemplateMVC.Middleware
                 var conn = new SqliteConnection("Data Source=:memory:");
                 await conn.OpenAsync();
 
-                var options = new DbContextOptionsBuilder<RwaContext>()
+                var options = new DbContextOptionsBuilder<DemoDbContext>()
                 .UseSqlite(conn)
                     .Options;
 
-                using var tempContext = new RwaContext(options);
+                using var tempContext = new DemoDbContext(options);
                 await tempContext.Database.EnsureCreatedAsync();
 
                 using var scope = _provider.CreateScope();

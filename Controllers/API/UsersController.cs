@@ -6,9 +6,9 @@ namespace DevExtremeVSTemplateMVC.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController {
-        private readonly RwaContext _context;
+        private readonly DemoDbContext _context;
 
-        public UsersController(RwaContext context) {
+        public UsersController(DemoDbContext context) {
             _context = context;
         }
 

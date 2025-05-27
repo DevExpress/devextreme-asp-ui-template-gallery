@@ -11,7 +11,7 @@
             ds.Mvc().Controller("Tasks").Key("Id")
             .LoadAction("GetTasks").UpdateAction("UpdateFilteredTask")
         )
-        .DataSourceOptions(dso => dso.Filter(string.Format("['Owner', '=', '{0}']", DemoData.DemoFilteredOwnerName)))
+        .DataSourceOptions(dso => dso.Filter(string.Format("['Owner', '=', '{0}']", DemoConsts.DemoFilteredOwnerName)))
         .KeyExpr("Id")
         .ParentIdExpr("ParentId")
         .StartExpr("StartDate")

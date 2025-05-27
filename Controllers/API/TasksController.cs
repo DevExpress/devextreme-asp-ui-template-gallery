@@ -5,7 +5,6 @@ using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers
@@ -14,9 +13,9 @@ namespace DevExtremeVSTemplateMVC.Controllers
     [Route("api/[controller]")]
     public class TasksController : Controller
     {
-        private readonly RwaContext _context;
+        private readonly DemoDbContext _context;
 
-        public TasksController(RwaContext context, IHttpContextAccessor accessor) {
+        public TasksController(DemoDbContext context, IHttpContextAccessor accessor) {
             _context = context;
         }
         
@@ -34,7 +33,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         [HttpPut("UpdateFilteredTask")]
         public IActionResult UpdateFilteredTask([FromForm] int key, [FromForm] string values) {
-            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == DemoData.DemoFilteredOwnerName && t.Id == key);
+            EmployeeTask task = _context.Tasks.FirstOrDefault(t => t.Owner == DemoConsts.DemoFilteredOwnerName && t.Id == key);
             if (task == null) return NotFound();
             return UpdateTaskProperties(task, values);
         }

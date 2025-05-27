@@ -21,13 +21,13 @@ builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IDbConnectionAccessor, DbConnectionAccessor>();
-builder.Services.AddScoped<RwaContext>(provider => {
+builder.Services.AddScoped<DemoDbContext>(provider => {
     var conn = provider.GetRequiredService<IDbConnectionAccessor>().GetConnection();
-    var options = new DbContextOptionsBuilder<RwaContext>()
+    var options = new DbContextOptionsBuilder<DemoDbContext>()
         .UseSqlite(conn)
         .Options;
 
-    return new RwaContext(options);
+    return new DemoDbContext(options);
 });
 builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 builder.Services.AddSession(options => {
@@ -39,7 +39,7 @@ var app = builder.Build();
 app.Lifetime.ApplicationStarted.Register(async () => {
     using var scope = app.Services.CreateScope();
     var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
-    await DatabaseFromRemoteService.Download(httpClient, builder.Configuration);
+    await DemoDataFetcher.Download(httpClient, builder.Configuration);
 });
 
 // Configure the HTTP request pipeline.
