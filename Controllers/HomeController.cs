@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevExtremeVSTemplateMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DevExtremeVSTemplateMVC.Controllers
@@ -38,6 +39,13 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         public IActionResult ForgotPassword() {
             return View("../Auth/ForgotPassword");
+        }
+
+        [HttpPost]
+        public IActionResult TaskMainSortable([FromForm] string filteredTasks)
+        {
+            List<TaskModel> model = JsonConvert.DeserializeObject<List<TaskModel>>(filteredTasks);
+            return PartialView("../Shared/Kanban/_TaskMainSortable", model);
         }
 
         #region Partial Views

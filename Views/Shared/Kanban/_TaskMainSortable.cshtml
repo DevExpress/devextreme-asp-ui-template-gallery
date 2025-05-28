@@ -1,0 +1,21 @@
+﻿@using DevExtremeVSTemplateMVC.Models
+@model List<TaskModel>
+@{
+    string[] STATUSES = new[]
+    {
+        "Open",
+        "In Progress",
+        "Deferred",
+        "Completed"
+    };
+}
+
+
+@for (int i = 0; i < STATUSES.Length; i++)
+{
+    await Html.RenderPartialAsync("Kanban/_TaskList", new  TaskListPartialViewModel {
+        Status = STATUSES[i],
+        TaskList=Model
+    });
+    @* <div>@Model.Count</div> *@
+}

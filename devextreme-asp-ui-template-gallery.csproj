@@ -22,6 +22,9 @@
     <Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(WwwRootDir)css\%(RecursiveDir)" SkipUnchangedFiles="true" />
   </Target>
   <ItemGroup>
+    <Content Remove="Views\PlanningTasks\_TaskListScrollView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AspNetCore.SassCompiler" Version="1.83.1" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.0.0" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="24.2.6" />
@@ -33,11 +36,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\ts\common\" />
     <Folder Include="src\ts\components\" />
     <Folder Include="src\ts\layouts\" />
+    <Folder Include="Views\PlanningTasks\Kanban\" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
