@@ -13,7 +13,7 @@
 
 @for (int i = 0; i < STATUSES.Length; i++)
 {
-    await Html.RenderPartialAsync("Kanban/_TaskList", new  TaskListPartialViewModel {
+    await Html.RenderPartialAsync("../PlanningTasks/Kanban/_TaskList", new  TaskListPartialViewModel {
         Status = STATUSES[i],
         TaskList=Model
     });

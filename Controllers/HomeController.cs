@@ -45,7 +45,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
         public IActionResult TaskMainSortable([FromForm] string filteredTasks)
         {
             List<TaskModel> model = JsonConvert.DeserializeObject<List<TaskModel>>(filteredTasks);
-            return PartialView("../Shared/Kanban/_TaskMainSortable", model);
+            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", model);
         }
 
         #region Partial Views

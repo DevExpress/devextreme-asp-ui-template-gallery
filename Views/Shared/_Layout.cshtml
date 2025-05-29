@@ -46,58 +46,58 @@
             <div class="side-nav-outer-toolbar">
                 <header class="header-component layout-header">
                     @(Html.DevExtreme().Toolbar()
-                                    .ElementAttr(new { @class = "header-toolbar" })
-                                    .ID("header-toolbar")
-                                    .Items(items =>
-                                    {
-                                        items.Add()
-                                        .Widget(w => w
-                                            .Button()
-                                            .Icon("menu")
-                                            .StylingMode(ButtonStylingMode.Text)
-                                            .OnClick("LayoutController.onMenuButtonClick")
-                                            )
-                                            .Location(ToolbarItemLocation.Before)
-                                            .CssClass("menu-button");
-                                        items.Add()
-                                           .Location(ToolbarItemLocation.Before)
-                                           .CssClass("header-title dx-toolbar-label header-title-width")
-                                           .Template(@<text>
+                        .ElementAttr(new { @class = "header-toolbar" })
+                        .ID("header-toolbar")
+                        .Items(items =>
+                        {
+                            items.Add()
+                            .Widget(w => w
+                                .Button()
+                                .Icon("menu")
+                                .StylingMode(ButtonStylingMode.Text)
+                                .OnClick("LayoutController.onMenuButtonClick")
+                                )
+                                .Location(ToolbarItemLocation.Before)
+                                .CssClass("menu-button");
+                            items.Add()
+                                .Location(ToolbarItemLocation.Before)
+                                .CssClass("header-title dx-toolbar-label header-title-width")
+                                .Template(@<text>
                             <div>UI Template Gallery</div>
                             </text>);
-                                        items.Add()
-                                    .Location(ToolbarItemLocation.After)
-                                    .CssClass("global-search-box")
-                                    .Widget(w => w
-                                    .TextBox()
-                                    .Width(180)
-                                    .Placeholder("Search")
-                                    .Mode(TextBoxMode.Search)
-                                    .StylingMode(EditorStylingMode.Filled)
-                                    );
-                                        items.Add()
-                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                                    .Location(ToolbarItemLocation.After)
-                                    .Widget(w => w
-                                    .Button()
-                                    .OnInitialized("onThemeSwitcherInit")
-                                    .ElementAttr(new { @class = "theme-button" })
-                                    .StylingMode(ButtonStylingMode.Text)
-                                    .Icon("moon")
-                                    .OnClick("onThemeSwitcherClick")
-                                    );
-                                        items.Add()
-                                    .Location(ToolbarItemLocation.After)
-                                    .Template(@<text>
-                        <div class="messages">
-                            <div id="messages-button"></div>
-                            <div class="dx-badge">4</div>
-                        </div>
-                    </text>);
-                                        items.Add()
-                                    .Location(ToolbarItemLocation.After)
-                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                                    .Template(@<text>
+                            items.Add()
+                                .Location(ToolbarItemLocation.After)
+                                .CssClass("global-search-box")
+                                .Widget(w => w
+                                .TextBox()
+                                .Width(180)
+                                .Placeholder("Search")
+                                .Mode(TextBoxMode.Search)
+                                .StylingMode(EditorStylingMode.Filled)
+                            );
+                            items.Add()
+                                .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                .Location(ToolbarItemLocation.After)
+                                .Widget(w => w
+                                .Button()
+                                .OnInitialized("onThemeSwitcherInit")
+                                .ElementAttr(new { @class = "theme-button" })
+                                .StylingMode(ButtonStylingMode.Text)
+                                .Icon("moon")
+                                .OnClick("onThemeSwitcherClick")
+                            );
+                            items.Add()
+                        .Location(ToolbarItemLocation.After)
+                        .Template(@<text>
+                            <div class="messages">
+                                <div id="messages-button"></div>
+                                <div class="dx-badge">4</div>
+                            </div>
+                            </text>);
+                        items.Add()
+                            .Location(ToolbarItemLocation.After)
+                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                            .Template(@<text>
                         <div>
                             <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
                         </div>

@@ -42,7 +42,7 @@
     <Folder Include="src\ts\common\" />
     <Folder Include="src\ts\components\" />
     <Folder Include="src\ts\layouts\" />
-    <Folder Include="Views\PlanningTasks\Kanban\" />
+    <Folder Include="Views\Shared\Kanban\" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -87,3 +87,14 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.circle {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--base-bg);
+}

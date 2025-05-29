@@ -19,7 +19,7 @@ $.get("/api/FilteredTasks", function (data: any) {
             $("#kanban-load-panel").dxLoadPanel("instance").hide();
             (window as any).globalData = data;
             $(".main-kanban-sort").html(cont);
-            console.log($(".sortable-cards"));
+            console.log($(".sortable-cards"), $(".main-kanban-sort"));
         },
         error: function (xhr) {
             console.error('Error:', xhr.status, xhr.statusText, xhr.responseText);
@@ -29,7 +29,7 @@ $.get("/api/FilteredTasks", function (data: any) {
     //$.post('/Home/TaskMainSortable', { filteredTasks: JSON.stringify(data) }, function (cont: any) {
     //    $("#kanban-load-panel").dxLoadPanel("instance").hide();
 
-        
+
     //    (window as any).globalData = data;
 
     //    $(".main-kanban-sort").html(cont);
