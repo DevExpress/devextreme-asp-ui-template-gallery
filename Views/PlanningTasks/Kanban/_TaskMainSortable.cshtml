@@ -15,7 +15,8 @@
 {
     await Html.RenderPartialAsync("../PlanningTasks/Kanban/_TaskList", new  TaskListPartialViewModel {
         Status = STATUSES[i],
-        TaskList=Model
+        TaskList=Model,
+        StatusIndex = i,
     });
     @* <div>@Model.Count</div> *@
 }

@@ -57,6 +57,14 @@ function onListReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
     $("#sortable-id").dxSortable('instance');
 }
 
+function navigateToDetails() {
+    console.log("Navigating to task details...");
+}
+
+function onClick(item:any) {
+    console.log("Edit button clicked for item:", item);
+}
+
 function changePopupVisibility(e: DevExpress.ui.dxButton.ClickEvent) {
 
 }

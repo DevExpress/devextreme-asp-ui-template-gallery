@@ -5,14 +5,7 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
 
-<script>
-    function navigateToDetails() {
-        console.log("Navigating to task details...");
-    }
-
-    function onClick(item) {
-        console.log("Edit button clicked for item:", item);
-    }
+<script lang="ts">
 </script>
 
 @{
@@ -29,7 +22,7 @@
             {
                 var priority = item.Priority.ToLower();
 
-                <div class='kanban-card dx-card theme-text-color theme-bg-color' onclick="navigateToDetails">
+                <div class='kanban-card dx-card theme-text-color theme-bg-color' onclick="navigateToDetails()">
                     <div class="card-wrapper priority-@priority">
                         <div class='card-priority'></div>
                         @(Html.DevExtreme().Button()
@@ -46,7 +39,6 @@
                             </div>
                             <div class='card-assignee'>
                                 <span class='company theme-text-color'>@item.Company</span>
-                                @* <UserAvatar owner={task.owner} /> *@
                                 <div class="circle">
                                     @{
                                         var initials = string.Join("", (item.Owner ?? "")
@@ -81,9 +73,8 @@
                 .ElementAttr(new { @class = "sortable-cards" })
                 .Group("cardsGroup")
                 .Data("Index")
-                .OnDragStart("onTaskDragStart")
-                .OnAdd("onTaskDrop")
-                .OnReorder("onTaskDrop")
+                .Handle(".list-title")
+                .OnReorder("onListReorder")
                 .Content(htmlString))
         <div class="add-task">
             @(Html.DevExtreme().Button()
