@@ -153,5 +153,11 @@ namespace DevExtremeVSTemplateMVC.Utils
 
             return form;
         }
+
+        public static string FormatPhone(this IHtmlHelper Html, string value)
+        {
+            if (value == null) return "";
+            return System.Text.RegularExpressions.Regex.Replace(value, @"(\d{3})(\d{3})(\d{4})", "+1($1)$2-$3");
+        }
     }
 }
