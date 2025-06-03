@@ -11,6 +11,8 @@ namespace DevExtremeVSTemplateMVC.DAL
             { "GetContact", "/Users/Contacts/{0}" },
         };
 
+        public static Task DownloadTask = null;
+
         public static async Task Download(HttpClient httpClient, IConfiguration config) {
             string baseUrlAPI = config.GetValue<string>(ConfigKeys.BaseUrlAPIKey);
             IList<EmployeeTask> allTasks = await FetchListFromApiAsync<EmployeeTask>(httpClient, baseUrlAPI + apiMapping[nameof(DemoDbContext.Tasks)]);

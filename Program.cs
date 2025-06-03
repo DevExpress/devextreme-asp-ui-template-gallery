@@ -30,7 +30,6 @@ builder.Services.AddScoped<DemoDbContext>(provider => {
     return new DemoDbContext(options);
 });
 builder.Services.AddScoped<IDataSeeder, DataSeeder>();
-builder.Services.AddSingleton<DataLoadingMonitor>();
 builder.Services.AddSession(options => {
     options.IdleTimeout = SessionDbContextMiddleware.CACHE_IDLE_TIMEOUT;
 });
@@ -40,10 +39,8 @@ var app = builder.Build();
 app.Lifetime.ApplicationStarted.Register(async () => {
     using var scope = app.Services.CreateScope();
     var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
-    var monitor = scope.ServiceProvider.GetRequiredService<DataLoadingMonitor>();
-
-    await DemoDataFetcher.Download(httpClient, builder.Configuration);
-    monitor.SetLoaded();
+    DemoDataFetcher.DownloadTask = DemoDataFetcher.Download(httpClient, builder.Configuration);
+    await DemoDataFetcher.DownloadTask;
 });
 
 if (!app.Environment.IsDevelopment()) {

@@ -26,8 +26,7 @@ namespace DevExtremeVSTemplateMVC.Middleware
         }
 
         public async Task InvokeAsync(HttpContext context) {
-            var monitor = _provider.GetRequiredService<DataLoadingMonitor>();
-            await monitor.WaitUntilLoadedAsync();
+            await DemoDataFetcher.DownloadTask;
 
             var sessionId = context.Session.Id;
 
