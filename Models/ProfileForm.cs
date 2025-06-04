@@ -33,18 +33,18 @@ namespace DevExtremeVSTemplateMVC.Models
         public string Supervisor { get; set; }
     }
 
-    //public class Activity
-    //{
-    //    public string Name { get; set; }
-    //    public DateTime Date { get; set; }
-    //    public string Manager { get; set; }
-    //}
+    public class Activity
+    {
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public string Manager { get; set; }
+    }
 
-    //public class Opportunity
-    //{
-    //    public string Name { get; set; }
-    //    public decimal Price { get; set; }
-    //}
+    public class Opportunity
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
 
     public class TaskItem
     {
