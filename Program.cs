@@ -39,10 +39,10 @@ var app = builder.Build();
 app.Lifetime.ApplicationStarted.Register(async () => {
     using var scope = app.Services.CreateScope();
     var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
-    await DemoDataFetcher.Download(httpClient, builder.Configuration);
+    DemoDataFetcher.DownloadTask = DemoDataFetcher.Download(httpClient, builder.Configuration);
+    await DemoDataFetcher.DownloadTask;
 });
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
 }

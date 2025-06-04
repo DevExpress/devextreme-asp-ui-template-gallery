@@ -26,6 +26,8 @@ namespace DevExtremeVSTemplateMVC.Middleware
         }
 
         public async Task InvokeAsync(HttpContext context) {
+            await DemoDataFetcher.DownloadTask;
+
             var sessionId = context.Session.Id;
 
             var connection = await _cache.GetOrCreateAsync(sessionId, async entry => {

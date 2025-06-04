@@ -96,9 +96,7 @@
                                 </div>
                                 <div>
                                     <div class='title-text'>
-                                        <script>
-                                            document.write(formatPhone('@Model.Phone'));
-                                        </script>
+                                        @Html.FormatPhone(Model.Phone)
                                     </div>
                                     <div class='subtitle-text with-clipboard-copy'>
                                         <span>@Model.Email</span>

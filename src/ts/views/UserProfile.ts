@@ -4,10 +4,6 @@ let passwordFormData = {
     confirmPassword: "12345"
 }
 
-const formatPhone = (value: string) => {
-    return String(value).replace(/(\d{3})(\d{3})(\d{4})/, '+1($1)$2-$3');
-};
-
 function copyToClipboard(e: DevExpress.ui.dxButton.ClickEvent) {
     const tipText = 'Text copied';
     DevExpress.ui.notify(
