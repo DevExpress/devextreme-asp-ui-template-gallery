@@ -8,8 +8,6 @@ const STATUS_ITEMS = ['Open', 'In Progress', 'Deferred', 'Completed'];
 
 $.get("/api/Tasks", function (data: any) {
     console.log("Filtered:", data);
-    //debugger;
-    //$("#task-list-id");
 
     $.ajax({
         url: '/Home/TaskMainSortable',
@@ -17,27 +15,15 @@ $.get("/api/Tasks", function (data: any) {
         data: { filteredTasks: JSON.stringify(data.data) },
         success: function (cont: any) {
             $("#kanban-load-panel").dxLoadPanel("instance").hide();
-            (window as any).globalData = data;
-            $(".main-kanban-sort").html(cont);
-            console.log($(".sortable-cards"), $(".main-kanban-sort"));
+            $("#kanban-sortable-id").html(cont);
+
+            $("#planning-tasks-toolbar").dxToolbar('instance').repaint();
+            $("#planning-tasks-tabs").dxTabs('instance').option("selectedIndex", 1);
         },
         error: function (xhr) {
             console.error('Error:', xhr.status, xhr.statusText, xhr.responseText);
         }
     });
-
-    //$.post('/Home/TaskMainSortable', { filteredTasks: JSON.stringify(data) }, function (cont: any) {
-    //    $("#kanban-load-panel").dxLoadPanel("instance").hide();
-
-
-    //    (window as any).globalData = data;
-
-    //    $(".main-kanban-sort").html(cont);
-
-    //    console.log($(".sortable-cards"));
-
-    //    //$("#scroll-view-id").dxScrollView("instance").update();
-    //})
 });
 
 const reorder = <T,>(items: T[], item: T, fromIndex: number, toIndex: number) => {

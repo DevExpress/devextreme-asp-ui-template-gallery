@@ -16,6 +16,7 @@
 
 <div class="view-wrapper view-wrapper-task-list list-page">
     @(Html.DevExtreme().Toolbar()
+        .ID("planning-tasks-toolbar")
         .ElementAttr(new { @class = "toolbar-common theme-dependent" })
         .Items(items =>
         {
@@ -59,7 +60,7 @@
             items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
             .Template(@<text>
-                <div><div class="separator"/></div>
+                <div><div class="separator"></div></div>
             </text>);
 
             items.Add().Location(ToolbarItemLocation.After)
@@ -100,6 +101,7 @@
 {
     @(
     Html.DevExtreme().Tabs()
+        .ID("planning-tasks-tabs")
         .Width("auto")
         .ShowNavButtons(false)
         .ScrollByContent(true)
