@@ -12,11 +12,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About() {
-            return View();
+            return RedirectToAction("PlanningTasks", "Home");
         }
 
         public IActionResult PlanningTasks() {
