@@ -1,0 +1,89 @@
+﻿@using DevExtremeVSTemplateMVC.Models
+@model TaskListPartialViewModel
+
+@using System.IO
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+
+<script lang="ts">
+</script>
+
+@{
+    string htmlString;
+
+    using (var writer = new System.IO.StringWriter())
+    {
+        var originalWriter = ViewContext.Writer;
+        ViewContext.Writer = writer;
+
+        foreach (TaskModel item in Model.TaskList)
+        {
+            if (item.Status == Model.Status)
+            {
+                var priority = item.Priority.ToLower();
+
+                <div class='kanban-card dx-card theme-text-color theme-bg-color' onclick="navigateToDetails()">
+                    <div class="card-wrapper priority-@priority">
+                        <div class='card-priority'></div>
+                        @(Html.DevExtreme().Button()
+                            .ElementAttr(new { @class = "edit-button" })
+                            .Icon("edit")
+                            .StylingMode(ButtonStylingMode.Text)
+                            .OnClick("onClick")
+                        )
+                        <div class='card-content'>
+                            <div class='card-subject theme-text-color'>@item.Text</div>
+                            <div class='card-data'>
+                                <span class='priority'>@item.Priority</span>
+                                <span class='date theme-text-color'>@item.DueDate.ToString("MM/dd/yyy")</span>
+                            </div>
+                            <div class='card-assignee'>
+                                <span class='company theme-text-color'>@item.Company</span>
+                                <div class="circle">
+                                    @{
+                                        var initials = string.Join("", (item.Owner ?? "")
+                                        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                        .Select(n => n[0]));
+                                    }
+                                    @initials
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        ViewContext.Writer = originalWriter;
+        htmlString = writer.ToString();
+    }
+}
+
+<div class="list">
+    <div class="list-title theme-text-color">
+        <span>@Model.Status</span>
+        @* CardMenu *@
+    </div>
+    @(Html.DevExtreme().ScrollView()
+        .ElementAttr(new { @class = "scrollable-list" })
+        .Direction(ScrollDirection.Vertical)
+        .ShowScrollbar(ShowScrollbarMode.Always)
+        .Content(@<text>
+        @(Html.DevExtreme().Sortable()
+                .ElementAttr(new { @class = "sortable-cards" })
+                .Group("cardsGroup")
+                .Data("Index")
+                .Handle(".list-title")
+                .OnReorder("onListReorder")
+                .Content(htmlString))
+        <div class="add-task">
+            @(Html.DevExtreme().Button()
+            .Icon("plus")
+            .Text("Add Task")
+            .StylingMode(ButtonStylingMode.Text)
+            .Width("100%")
+            .OnClick("changePopupVisibility")
+            )
+        </div>
+    </text>))
+</div>

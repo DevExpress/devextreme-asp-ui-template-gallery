@@ -1,1 +1,24 @@
-﻿<h2>Kanban</h2>
+﻿<script src="~/js/views/KanbanScript.js"></script>
+
+<div id='kanban' class='kanban'>
+    @(Html.DevExtreme().ScrollView()
+        .Direction(ScrollDirection.Both)
+        .ShowScrollbar(ShowScrollbarMode.Always)
+        .ID("scroll-view-id")
+        .Content(
+            @Html.DevExtreme().Sortable()
+            .ID("sortable-id")
+            .ElementAttr(new {
+                @class = "main-kanban-sort"
+            })
+            .ItemOrientation(Orientation.Horizontal)
+            .Handle(".list-title")
+            .OnReorder("onListReorder")
+            .Content(@<text>
+                @(Html.DevExtreme().LoadPanel()
+                .ID("kanban-load-panel")
+                .Visible(true))
+            </text>).ToString()
+        )
+    )
+</div>
