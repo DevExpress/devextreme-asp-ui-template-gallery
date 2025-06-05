@@ -142,6 +142,7 @@
                     .Items(items =>
                     {
                         items.Add().Text("Planning").Icon("event")
+                        .Expanded(new JS("LayoutController.isNodeExpanded()"))
                         .Items(planningItems =>
                         {
                             planningItems.Add()
@@ -150,6 +151,7 @@
                         .Selected(IsCurrentUrl("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")
+                        .Expanded(new JS("LayoutController.isNodeExpanded()"))
                         .Items(authItems =>
                         {
                             authItems.Add()
@@ -166,6 +168,7 @@
                         .Selected(IsCurrentUrl("ForgotPassword"));
                         });
                         items.Add().Text("Common").Icon("box")
+                        .Expanded(new JS("LayoutController.isNodeExpanded()"))
                         .Items(commonItems =>
                         {
                             commonItems.Add()
@@ -290,6 +293,11 @@
                return $("#navigationTree").dxTreeView("instance");
             }
 
+            function isNodeExpanded(){
+                const isLarge = breakpoints.largeMedia.matches;
+                return isLarge;
+            }
+
             function restoreDrawerOpened() {
                 const isLarge = breakpoints.largeMedia.matches;
                 if(!isLarge)
@@ -363,8 +371,7 @@
                   treeMenu.collapseAll()
             }
 
-            function onTreeViewItemClick(e) {
-               
+            function onTreeViewItemClick(e) {               
                 const drawer = getDrawer();
                 const savedOpened = restoreDrawerOpened();
                 const actualOpened = drawer.option("opened");
@@ -392,10 +399,11 @@
             }
 
             return {
-                init: init,
-                restoreDrawerOpened: restoreDrawerOpened,
-                onMenuButtonClick: onMenuButtonClick,
-                onTreeViewItemClick: onTreeViewItemClick
+                init,
+                restoreDrawerOpened,
+                onMenuButtonClick,
+                onTreeViewItemClick,
+                isNodeExpanded
             };
         })();
 
