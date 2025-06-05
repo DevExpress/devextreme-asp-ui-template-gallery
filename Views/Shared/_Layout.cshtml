@@ -10,9 +10,9 @@
 
     <title>DevExtreme ASP UI Template Gallery</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    
+
     <link href="~/css/fluent-light.css" rel="dx-theme" data-theme="fluent.blue.light"
-    data-active="true" />
+          data-active="true" />
     <link href="~/css/fluent-dark.css" rel="dx-theme" data-theme="fluent.blue.dark"
           data-active="false" />
     <link href="~/css/dx-gantt.min.css" rel="stylesheet" />
@@ -46,82 +46,82 @@
             <div class="side-nav-outer-toolbar">
                 <header class="header-component layout-header">
                     @(Html.DevExtreme().Toolbar()
-                                    .ElementAttr(new { @class = "header-toolbar" })
-                                    .ID("header-toolbar")
-                                    .Items(items =>
-                                    {
-                                        items.Add()
-                                        .Widget(w => w
-                                            .Button()
-                                            .Icon("menu")
-                                            .StylingMode(ButtonStylingMode.Text)
-                                            .OnClick("LayoutController.onMenuButtonClick")
-                                            )
-                                            .Location(ToolbarItemLocation.Before)
-                                            .CssClass("menu-button");
-                                        items.Add()
-                                           .Location(ToolbarItemLocation.Before)
-                                           .CssClass("header-title dx-toolbar-label header-title-width")
-                                           .Template(@<text>
-                            <div>UI Template Gallery</div>
-                            </text>);
-                                        items.Add()
-                                    .Location(ToolbarItemLocation.After)
-                                    .CssClass("global-search-box")
-                                    .Widget(w => w
-                                    .TextBox()
-                                    .Width(180)
-                                    .Placeholder("Search")
-                                    .Mode(TextBoxMode.Search)
-                                    .StylingMode(EditorStylingMode.Filled)
-                                    );
-                                        items.Add()
-                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                                    .Location(ToolbarItemLocation.After)
-                                    .Widget(w => w
-                                    .Button()
-                                    .OnInitialized("onThemeSwitcherInit")
-                                    .ElementAttr(new { @class = "theme-button" })
-                                    .StylingMode(ButtonStylingMode.Text)
-                                    .Icon("moon")
-                                    .OnClick("onThemeSwitcherClick")
-                                    );
-                                        items.Add()
-                                    .Location(ToolbarItemLocation.After)
-                                    .Template(@<text>
+                            .ElementAttr(new { @class = "header-toolbar" })
+                            .ID("header-toolbar")
+                            .Items(items =>
+                            {
+                                items.Add()
+                            .Widget(w => w
+                            .Button()
+                            .Icon("menu")
+                            .StylingMode(ButtonStylingMode.Text)
+                            .OnClick("LayoutController.onMenuButtonClick")
+                            )
+                            .Location(ToolbarItemLocation.Before)
+                            .CssClass("menu-button");
+                                items.Add()
+                            .Location(ToolbarItemLocation.Before)
+                            .CssClass("header-title dx-toolbar-label header-title-width")
+                            .Template(@<text>
+                        <div>UI Template Gallery</div>
+                    </text>);
+                                items.Add()
+                            .Location(ToolbarItemLocation.After)
+                            .CssClass("global-search-box")
+                            .Widget(w => w
+                            .TextBox()
+                            .Width(180)
+                            .Placeholder("Search")
+                            .Mode(TextBoxMode.Search)
+                            .StylingMode(EditorStylingMode.Filled)
+                            );
+                                items.Add()
+                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                            .Location(ToolbarItemLocation.After)
+                            .Widget(w => w
+                            .Button()
+                            .OnInitialized("onThemeSwitcherInit")
+                            .ElementAttr(new { @class = "theme-button" })
+                            .StylingMode(ButtonStylingMode.Text)
+                            .Icon("moon")
+                            .OnClick("onThemeSwitcherClick")
+                            );
+                                items.Add()
+                            .Location(ToolbarItemLocation.After)
+                            .Template(@<text>
                         <div class="messages">
                             <div id="messages-button"></div>
                             <div class="dx-badge">4</div>
                         </div>
                     </text>);
-                                        items.Add()
-                                    .Location(ToolbarItemLocation.After)
-                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                                    .Template(@<text>
+                                items.Add()
+                            .Location(ToolbarItemLocation.After)
+                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                            .Template(@<text>
                         <div>
                             <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
                         </div>
                     </text>);
-                                    })
-                                )
+                            })
+                        )
                 </header>
                 @(
-                            Html.DevExtreme().Drawer()
-                            .ID("layout-drawer")
-                            .ElementAttr(new { @class = "drawer layout-body" })
-                            .Position(DrawerPosition.Left)
-                            .Opened(new JS("LayoutController.restoreDrawerOpened()"))
-                            .Content(
-            @<text>
-                <div class="content" data-placeholder-id="main-layout-body">
-                    @RenderBody()
-                </div>
-                <div data-placeholder-id="main-layout-section">
-                    @RenderSection("MySection", false)
-                </div>
-            </text>)
-                            .Template(new TemplateName("navigation-menu"))
-                            )
+                    Html.DevExtreme().Drawer()
+                    .ID("layout-drawer")
+                    .ElementAttr(new { @class = "drawer layout-body" })
+                    .Position(DrawerPosition.Left)
+                    .Opened(new JS("LayoutController.restoreDrawerOpened()"))
+                    .Content(
+                @<text>
+                    <div class="content" data-placeholder-id="main-layout-body">
+                        @RenderBody()
+                    </div>
+                    <div data-placeholder-id="main-layout-section">
+                        @RenderSection("MySection", false)
+                    </div>
+                </text>)
+                    .Template(new TemplateName("navigation-menu"))
+                    )
             </div>
         </div>
     </div>
@@ -142,43 +142,36 @@
                     .Items(items =>
                     {
                         items.Add().Text("Planning").Icon("event")
-                        .Expanded(true)
                         .Items(planningItems =>
                         {
                             planningItems.Add()
-                            .Text("Home (to be removed)")
-                            .Option(pathFieldName, GetUrl("Index"))
-                            .Selected(IsCurrentUrl("Index"));
-                            planningItems.Add()
-                            .Text("Task List")
-                            .Option(pathFieldName, GetUrl("PlanningTasks"))
-                            .Selected(IsCurrentUrl("PlanningTasks"));
+                        .Text("Task List")
+                        .Option(pathFieldName, GetUrl("PlanningTasks"))
+                        .Selected(IsCurrentUrl("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")
-                        .Expanded(true)
                         .Items(authItems =>
                         {
                             authItems.Add()
-                            .Text("Sign In Form")
-                            .Option(pathFieldName, GetUrl("Login"))
-                            .Selected(IsCurrentUrl("Login"));
+                        .Text("Sign In Form")
+                        .Option(pathFieldName, GetUrl("Login"))
+                        .Selected(IsCurrentUrl("Login"));
                             authItems.Add()
-                            .Text("Sign Up Form")
-                            .Option(pathFieldName, GetUrl("SignUp"))
-                            .Selected(IsCurrentUrl("SignUp"));
+                        .Text("Sign Up Form")
+                        .Option(pathFieldName, GetUrl("SignUp"))
+                        .Selected(IsCurrentUrl("SignUp"));
                             authItems.Add()
-                            .Text("Reset Password")
-                            .Option(pathFieldName, GetUrl("ForgotPassword"))
-                            .Selected(IsCurrentUrl("ForgotPassword"));
+                        .Text("Reset Password")
+                        .Option(pathFieldName, GetUrl("ForgotPassword"))
+                        .Selected(IsCurrentUrl("ForgotPassword"));
                         });
                         items.Add().Text("Common").Icon("box")
-                        .Expanded(true)
                         .Items(commonItems =>
                         {
                             commonItems.Add()
-                            .Text("User Profile")
-                            .Option(pathFieldName, GetUrl("UserProfile"))
-                            .Selected(IsCurrentUrl("UserProfile"));
+                        .Text("User Profile")
+                        .Option(pathFieldName, GetUrl("UserProfile"))
+                        .Selected(IsCurrentUrl("UserProfile"));
                         });
                     })
                     .ExpandEvent(TreeViewExpandEvent.Click)
@@ -293,6 +286,10 @@
                 return $("#layout-drawer").dxDrawer("instance");
             }
 
+            function getMenu(){
+               return $("#navigationTree").dxTreeView("instance");
+            }
+
             function restoreDrawerOpened() {
                 const isLarge = breakpoints.largeMedia.matches;
                 if(!isLarge)
@@ -309,7 +306,7 @@
                 sessionStorage.setItem(DRAWER_OPENED_KEY, getDrawer().option("opened"));
             }
 
-            function updateDrawer() {
+            function updateSidePanel() {
                 const isXSmall = breakpoints.xSmallMedia.matches,
                     isLarge = breakpoints.largeMedia.matches;
 
@@ -318,26 +315,33 @@
                     revealMode: isXSmall ? "slide" : "expand",
                     minSize: isXSmall ? 0 : 48,
                     shading: !isLarge,
+                    opened: isLarge
                 });
+                saveDrawerOpened();
+
+                const treeMenu = getMenu();
+                if(isLarge)
+                   treeMenu.expandAll();
+                else
+                   treeMenu.collapseAll();
             }
 
             function init() {
-                $.each(breakpoints, function(_, size) {
-                    size.addListener(function(e) {
-                        if(e.matches)
-                            updateDrawer();
+               $.each(breakpoints, (_, media) => {
+                   media.addEventListener('change', (e) => {
+                        if (e.matches)
+                            updateSidePanel();
                     });
                 });
+                updateSidePanel();
                 window.navigation.addEventListener("navigate", (e) => {
-                    const tree = $("#navigationTree").dxTreeView("instance");
-                    const leafs = tree.option("items").reduce((acc, cur) => { return [...acc, ...cur.items] }, []);
+                    const treeMenu = getMenu();
+                    const leafs = treeMenu.option("items").reduce((acc, cur) => { return [...acc, ...cur.items] }, []);
                     const targetItem = leafs.find(i => e.destination.url === ('@baseUri' + i.path));
-                    tree.selectItem(targetItem);
+                    treeMenu.selectItem(targetItem);
                 });
-                updateDrawer();
 
                 $("#year").text(new Date().getFullYear());
-                console.log($("#year"), $("#year").text())
             }
 
             function navigate(url, delay) {
@@ -348,26 +352,39 @@
             }
 
             function onMenuButtonClick() {
-                getDrawer().toggle();
+                const drawer = getDrawer();
+                drawer.toggle();
                 saveDrawerOpened();
-                const opened = getDrawer().option("opened");
-                $("#navigationTree").dxTreeView(opened ? "expandAll" : "collapseAll")
+                const opened = drawer.option("opened");
+                const treeMenu = getMenu();
+                if(opened)
+                  treeMenu.expandAll()
+                else
+                  treeMenu.collapseAll()
             }
 
             function onTreeViewItemClick(e) {
-                if (e.node.children.length > 0) return;
+               
                 const drawer = getDrawer();
                 const savedOpened = restoreDrawerOpened();
                 const actualOpened = drawer.option("opened");
-
+                const treeMenu = getMenu();
                 if(!actualOpened) {
                     drawer.show();
+                    treeMenu.expandItem(e.itemData);
+                    const selectedItems = treeMenu.getSelectedNodeKeys();
+                    if(selectedItems.length) 
+                       treeMenu.expandItem(selectedItems[0]);
                 } else {
+                    if (e.node.children.length > 0) return;
+
                     const willHide = !savedOpened || !breakpoints.largeMedia.matches;
                     const willNavigate = !e.itemData.selected;
 
-                    if(willHide)
-                        drawer.hide();
+                    if(willHide) {
+                       drawer.hide(); 
+                       treeMenu.collapseAll();
+                    }
 
                     if(true || willNavigate)
                         navigate(e.itemData.path, willHide ? 400 : 0);
