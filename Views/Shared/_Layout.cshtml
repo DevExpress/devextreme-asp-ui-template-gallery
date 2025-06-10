@@ -19,7 +19,7 @@
 
     <link href="~/css/styles.css" rel="stylesheet" />
 
-  
+
     <link href="~/css/components/SideNavigationMenu.css" rel="stylesheet" />
     <link href="~/css/components/UserPanel.css" rel="stylesheet" />
     <link href="~/css/components/UserMenuSection.css" rel="stylesheet" />
@@ -283,6 +283,15 @@
                 largeMedia: window.matchMedia("(min-width: 1280px)")
             };
 
+            function getScreenSize() {
+                return {
+                    isXSmall: breakpoints.xSmallMedia.matches,
+                    isSmall: breakpoints.smallMedia.matches,
+                    isMedium: breakpoints.mediumMedia.matches,
+                    isLarge: breakpoints.largeMedia.matches,
+                };
+            }
+
             function getDrawer() {
                 return $("#layout-drawer").dxDrawer("instance");
             }
@@ -369,7 +378,7 @@
                   treeMenu.collapseAll()
             }
 
-            function onTreeViewItemClick(e) {               
+            function onTreeViewItemClick(e) {
                 const drawer = getDrawer();
                 const savedOpened = restoreDrawerOpened();
                 const actualOpened = drawer.option("opened");
@@ -378,7 +387,7 @@
                     drawer.show();
                     treeMenu.expandItem(e.itemData);
                     const selectedItems = treeMenu.getSelectedNodeKeys();
-                    if(selectedItems.length) 
+                    if(selectedItems.length)
                        treeMenu.expandItem(selectedItems[0]);
                 } else {
                     if (e.node.children.length > 0) return;
@@ -387,7 +396,7 @@
                     const willNavigate = !e.itemData.selected;
 
                     if(willHide) {
-                       drawer.hide(); 
+                       drawer.hide();
                        treeMenu.collapseAll();
                     }
 
@@ -400,6 +409,7 @@
                 init,
                 restoreDrawerOpened,
                 onMenuButtonClick,
+                getScreenSize,
                 onTreeViewItemClick,
                 isNodeExpanded
             };
