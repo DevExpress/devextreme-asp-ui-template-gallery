@@ -1,11 +1,11 @@
 ﻿@using DevExtremeVSTemplateMVC.Models;
 @using DevExtremeVSTemplateMVC.Utils;
-
+<div class="gantt">
 @(Html.DevExtreme().Gantt<EmployeeTask>()
     .ID("tasks-gantt")
     .TaskListWidth(500)
     .ScaleType(GanttScaleType.Weeks)
-    .Height(700)
+    .Height("700px")
     .Tasks(tasks => tasks
         .DataSource(ds =>
             ds.Mvc().Controller("Tasks").Key("Id")
@@ -42,3 +42,4 @@
     .Validation(validation => validation.AutoUpdateParentTasks(true))
     .Editing(editing => editing.Enabled(true))
 )
+</div>

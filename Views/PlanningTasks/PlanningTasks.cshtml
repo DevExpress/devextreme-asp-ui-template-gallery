@@ -1,9 +1,15 @@
 ﻿<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
 <link href="~/css/components/tasklistgrid.css" rel="stylesheet" />
-
 <link href="~/css/components/StatusSelectBox.css" rel="stylesheet" />
+<link href="~/css/components/TaskListKanban.css" rel="stylesheet" />
+<link href="~/css/components/TaskKanbanCard.css" rel="stylesheet" />
+<link href="~/css/components/CardMenu.css" rel="stylesheet" />
 
 <script src="~/js/views/planningtasklist.js"></script>
+
+<script>
+    const controller = new PlanningTasksController();
+</script>
 
 @(Html.DevExtreme().LoadPanel()
     .Width("auto")
@@ -18,6 +24,7 @@
     @(Html.DevExtreme().Toolbar()
         .ID("planning-tasks-toolbar")
         .ElementAttr(new { @class = "toolbar-common theme-dependent" })
+        .ID("tasksToolbar")        
         .Items(items =>
         {
             items.Add().Location(ToolbarItemLocation.Before)
@@ -29,67 +36,71 @@
             .Template(new TemplateName("TabsView"));
 
             items.Add().Location(ToolbarItemLocation.After)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .CssClass("add-grid-row")
             .Widget(w => w.Button()
                 .Text("Add Task")
                 .Icon("plus")
                 .Type(ButtonType.Default)
                 .StylingMode(ButtonStylingMode.Contained)
-                .OnClick("addTask"));
+            .OnClick("controller.addTask"));
 
             items.Add().Location(ToolbarItemLocation.After)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.Button()
                 .Text("Refresh")
                 .Icon("refresh")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("reload"))
+            .OnClick("controller.reload"))
             .ShowText(ToolbarItemShowTextMode.InMenu);   
             
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Disabled(new JS("controller.getCurrentView() !== 'Grid'"))
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
+            .Option("name", "ColumnChooser")
             .Widget(w => w.Button()
                 .Text("Column Chooser")
                 .Icon("columnchooser")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("chooseColumnDataGrid"));
+            .OnClick("controller.chooseColumnDataGrid"));
 
             items.Add().Location(ToolbarItemLocation.After)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Template(@<text>
-                <div><div class="separator"></div></div>
+                <div class="separator"></div>
             </text>);
 
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Disabled(new JS("controller.getCurrentView() === 'Kanban'"))
+            .Option("name", "ExportPDF")
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Widget(w => w.Button()
                 .Text("Export to PDF")
                 .Icon("exportpdf")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("exportToPdf"));
+                .OnClick("controller.exportToPdf"));
 
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Option("name", "ExportExcel")
+            .Disabled(new JS("controller.getCurrentView() !== 'Grid'"))
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Widget(w => w.Button()
                 .Text("Export to Exel")
                 .Icon("exportxlsx")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("exportToXlsx"));
+                .OnClick("controller.exportToXlsx"));
 
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Option("name", "SearchItem")
+            .Disabled(new JS("controller.getCurrentView() !== 'Grid'"))
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.TextBox()
                 .Placeholder("Task Search")
                 .Mode(TextBoxMode.Search)
-                .OnInput("searchDataGrid"));
+            .OnInput("controller.searchDataGrid"));
         })
     )
     <div class="planning-tasks-content">
@@ -101,17 +112,17 @@
 {
     @(
     Html.DevExtreme().Tabs()
-        .ID("planning-tasks-tabs")
-        .Width("auto")
+        .ID("tasksTabs")
+        .Width(new JS("controller.getTabsWidth()"))
         .ShowNavButtons(false)
         .ScrollByContent(true)
         .SelectedIndex(0)
         .Items(items =>
         {
-            items.Add().Text("List");
-            items.Add().Text("Kanban Board");
-            items.Add().Text("Gantt");
+            items.Add().Text("List").Option("value", "Grid");
+                items.Add().Text("Kanban Board").Option("value", "Kanban");
+                items.Add().Text("Gantt").Option("value", "Gantt");
         })
-        .OnItemClick("tabValueChange")
+        .OnItemClick("controller.tabValueChange")
     )
 }
