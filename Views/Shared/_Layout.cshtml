@@ -37,7 +37,13 @@
     <script src="~/js/dx.aspnet.data.js"></script>
 
 </head>
-
+@using DevExtremeVSTemplateMVC.Models
+@functions {
+    string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
+    string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
+    bool IsCurrentUrl(string action, string controller = "Home") => GetUrl(action, controller) == GetCurrentUrl();
+    const string pathFieldName = "path";
+}
 <body class="dx-viewport">
     <div id="root">
         <div class="app screen-large">
@@ -78,28 +84,27 @@
                             .Location(ToolbarItemLocation.After)
                             .Widget(w => w
                             .Button()
-                            .OnInitialized("onThemeSwitcherInit")
                             .ElementAttr(new { @class = "theme-button" })
                             .StylingMode(ButtonStylingMode.Text)
                             .Icon("moon")
-                            .OnClick("onThemeSwitcherClick")
+                            .OnClick("ToolbarContentController.onThemeSwitcherClick")
                             );
                                 items.Add()
                             .Location(ToolbarItemLocation.After)
                             .Template(@<text>
                         <div class="messages">
-                            <div id="messages-button"></div>
+                            @(Html.DevExtreme().Button()
+                            .ID("toolbarMessagesButton")
+                            .Icon("belloutline")
+                            .StylingMode(ButtonStylingMode.Text)
+                            )
                             <div class="dx-badge">4</div>
                         </div>
                     </text>);
                                 items.Add()
-                            .Location(ToolbarItemLocation.After)
-                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                            .Template(@<text>
-                        <div>
-                            <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
-                        </div>
-                    </text>);
+                                    .Location(ToolbarItemLocation.After)
+                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                    .Template(new TemplateName("user-drop-down-button"));
                             })
                         )
                 </header>
@@ -123,18 +128,46 @@
             </div>
         </div>
     </div>
+
+    @using (Html.DevExtreme().NamedTemplate("user-drop-down-button"))
+    {
+        <div>
+            <div class="user-panel">
+                @(Html.DevExtreme().DropDownButton()
+                    .ID("userPanelDropDownButton")
+                    .ElementAttr(new { @class = "user-button" })
+                    .Icon(SampleUser.User.AvatarUrl)
+                    .ShowArrowIcon(false)
+                    .StylingMode(ButtonStylingMode.Text)
+
+                    .DropDownOptions(opt => opt.Width("auto"))
+                    .OnContentReady("ToolbarContentController.onContentReady")
+                    .DropDownContentTemplate(
+            @<text>
+                <div class="user-info">
+                    <div class="user-name" id="dropdown-username">
+                        @String.Format("{0} {1}", SampleUser.User.Name, SampleUser.User.LastName)
+                    </div>
+                </div>
+                @(Html.DevExtreme().List()
+                .ID("userInfoList")
+                .ElementAttr(new { @class = "user-info-list" })
+                .Items(listItems => {
+                listItems.Add().Icon("runner").Text("Logout");
+                })
+                .OnItemClick("ToolbarContentController.onLogoutClick")
+                )
+
+            </text>)
+                    )
+            </div>
+        </div>
+    }
     @using (Html.DevExtreme().NamedTemplate("navigation-menu"))
     {
         <div class="side-navigation-menu">
             <div class="menu-container theme-dependent">
-                @functions {
-                string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
-                string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
-                bool IsCurrentUrl(string action, string controller = "Home") => GetUrl(action, controller) == GetCurrentUrl();
-                const string pathFieldName = "path";
-            }
-
-            @(
+                @(
                     Html.DevExtreme().TreeView()
                     .ID("navigationTree")
                     .Items(items =>
@@ -184,7 +217,7 @@
                     )
             </div>
             <footer class="footer">
-                Copyright &copy; <span id="year"></span> <br />
+                Copyright &copy; @DateTime.Now.Year <br />
                 Developer Express Inc.
             </footer>
         </div>
@@ -196,79 +229,21 @@
     }
     <script>
         DevExpress.ui.themes.current(window.localStorage.getItem("dx-theme") || "fluent.blue.light");
-
-        function onThemeSwitcherInit(e) {
-            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "moon") : e.component.option("icon", "sun");
-            window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
-        }
-        function onThemeSwitcherClick(e) {
-            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "sun") : e.component.option("icon", "moon");
-            DevExpress.ui.themes.current() === "fluent.blue.light" ? DevExpress.ui.themes.current("fluent.blue.dark") : DevExpress.ui.themes.current("fluent.blue.light");
-            window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
-        }
-
         const ToolbarContentController = (function() {
             function onLogoutClick() {
                 SPARouter.navigate("/Auth/Login");
             }
-
-            const userMenuItems = [{
-                text: "Logout",
-                icon: "runner",
-                onClick: onLogoutClick
-            }];
-
-            function onDrawerMenuButtonClick(){
-                $("#layout-body").dxDrawer("instance").toggle();
-            }
-
-            const dropDownButtonConfig = {
-                stylingMode: "text",
-                icon: "user",
-                showArrowIcon: false,
-                dropDownOptions: {
-                    width: "auto"
-                },
-                onContentReady: (e) => {
-                    $.ajax({
-                        url: '/api/userdata/',
-                        method: 'GET',
-                        success: (response) => {
-                            console.log(response);
-                            // Set the image source dynamically
-                            e.component.option("icon", response.url);
-                            $("#dropdown-username").text(response.name + " " + response.lastName);
-                        }
-                    });
-
-                    e.component.registerKeyHandler('downArrow', () => {
-                        // userMenuSectionRef.value?.focusList();
-                    });
-                },
-                dropDownContentTemplate: (data) => {
-                    const wrapperDiv = $("<div class='user-info'></div>");
-                    wrapperDiv.append($(`<div class='user-name' id='dropdown-username'></div>`));
-                    const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
-                    divList.dxList({
-                        items: userMenuItems,
-                        onItemClick: ({itemData}) => itemData.onClick(),
-                    });
-                    return wrapperDiv.add(divList);
-                },
-            };
-
-            const messagesButtonConfig = {
-                icon: "belloutline",
-                stylingMode: "text"
-            };
-
-            function init() {
-                $("#messages-button").dxButton(messagesButtonConfig)
-                $("#user-panel-drop-down").dxDropDownButton(dropDownButtonConfig);
-            }
-
             return {
-                init: init,
+                onLogoutClick,
+                init(e) {
+                    DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "moon") : e.component.option("icon", "sun");
+                    window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
+                },
+                onThemeSwitcherClick(e) {
+                    DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "sun") : e.component.option("icon", "moon");
+                    DevExpress.ui.themes.current() === "fluent.blue.light" ? DevExpress.ui.themes.current("fluent.blue.dark") : DevExpress.ui.themes.current("fluent.blue.light");
+                    window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
+                }
             };
         })();
 
