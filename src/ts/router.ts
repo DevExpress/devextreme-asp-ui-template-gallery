@@ -1,39 +1,40 @@
-﻿var SPARouter = (function () {
-    const PLACEHOLDER_ATTR: string = 'data-placeholder-id';
-    const TARGET_PLACEHOLDER_ATTR: string = 'data-target-placeholder-id';
+﻿class SPARouter {
+    private static readonly PLACEHOLDER_ATTR = 'data-placeholder-id';
+    private static readonly TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';
 
-    function init() {
-        window.addEventListener('popstate', function () {
-            handleRoute(document.location.toString());
+    init() {
+        // optional: auto-bind popstate handler on instantiation
+        window.addEventListener('popstate', () => {
+            this.handleRoute(document.location.toString());
         });
     }
 
-    function navigate(url: string) {
+    public navigate(url: string): void {
         history.pushState({}, '', url);
-        handleRoute(url);
+        this.handleRoute(url);
     }
 
-    function handleRoute(targetUrl: string) {
+    private handleRoute(targetUrl: string): void {
         const url = new URL(targetUrl, window.location.origin);
         url.searchParams.append('__PARTIAL', 'true');
-        $.get(url.href, function (markup) {
+
+        $.get(url.href, (markup: string) => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(markup, "text/html");
-            const contentItems = doc.querySelectorAll(`[${TARGET_PLACEHOLDER_ATTR}]`);
+            const contentItems = doc.querySelectorAll<HTMLElement>(`[${SPARouter.TARGET_PLACEHOLDER_ATTR}]`);
+
             contentItems.forEach((content) => {
-                const placeholder = $(`[${PLACEHOLDER_ATTR}=${content.getAttribute(TARGET_PLACEHOLDER_ATTR)}]`);
+                const targetAttr = content.getAttribute(SPARouter.TARGET_PLACEHOLDER_ATTR);
+                if (!targetAttr) return;
+
+                const placeholder = $(`[${SPARouter.PLACEHOLDER_ATTR}=${targetAttr}]`);
+
                 if (placeholder.length) {
                     placeholder.html(content.innerHTML); // partial update
-                }
-                else {
-                    window.location.reload(); // full update - layout has changed
+                } else {
+                    window.location.reload(); // fallback to full page load
                 }
             });
         });
     }
-
-    return {
-        init,
-        navigate,
-    };
-})();
+}

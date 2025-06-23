@@ -48,8 +48,7 @@ class PlanningTasksController {
     }
 
     getTabsWidth(): number | string {
-        //@ts-ignore
-        const { isXSmall } = LayoutController.getScreenSize();
+        const { isXSmall } = window.aspUITGlobal.LayoutController.getScreenSize();
         return isXSmall ? 220 : 'auto';
     }
 
@@ -77,4 +76,7 @@ class PlanningTasksController {
         // Implementation for searchDataGrid
     }
 }
+
+if (!window.aspUITGlobal.PlanningTasksController)
+    window.aspUITGlobal.PlanningTasksController = new PlanningTasksController();
 

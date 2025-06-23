@@ -1,4 +1,8 @@
-$(function () {
-    const dateType: DevExpress.ui.dxDateBox.DateType = 'datetime';
-    DevExpress.ui.notify(`message from TS: ${dateType}`)
-})
+window.aspUITGlobal = window.aspUITGlobal || {};
+
+window.aspUITGlobal = {
+    ThemeController: new ThemeController(),
+    SPARouter: new SPARouter(),
+    LayoutController: new LayoutController()
+}
+

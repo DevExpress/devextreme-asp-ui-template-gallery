@@ -7,9 +7,6 @@
 
 <script src="~/js/views/planningtasklist.js"></script>
 
-<script>
-    const controller = new PlanningTasksController();
-</script>
 
 @(Html.DevExtreme().LoadPanel()
     .Width("auto")
@@ -42,7 +39,7 @@
                 .Icon("plus")
                 .Type(ButtonType.Default)
                 .StylingMode(ButtonStylingMode.Contained)
-            .OnClick("controller.addTask"));
+            .OnClick("window.aspUITGlobal.PlanningTasksController.addTask"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
@@ -50,11 +47,11 @@
                 .Text("Refresh")
                 .Icon("refresh")
                 .StylingMode(ButtonStylingMode.Text)
-            .OnClick("controller.reload"))
+            .OnClick("window.aspUITGlobal.PlanningTasksController.reload"))
             .ShowText(ToolbarItemShowTextMode.InMenu);   
             
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(new JS("controller.getCurrentView() !== 'Grid'"))
+            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Option("name", "ColumnChooser")
@@ -62,7 +59,7 @@
                 .Text("Column Chooser")
                 .Icon("columnchooser")
                 .StylingMode(ButtonStylingMode.Text)
-            .OnClick("controller.chooseColumnDataGrid"));
+            .OnClick("window.aspUITGlobal.PlanningTasksController.chooseColumnDataGrid"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
@@ -71,7 +68,7 @@
             </text>);
 
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(new JS("controller.getCurrentView() === 'Kanban'"))
+            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() === 'Kanban'"))
             .Option("name", "ExportPDF")
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
@@ -79,27 +76,27 @@
                 .Text("Export to PDF")
                 .Icon("exportpdf")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("controller.exportToPdf"));
+                .OnClick("window.aspUITGlobal.PlanningTasksController.exportToPdf"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .Option("name", "ExportExcel")
-            .Disabled(new JS("controller.getCurrentView() !== 'Grid'"))
+            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Widget(w => w.Button()
                 .Text("Export to Exel")
                 .Icon("exportxlsx")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("controller.exportToXlsx"));
+                .OnClick("window.aspUITGlobal.PlanningTasksController.exportToXlsx"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .Option("name", "SearchItem")
-            .Disabled(new JS("controller.getCurrentView() !== 'Grid'"))
+            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.TextBox()
                 .Placeholder("Task Search")
                 .Mode(TextBoxMode.Search)
-            .OnInput("controller.searchDataGrid"));
+            .OnInput("window.aspUITGlobal.PlanningTasksController.searchDataGrid"));
         })
     )
     <div class="planning-tasks-content">
@@ -112,7 +109,7 @@
     @(
     Html.DevExtreme().Tabs()
         .ID("tasksTabs")
-        .Width(new JS("controller.getTabsWidth()"))
+        .Width(new JS("window.aspUITGlobal.PlanningTasksController.getTabsWidth()"))
         .ShowNavButtons(false)
         .ScrollByContent(true)
         .SelectedIndex(0)
@@ -122,6 +119,6 @@
                 items.Add().Text("Kanban Board").Option("value", "Kanban");
                 items.Add().Text("Gantt").Option("value", "Gantt");
         })
-        .OnItemClick("controller.tabValueChange")
+        .OnItemClick("window.aspUITGlobal.PlanningTasksController.tabValueChange")
     )
 }
