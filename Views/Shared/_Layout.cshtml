@@ -60,7 +60,7 @@
                             .Button()
                             .Icon("menu")
                             .StylingMode(ButtonStylingMode.Text)
-                            .OnClick("aspUITGlobal.LayoutController.onMenuButtonClick")
+                            .OnClick("uitgAppContext.LayoutController.onMenuButtonClick")
                             )
                             .Location(ToolbarItemLocation.Before)
                             .CssClass("menu-button");
@@ -88,8 +88,8 @@
                             .ElementAttr(new { @class = "theme-button" })
                             .StylingMode(ButtonStylingMode.Text)
                             .Icon("moon")
-                            .OnInitialized("aspUITGlobal.ThemeController.themeButtonOnInitialized")
-                            .OnClick("aspUITGlobal.ThemeController.themeSwitcherOnClick")
+                            .OnInitialized("uitgAppContext.ThemeController.themeButtonOnInitialized")
+                            .OnClick("uitgAppContext.ThemeController.themeSwitcherOnClick")
                             );
                                 items.Add()
                             .Location(ToolbarItemLocation.After)
@@ -115,7 +115,7 @@
                     .ID("layout-drawer")
                     .ElementAttr(new { @class = "drawer layout-body" })
                     .Position(DrawerPosition.Left)
-                    .Opened(new JS("aspUITGlobal.LayoutController.restoreDrawerOpened()"))
+                    .Opened(new JS("uitgAppContext.LayoutController.restoreDrawerOpened()"))
                     .Content(
                 @<text>
                     <div class="content" data-placeholder-id="main-layout-body">
@@ -155,7 +155,7 @@
                 .Items(listItems => {
                 listItems.Add().Icon("runner").Text("Logout");
                 })
-                .OnItemClick("aspUITGlobal.LayoutController.onLogoutClick")
+                .OnItemClick("uitgAppContext.LayoutController.onLogoutClick")
                 )
             </text>)
                     )
@@ -172,7 +172,7 @@
                     .Items(items =>
                     {
                         items.Add().Text("Planning").Icon("event")
-                        .Expanded(new JS("aspUITGlobal.LayoutController.isNodeExpanded()"))
+                        .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))
                         .Items(planningItems =>
                         {
                             planningItems.Add()
@@ -181,7 +181,7 @@
                         .Selected(IsCurrentUrl("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")
-                        .Expanded(new JS("aspUITGlobal.LayoutController.isNodeExpanded()"))
+                        .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))
                         .Items(authItems =>
                         {
                             authItems.Add()
@@ -198,7 +198,7 @@
                         .Selected(IsCurrentUrl("ForgotPassword"));
                         });
                         items.Add().Text("Common").Icon("box")
-                        .Expanded(new JS("aspUITGlobal.LayoutController.isNodeExpanded()"))
+                        .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))
                         .Items(commonItems =>
                         {
                             commonItems.Add()
@@ -212,7 +212,7 @@
                     .SelectedExpr("selected")
                     .FocusStateEnabled(false)
                     .Width("100%")
-                    .OnItemClick("aspUITGlobal.LayoutController.onTreeViewItemClick")
+                    .OnItemClick("uitgAppContext.LayoutController.onTreeViewItemClick")
                     )
             </div>
             <footer class="footer">
@@ -224,7 +224,7 @@
  <script>
     document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
-            const app = window.aspUITGlobal;
+            const app = window.uitgAppContext;
             app.LayoutController.init();
             app.ThemeController.init();
             app.SPARouter.init();

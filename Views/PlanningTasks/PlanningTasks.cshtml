@@ -39,7 +39,7 @@
                 .Icon("plus")
                 .Type(ButtonType.Default)
                 .StylingMode(ButtonStylingMode.Contained)
-            .OnClick("window.aspUITGlobal.PlanningTasksController.addTask"));
+            .OnClick("uitgAppContext.PlanningTasksController.addTask"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
@@ -47,11 +47,11 @@
                 .Text("Refresh")
                 .Icon("refresh")
                 .StylingMode(ButtonStylingMode.Text)
-            .OnClick("window.aspUITGlobal.PlanningTasksController.reload"))
+            .OnClick("uitgAppContext.PlanningTasksController.reload"))
             .ShowText(ToolbarItemShowTextMode.InMenu);   
             
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() !== 'Grid'"))
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Option("name", "ColumnChooser")
@@ -59,7 +59,7 @@
                 .Text("Column Chooser")
                 .Icon("columnchooser")
                 .StylingMode(ButtonStylingMode.Text)
-            .OnClick("window.aspUITGlobal.PlanningTasksController.chooseColumnDataGrid"));
+            .OnClick("uitgAppContext.PlanningTasksController.chooseColumnDataGrid"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
@@ -68,7 +68,7 @@
             </text>);
 
             items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() === 'Kanban'"))
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() === 'Kanban'"))
             .Option("name", "ExportPDF")
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
@@ -76,27 +76,27 @@
                 .Text("Export to PDF")
                 .Icon("exportpdf")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("window.aspUITGlobal.PlanningTasksController.exportToPdf"));
+                .OnClick("uitgAppContext.PlanningTasksController.exportToPdf"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .Option("name", "ExportExcel")
-            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() !== 'Grid'"))
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Widget(w => w.Button()
                 .Text("Export to Exel")
                 .Icon("exportxlsx")
                 .StylingMode(ButtonStylingMode.Text)
-                .OnClick("window.aspUITGlobal.PlanningTasksController.exportToXlsx"));
+                .OnClick("uitgAppContext.PlanningTasksController.exportToXlsx"));
 
             items.Add().Location(ToolbarItemLocation.After)
             .Option("name", "SearchItem")
-            .Disabled(new JS("window.aspUITGlobal.PlanningTasksController.getCurrentView() !== 'Grid'"))
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.TextBox()
                 .Placeholder("Task Search")
                 .Mode(TextBoxMode.Search)
-            .OnInput("window.aspUITGlobal.PlanningTasksController.searchDataGrid"));
+            .OnInput("uitgAppContext.PlanningTasksController.searchDataGrid"));
         })
     )
     <div class="planning-tasks-content">
@@ -109,7 +109,7 @@
     @(
     Html.DevExtreme().Tabs()
         .ID("tasksTabs")
-        .Width(new JS("window.aspUITGlobal.PlanningTasksController.getTabsWidth()"))
+        .Width(new JS("uitgAppContext.PlanningTasksController.getTabsWidth()"))
         .ShowNavButtons(false)
         .ScrollByContent(true)
         .SelectedIndex(0)
@@ -119,6 +119,6 @@
                 items.Add().Text("Kanban Board").Option("value", "Kanban");
                 items.Add().Text("Gantt").Option("value", "Gantt");
         })
-        .OnItemClick("window.aspUITGlobal.PlanningTasksController.tabValueChange")
+        .OnItemClick("uitgAppContext.PlanningTasksController.tabValueChange")
     )
 }

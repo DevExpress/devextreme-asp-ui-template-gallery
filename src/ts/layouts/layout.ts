@@ -91,7 +91,7 @@ class LayoutController {
     navigate(url: string, delay: number) {
         if (url)
             setTimeout(function () {
-                window.aspUITGlobal.SPARouter.navigate(url);
+                window.uitgAppContext.SPARouter.navigate(url);
             }, delay);
     }
 
@@ -135,6 +135,6 @@ class LayoutController {
     }
 
     onLogoutClick() {
-        window.aspUITGlobal.SPARouter.navigate("/Auth/Login");
+        window.uitgAppContext.SPARouter.navigate("/Auth/Login");
     }
 }

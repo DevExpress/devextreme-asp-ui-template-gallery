@@ -48,7 +48,7 @@ class PlanningTasksController {
     }
 
     getTabsWidth(): number | string {
-        const { isXSmall } = window.aspUITGlobal.LayoutController.getScreenSize();
+        const { isXSmall } = window.uitgAppContext.LayoutController.getScreenSize();
         return isXSmall ? 220 : 'auto';
     }
 
@@ -77,6 +77,6 @@ class PlanningTasksController {
     }
 }
 
-if (!window.aspUITGlobal.PlanningTasksController)
-    window.aspUITGlobal.PlanningTasksController = new PlanningTasksController();
+if (!window.uitgAppContext.PlanningTasksController)
+    window.uitgAppContext.PlanningTasksController = new PlanningTasksController();
 

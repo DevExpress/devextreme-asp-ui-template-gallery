@@ -5,6 +5,6 @@ type AppConfig = {
     SPARouter: SPARouter;  
 };
 interface Window {
-  aspUITGlobal: AppConfig;
+  uitgAppContext: AppConfig;
 }
 

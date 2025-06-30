@@ -1,6 +1,6 @@
-window.aspUITGlobal = window.aspUITGlobal || {};
+window.uitgAppContext = window.uitgAppContext || {};
 
-window.aspUITGlobal = {
+window.uitgAppContext = {
     ThemeController: new ThemeController(),
     SPARouter: new SPARouter(),
     LayoutController: new LayoutController()
