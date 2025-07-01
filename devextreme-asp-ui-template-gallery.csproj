@@ -42,7 +42,6 @@
     <Folder Include="src\ts\common\" />
     <Folder Include="src\ts\components\" />
     <Folder Include="src\ts\layouts\" />
-    <Folder Include="src\ts\layouts\" />
     <Folder Include="Views\Shared\Kanban\" />
   </ItemGroup>
   <ProjectExtensions>
