@@ -18,7 +18,8 @@
     }
 
     function onCreateAccountClick() {
-        SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/SignUp`);
+        const app = window.uitgAppContext;
+        app.SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/SignUp`);
     }
 
 </script>
