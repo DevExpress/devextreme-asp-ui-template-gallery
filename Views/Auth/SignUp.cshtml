@@ -13,11 +13,11 @@
 <script>
     var keepTopLayout = '@Html.Raw(topLayout)' === "True";
     function onCreateSubmit(e) {
-        SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/Login`);
+        const app = window.uitgAppContext;
+        app.SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/Login`);
     }
 
     function confirmPassword(e) {
-        console.log(e);
         return true;
     }
 </script>

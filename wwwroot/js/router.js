@@ -1,36 +1,36 @@
 "use strict";
-var SPARouter = (function () {
-    const PLACEHOLDER_ATTR = 'data-placeholder-id';
-    const TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';
-    function init() {
-        window.addEventListener('popstate', function () {
-            handleRoute(document.location.toString());
+class SPARouter {
+    init() {
+        // optional: auto-bind popstate handler on instantiation
+        window.addEventListener('popstate', () => {
+            this.handleRoute(document.location.toString());
         });
     }
-    function navigate(url) {
+    navigate(url) {
         history.pushState({}, '', url);
-        handleRoute(url);
+        this.handleRoute(url);
     }
-    function handleRoute(targetUrl) {
+    handleRoute(targetUrl) {
         const url = new URL(targetUrl, window.location.origin);
         url.searchParams.append('__PARTIAL', 'true');
-        $.get(url.href, function (markup) {
+        $.get(url.href, (markup) => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(markup, "text/html");
-            const contentItems = doc.querySelectorAll(`[${TARGET_PLACEHOLDER_ATTR}]`);
+            const contentItems = doc.querySelectorAll(`[${SPARouter.TARGET_PLACEHOLDER_ATTR}]`);
             contentItems.forEach((content) => {
-                const placeholder = $(`[${PLACEHOLDER_ATTR}=${content.getAttribute(TARGET_PLACEHOLDER_ATTR)}]`);
+                const targetAttr = content.getAttribute(SPARouter.TARGET_PLACEHOLDER_ATTR);
+                if (!targetAttr)
+                    return;
+                const placeholder = $(`[${SPARouter.PLACEHOLDER_ATTR}=${targetAttr}]`);
                 if (placeholder.length) {
                     placeholder.html(content.innerHTML); // partial update
                 }
                 else {
-                    window.location.reload(); // full update - layout has changed
+                    window.location.reload(); // fallback to full page load
                 }
             });
         });
     }
-    return {
-        init,
-        navigate,
-    };
-})();
+}
+SPARouter.PLACEHOLDER_ATTR = 'data-placeholder-id';
+SPARouter.TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';

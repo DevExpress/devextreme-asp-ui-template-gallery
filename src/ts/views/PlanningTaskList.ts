@@ -1,34 +1,29 @@
-class PlanningTasksController {
-    private currentView: string = 'Grid';
-    
-    constructor() {
-        const paths = window.location.pathname.split('/').filter(p => p.length > 0);
-        if (paths.length === 3) {
-            this.currentView = paths.pop()!;
-        }
+(function () {
+    if (window.uitgAppContext?.PlanningTasksController) return;
+
+    let currentView: string = 'Grid';
+    const paths = window.location.pathname.split('/').filter(p => p.length > 0);
+    if (paths.length === 3) {
+        currentView = paths.pop() || 'Grid';
     }
 
-    addTask(): void {
-        //$("#taskFormPopup").dxPopup("instance").show();
+    function addTask() {
         DevExpress.ui.notify("Add Task for Planning Task Grid");
     }
 
-    tabValueChange = (e: DevExpress.ui.dxTabs.ItemClickEvent): void => {
-        const url: string = "../Home/GetPlanningTasks";
-        this.currentView = e.itemData.value;
+    function tabValueChange(e: any) {
+        const url = "../Home/GetPlanningTasks";
+        currentView = e.itemData.value;
 
         $("#planning-load-panel").dxLoadPanel("show");
-        $.get(`${url}${this.currentView}`).then(data => {
+        $.get(`${url}${currentView}`).then(data => {
             $(".planning-tasks-content").html(data);
             $("#planning-load-panel").dxLoadPanel("hide");
-            this.updateToolbarItems(this.currentView, e.itemIndex);
-            if (this.currentView === 'Kanban') {
-                loadKanban();
-            }
+            updateToolbarItems(currentView, e.itemIndex);
         });
     }
 
-    private updateToolbarItems(currentView: string, selectedIndex: number): void {
+    function updateToolbarItems(currentView: string, selectedIndex: number) {
         const toolbarInstance = $("#tasksToolbar").dxToolbar("instance");
         const items = toolbarInstance.option("items");
         if (!items) return;
@@ -46,47 +41,50 @@ class PlanningTasksController {
             }
         });
 
-        toolbarInstance.option({ "items": [...items] });
+        toolbarInstance.option({ items: [...items] });
+
         const tabsInstance = $("#tasksTabs").dxTabs("instance");
         tabsInstance.option({ selectedIndex: selectedIndex });
     }
 
-    getTabsWidth(): number | string {
-        //@ts-ignore
-        const { isXSmall } = LayoutController.getScreenSize();
+    function getTabsWidth() {
+        const { isXSmall } = window.uitgAppContext.LayoutController!.getScreenSize();
         return isXSmall ? 220 : 'auto';
     }
 
-    getCurrentView(): string {
-        return this.currentView;
+    function getCurrentView() {
+        return currentView;
     }
 
-    reload(): void {
+    function reload() {
         // Implementation for reload
     }
 
-    chooseColumnDataGrid(): void {
+    function chooseColumnDataGrid() {
         // Implementation for chooseColumnDataGrid
     }
 
-    exportToPdf(): void {
+    function exportToPdf() {
         // Implementation for exportToPdf
     }
 
-    exportToXlsx(): void {
+    function exportToXlsx() {
         // Implementation for exportToXlsx
     }
 
-    searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void {
+    function searchDataGrid(e: any) {
         // Implementation for searchDataGrid
     }
 
-    onCancelClick(e: DevExpress.ui.dxButton.ClickEvent) {
-
-    }
-
-    onSaveClick(e: DevExpress.ui.dxButton.ClickEvent) {
-
-    }
-}
-
+    window.uitgAppContext.PlanningTasksController = {
+        addTask,
+        tabValueChange,
+        getTabsWidth,
+        getCurrentView,
+        reload,
+        chooseColumnDataGrid,
+        exportToPdf,
+        exportToXlsx,
+        searchDataGrid
+    };
+})();

@@ -1,4 +1,1 @@
-$(function () {
-    const dateType: DevExpress.ui.dxDateBox.DateType = 'datetime';
-    DevExpress.ui.notify(`message from TS: ${dateType}`)
-})
+window.uitgAppContext = window.uitgAppContext || {};

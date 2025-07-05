@@ -19,6 +19,7 @@
     <link href="~/css/styles.css" rel="stylesheet" />
     <link href="~/css/Site.css" rel="stylesheet" />
     <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/index.js"></script>
     <script src="~/js/router.js"></script>
 
     <script src="~/js/dx.all.js"></script>
@@ -49,7 +50,7 @@
             <div class="content-block">
                 <div class="content-footer">
                     <div id="footer">
-                        Copyright (c) 2000-2024 Developer Express Inc.
+                        Copyright (c) 2000-2025 Developer Express Inc.
                         <br />
                         All trademarks or registered trademarks are property of their respective owners.
                     </div>
@@ -61,7 +62,8 @@
     <script>
         document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
-            SPARouter.init();
+            const app = window.uitgAppContext;
+            app.SPARouter.init();
         });
     </script>
 </body>

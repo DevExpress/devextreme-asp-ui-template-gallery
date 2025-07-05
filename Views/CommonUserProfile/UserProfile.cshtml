@@ -36,7 +36,7 @@
 
         @(Html.DevExtreme().ScrollView()
             .ElementAttr(new { @class = "view-wrapper-scroll" })
-            .OnScroll("onScroll")
+            .OnScroll("uitgAppContext.UserProfileController.onScroll")
             .Content(@<text>
             <div class="cards-container">
                 <div class="profile-card basic-info-card">
@@ -67,15 +67,16 @@
                                             .ActiveStateEnabled(true)
                                             .FocusStateEnabled(true)
                                             .HoverStateEnabled(true)
-                                            .OnClick("copyToClipboard")
+                                            .OnClick("uitgAppContext.UserProfileController.copyToClipboard")
                                         )
                                     </div>
-                                    @(Html.DevExtreme().Button()
-                                        .Text("Change Password")
-                                        .ElementAttr(new { @class = "change-password-button" })
-                                        .StylingMode(ButtonStylingMode.Contained)
-                                        .Icon("lock")
-                                        .OnClick("handleChangePasswordClick")
+                                    @(
+                                        Html.DevExtreme().Button()
+                                            .Text("Change Password")
+                                            .ElementAttr(new { @class = "change-password-button" })
+                                            .StylingMode(ButtonStylingMode.Contained)
+                                            .Icon("lock")
+                                            .OnClick("uitgAppContext.UserProfileController.handleChangePasswordClick")
                                     )
                                 </div>
                             </div>
@@ -107,7 +108,7 @@
                                             .ActiveStateEnabled(false)
                                             .FocusStateEnabled(false)
                                             .HoverStateEnabled(false)
-                                            .OnClick("copyToClipboard"))
+                                            .OnClick("uitgAppContext.UserProfileController.copyToClipboard"))
                                     </div>
                                 </div>
                             </div>
@@ -211,25 +212,25 @@
                         .Text("Cancel")
                         .StylingMode(ButtonStylingMode.Outlined)
                         .Type(ButtonType.Normal)
-                        .OnClick("onCancelClick"))
+                        .OnClick("uitgAppContext.UserProfileController.onCancelClick"))
                     @(Html.DevExtreme().Button()
                         .ID("reset-save-button")
                         .Disabled(false)
                         .Text("Save")
                         .StylingMode(ButtonStylingMode.Outlined)
                         .Type(ButtonType.Default)
-                        .OnClick("onSaveClick"))
+                        .OnClick("uitgAppContext.UserProfileController.onSaveClick"))
                 </div>
             </text>);
     })
     .ContentTemplate(@<text>
         @(Html.DevExtreme().Form()
             .ID("password-reset-id")
-            .FormData(new JS("passwordFormData"))
+            .FormData(new JS("uitgAppContext.UserProfileController.passwordFormData"))
             .LabelMode(FormLabelMode.Outside)
             .ShowColonAfterLabel(true)
             .LabelLocation(FormLabelLocation.Top)
-            .OnFieldDataChanged("passwordResetOptionChanged")
+            .OnFieldDataChanged("uitgAppContext.UserProfileController.passwordResetOptionChanged")
             .Items(items => {
                 items.AddSimple()
                     .DataField("currentPassword")
@@ -247,7 +248,7 @@
                                 .Widget(w => w.Button()
                                     .StylingMode(ButtonStylingMode.Text)
                                     .Icon("eyeopen")
-                                    .OnClick("passwordEyeClicked"));
+                                    .OnClick("uitgAppContext.UserProfileController.passwordEyeClicked"));
                         })).ValidationRules(rules => {
                             rules.AddRequired().Message("Password is required");
                         });
@@ -258,7 +259,7 @@
                     .DataField("password")
                     .Label(l => l.Text("Password"))
                     .Editor(editor => editor.TextBox()
-                        .OnValueChanged("onPasswordValueChanged")
+                        .OnValueChanged("uitgAppContext.UserProfileController.onPasswordValueChanged")
                         .ValueChangeEvent("keyup")
                         .Placeholder("Password")
                         .StylingMode(EditorStylingMode.Filled)
@@ -270,7 +271,7 @@
                                 .Widget(w => w.Button()
                                     .StylingMode(ButtonStylingMode.Text)
                                     .Icon("eyeopen")
-                                    .OnClick("passwordEyeClicked"));
+                                    .OnClick("uitgAppContext.UserProfileController.passwordEyeClicked"));
                         })).ValidationRules(rules => {
                             rules.AddRequired().Message("Password is required");
                         });
@@ -291,14 +292,14 @@
                                 .Widget(w => w.Button()
                                     .StylingMode(ButtonStylingMode.Text)
                                     .Icon("eyeopen")
-                                    .OnClick("passwordEyeClicked"));
+                                    .OnClick("uitgAppContext.UserProfileController.passwordEyeClicked"));
                         }))
                     .ValidationRules(rules => {
                         rules.AddRequired()
                             .Message("Password is required");
                         rules.AddCompare()
                             .Message("'Password' and 'Confirm Password' do not match")
-                            .ComparisonTarget("comparePassword");
+                            .ComparisonTarget("uitgAppContext.UserProfileController.comparePassword");
                     });
             }))
     </text>)
@@ -313,7 +314,7 @@
     .Disabled(true)
     .StylingMode(ButtonStylingMode.Outlined)
     .Type(ButtonType.Normal)
-    .OnClick("onTCancel"))
+    .OnClick("uitgAppContext.UserProfileController.onTCancel"))
 }
 
 @using (Html.DevExtreme().NamedTemplate("SaveButton"))
@@ -325,5 +326,5 @@
     .Disabled(true)
     .StylingMode(ButtonStylingMode.Contained)
     .Type(ButtonType.Default)
-    .OnClick("onTSave"))
+    .OnClick("uitgAppContext.UserProfileController.onTSave"))
 }

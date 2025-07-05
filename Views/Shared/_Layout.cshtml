@@ -19,25 +19,31 @@
 
     <link href="~/css/styles.css" rel="stylesheet" />
 
-
     <link href="~/css/components/SideNavigationMenu.css" rel="stylesheet" />
     <link href="~/css/components/UserPanel.css" rel="stylesheet" />
     <link href="~/css/components/UserMenuSection.css" rel="stylesheet" />
     <link href="~/css/components/AppHeader.css" rel="stylesheet" />
     <link href="~/css/components/AppFooter.css" rel="stylesheet" />
     <link href="~/css/layout/side-nav-outer-toolbar.css" rel="stylesheet" />
-
+    <script src="~/js/index.js"></script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/router.js"></script>
-
+    <script src="~/js/theme.js"></script>
+    <script src="~/js/layouts/layout.js"></script>
+    
     <script src="~/js/dx-gantt.min.js"></script>
     <script src="~/js/dx.all.js"></script>
 
     <script src="~/js/dx.aspnet.mvc.js"></script>
-    <script src="~/js/dx.aspnet.data.js"></script>
-
+    <script src="~/js/dx.aspnet.data.js"></script>  
 </head>
-
+@using DevExtremeVSTemplateMVC.Models
+@{
+    string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
+    string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
+    bool IsCurrentUrl(string action, string controller = "Home") => GetUrl(action, controller) == GetCurrentUrl();
+    const string pathFieldName = "path";
+}
 <body class="dx-viewport">
     <div id="root">
         <div class="app screen-large">
@@ -53,7 +59,7 @@
                             .Button()
                             .Icon("menu")
                             .StylingMode(ButtonStylingMode.Text)
-                            .OnClick("LayoutController.onMenuButtonClick")
+                            .OnClick("uitgAppContext.LayoutController.onMenuButtonClick")
                             )
                             .Location(ToolbarItemLocation.Before)
                             .CssClass("menu-button");
@@ -78,28 +84,28 @@
                             .Location(ToolbarItemLocation.After)
                             .Widget(w => w
                             .Button()
-                            .OnInitialized("onThemeSwitcherInit")
                             .ElementAttr(new { @class = "theme-button" })
                             .StylingMode(ButtonStylingMode.Text)
                             .Icon("moon")
-                            .OnClick("onThemeSwitcherClick")
+                            .OnInitialized("uitgAppContext.ThemeController.themeButtonOnInitialized")
+                            .OnClick("uitgAppContext.ThemeController.themeSwitcherOnClick")
                             );
                                 items.Add()
                             .Location(ToolbarItemLocation.After)
                             .Template(@<text>
                         <div class="messages">
-                            <div id="messages-button"></div>
+                            @(Html.DevExtreme().Button()
+                            .ID("toolbarMessagesButton")
+                            .Icon("belloutline")
+                            .StylingMode(ButtonStylingMode.Text)
+                            )
                             <div class="dx-badge">4</div>
                         </div>
-                    </text>);
+                                </text>);
                                 items.Add()
-                            .Location(ToolbarItemLocation.After)
-                            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
-                            .Template(@<text>
-                        <div>
-                            <div class="user-panel"><div id="user-panel-drop-down" class="user-button"></div></div>
-                        </div>
-                    </text>);
+                                    .Location(ToolbarItemLocation.After)
+                                    .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                                    .Template(new TemplateName("user-drop-down-button"));
                             })
                         )
                 </header>
@@ -108,7 +114,7 @@
                     .ID("layout-drawer")
                     .ElementAttr(new { @class = "drawer layout-body" })
                     .Position(DrawerPosition.Left)
-                    .Opened(new JS("LayoutController.restoreDrawerOpened()"))
+                    .Opened(new JS("uitgAppContext.LayoutController.restoreDrawerOpened()"))
                     .Content(
                 @<text>
                     <div class="content" data-placeholder-id="main-layout-body">
@@ -123,24 +129,49 @@
             </div>
         </div>
     </div>
+
+    @using (Html.DevExtreme().NamedTemplate("user-drop-down-button"))
+    {
+        <div>
+            <div class="user-panel">
+                @(Html.DevExtreme().DropDownButton()
+                    .ID("userPanelDropDownButton")
+                    .ElementAttr(new { @class = "user-button" })
+                    .Icon(SampleUser.User.AvatarUrl)
+                    .ShowArrowIcon(false)
+                    .StylingMode(ButtonStylingMode.Text)
+                    .DropDownOptions(opt => opt.Width("auto"))
+                    .DropDownContentTemplate(
+            @<text>
+                <div class="user-info">
+                    <div class="user-name" id="dropdown-username">
+                        @String.Format("{0} {1}", SampleUser.User.Name, SampleUser.User.LastName)
+                    </div>
+                </div>
+                @(Html.DevExtreme().List()
+                .ID("userInfoList")
+                .ElementAttr(new { @class = "user-info-list" })
+                .Items(listItems => {
+                listItems.Add().Icon("runner").Text("Logout");
+                })
+                .OnItemClick("uitgAppContext.LayoutController.onLogoutClick")
+                )
+            </text>)
+                    )
+            </div>
+        </div>
+    }
     @using (Html.DevExtreme().NamedTemplate("navigation-menu"))
     {
         <div class="side-navigation-menu">
             <div class="menu-container theme-dependent">
-                @functions {
-                string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
-                string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
-                bool IsCurrentUrl(string action, string controller = "Home") => GetUrl(action, controller) == GetCurrentUrl();
-                const string pathFieldName = "path";
-            }
-
-            @(
+                @(
                     Html.DevExtreme().TreeView()
                     .ID("navigationTree")
                     .Items(items =>
                     {
                         items.Add().Text("Planning").Icon("event")
-                        .Expanded(new JS("LayoutController.isNodeExpanded()"))
+                        .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))
                         .Items(planningItems =>
                         {
                             planningItems.Add()
@@ -149,7 +180,7 @@
                         .Selected(IsCurrentUrl("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")
-                        .Expanded(new JS("LayoutController.isNodeExpanded()"))
+                        .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))
                         .Items(authItems =>
                         {
                             authItems.Add()
@@ -166,7 +197,7 @@
                         .Selected(IsCurrentUrl("ForgotPassword"));
                         });
                         items.Add().Text("Common").Icon("box")
-                        .Expanded(new JS("LayoutController.isNodeExpanded()"))
+                        .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))
                         .Items(commonItems =>
                         {
                             commonItems.Add()
@@ -180,248 +211,24 @@
                     .SelectedExpr("selected")
                     .FocusStateEnabled(false)
                     .Width("100%")
-                    .OnItemClick("LayoutController.onTreeViewItemClick")
+                    .OnItemClick("uitgAppContext.LayoutController.onTreeViewItemClick")
                     )
             </div>
             <footer class="footer">
-                Copyright &copy; <span id="year"></span> <br />
+                Copyright &copy; @DateTime.Now.Year <br />
                 Developer Express Inc.
             </footer>
         </div>
     }
-    @{
-        var request = this.Context.Request;
-        var uriBuilder = new UriBuilder(request.Scheme, request.Host.Host, request.Host.Port ?? -1);
-        var baseUri = uriBuilder.Uri.AbsoluteUri.TrimEnd('/');
-    }
-    <script>
-        DevExpress.ui.themes.current(window.localStorage.getItem("dx-theme") || "fluent.blue.light");
-
-        function onThemeSwitcherInit(e) {
-            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "moon") : e.component.option("icon", "sun");
-            window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
-        }
-        function onThemeSwitcherClick(e) {
-            DevExpress.ui.themes.current() === "fluent.blue.light" ? e.component.option("icon", "sun") : e.component.option("icon", "moon");
-            DevExpress.ui.themes.current() === "fluent.blue.light" ? DevExpress.ui.themes.current("fluent.blue.dark") : DevExpress.ui.themes.current("fluent.blue.light");
-            window.localStorage.setItem("dx-theme", DevExpress.ui.themes.current());
-        }
-
-        const ToolbarContentController = (function() {
-            function onLogoutClick() {
-                SPARouter.navigate("/Auth/Login");
-            }
-
-            const userMenuItems = [{
-                text: "Logout",
-                icon: "runner",
-                onClick: onLogoutClick
-            }];
-
-            function onDrawerMenuButtonClick(){
-                $("#layout-body").dxDrawer("instance").toggle();
-            }
-
-            const dropDownButtonConfig = {
-                stylingMode: "text",
-                icon: "user",
-                showArrowIcon: false,
-                dropDownOptions: {
-                    width: "auto"
-                },
-                onContentReady: (e) => {
-                    $.ajax({
-                        url: '/api/userdata/',
-                        method: 'GET',
-                        success: (response) => {
-                            console.log(response);
-                            // Set the image source dynamically
-                            e.component.option("icon", response.url);
-                            $("#dropdown-username").text(response.name + " " + response.lastName);
-                        }
-                    });
-
-                    e.component.registerKeyHandler('downArrow', () => {
-                        // userMenuSectionRef.value?.focusList();
-                    });
-                },
-                dropDownContentTemplate: (data) => {
-                    const wrapperDiv = $("<div class='user-info'></div>");
-                    wrapperDiv.append($(`<div class='user-name' id='dropdown-username'></div>`));
-                    const divList = $("<div id='userInfoListRef' class='user-info-list'></div>")
-                    divList.dxList({
-                        items: userMenuItems,
-                        onItemClick: ({itemData}) => itemData.onClick(),
-                    });
-                    return wrapperDiv.add(divList);
-                },
-            };
-
-            const messagesButtonConfig = {
-                icon: "belloutline",
-                stylingMode: "text"
-            };
-
-            function init() {
-                $("#messages-button").dxButton(messagesButtonConfig)
-                $("#user-panel-drop-down").dxDropDownButton(dropDownButtonConfig);
-            }
-
-            return {
-                init: init,
-            };
-        })();
-
-        const LayoutController = (function() {
-
-            const DRAWER_OPENED_KEY = "DevExtremeASPTemplateGallery-drawer-opened";
-
-            const breakpoints = {
-                xSmallMedia: window.matchMedia("(max-width: 599.99px)"),
-                smallMedia: window.matchMedia("(min-width: 600px) and (max-width: 959.99px)"),
-                mediumMedia: window.matchMedia("(min-width: 960px) and (max-width: 1279.99px)"),
-                largeMedia: window.matchMedia("(min-width: 1280px)")
-            };
-
-            function getScreenSize() {
-                return {
-                    isXSmall: breakpoints.xSmallMedia.matches,
-                    isSmall: breakpoints.smallMedia.matches,
-                    isMedium: breakpoints.mediumMedia.matches,
-                    isLarge: breakpoints.largeMedia.matches,
-                };
-            }
-
-            function getDrawer() {
-                return $("#layout-drawer").dxDrawer("instance");
-            }
-
-            function getMenu(){
-               return $("#navigationTree").dxTreeView("instance");
-            }
-
-            function isNodeExpanded(){
-                const isLarge = breakpoints.largeMedia.matches;
-                return isLarge;
-            }
-
-            function restoreDrawerOpened() {
-                const isLarge = breakpoints.largeMedia.matches;
-                if(!isLarge)
-                    return false;
-
-                const state = sessionStorage.getItem(DRAWER_OPENED_KEY);
-                if(state === null)
-                    return isLarge;
-
-                return state === "true";
-            }
-
-            function saveDrawerOpened() {
-                sessionStorage.setItem(DRAWER_OPENED_KEY, getDrawer().option("opened"));
-            }
-
-            function updateSidePanel() {
-                const isXSmall = breakpoints.xSmallMedia.matches,
-                    isLarge = breakpoints.largeMedia.matches;
-
-                getDrawer().option({
-                    openedStateMode: isLarge ? "shrink" : "overlap",
-                    revealMode: isXSmall ? "slide" : "expand",
-                    minSize: isXSmall ? 0 : 48,
-                    shading: !isLarge,
-                    opened: isLarge
-                });
-                saveDrawerOpened();
-
-                const treeMenu = getMenu();
-                if(isLarge)
-                   treeMenu.expandAll();
-                else
-                   treeMenu.collapseAll();
-            }
-
-            function init() {
-               $.each(breakpoints, (_, media) => {
-                   media.addEventListener('change', (e) => {
-                        if (e.matches)
-                            updateSidePanel();
-                    });
-                });
-                updateSidePanel();
-                window.navigation.addEventListener("navigate", (e) => {
-                    const treeMenu = getMenu();
-                    const leafs = treeMenu.option("items").reduce((acc, cur) => { return [...acc, ...cur.items] }, []);
-                    const targetItem = leafs.find(i => e.destination.url === ('@baseUri' + i.path));
-                    treeMenu.selectItem(targetItem);
-                });
-
-                $("#year").text(new Date().getFullYear());
-            }
-
-            function navigate(url, delay) {
-                if(url)
-                    setTimeout(function() {
-                        SPARouter.navigate(url);
-                    }, delay);
-            }
-
-            function onMenuButtonClick() {
-                const drawer = getDrawer();
-                drawer.toggle();
-                saveDrawerOpened();
-                const opened = drawer.option("opened");
-                const treeMenu = getMenu();
-                if(opened)
-                  treeMenu.expandAll()
-                else
-                  treeMenu.collapseAll()
-            }
-
-            function onTreeViewItemClick(e) {
-                const drawer = getDrawer();
-                const savedOpened = restoreDrawerOpened();
-                const actualOpened = drawer.option("opened");
-                const treeMenu = getMenu();
-                if(!actualOpened) {
-                    drawer.show();
-                    treeMenu.expandItem(e.itemData);
-                    const selectedItems = treeMenu.getSelectedNodeKeys();
-                    if(selectedItems.length)
-                       treeMenu.expandItem(selectedItems[0]);
-                } else {
-                    if (e.node.children.length > 0) return;
-
-                    const willHide = !savedOpened || !breakpoints.largeMedia.matches;
-                    const willNavigate = !e.itemData.selected;
-
-                    if(willHide) {
-                       drawer.hide();
-                       treeMenu.collapseAll();
-                    }
-
-                    if(true || willNavigate)
-                        navigate(e.itemData.path, willHide ? 400 : 0);
-                }
-            }
-
-            return {
-                init,
-                restoreDrawerOpened,
-                onMenuButtonClick,
-                getScreenSize,
-                onTreeViewItemClick,
-                isNodeExpanded
-            };
-        })();
-
-        document.addEventListener("DOMContentLoaded", function documentReady() {
+ <script>
+    document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
-            LayoutController.init();
-            ToolbarContentController.init();
-            SPARouter.init();
-        });
-    </script>
+            const app = window.uitgAppContext;
+            app.LayoutController.init();
+            app.ThemeController.init();
+            app.SPARouter.init();
+    });
+ </script>   
 </body>
 
 </html>
