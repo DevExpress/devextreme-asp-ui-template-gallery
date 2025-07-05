@@ -41,6 +41,14 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         IActionResult UpdateTaskProperties(EmployeeTask task, string values) {
             var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
+
+            int? newOrderIndex = null;
+            if (updatedValues.ContainsKey("NewOrderIndex"))
+            {
+                newOrderIndex = updatedValues["NewOrderIndex"].GetInt32();
+                updatedValues.Remove("NewOrderIndex");
+            }
+
             PopulateModel(task, updatedValues);
             if (!TryValidateModel(task)) {
                 string[] errors = ModelState
@@ -48,6 +56,22 @@ namespace DevExtremeVSTemplateMVC.Controllers
                     .SelectMany(kvp => kvp.Value.Errors)
                     .Select(e => e.ErrorMessage).ToArray();
                 return BadRequest(String.Join(Environment.NewLine, errors));
+            }
+
+            if (newOrderIndex.HasValue)
+            {
+                var status = task.Status;
+                var tasksWithSameStatus = _context.Tasks
+                    .Where(t => t.Status == status && t.TaskId != task.TaskId && t.OrderIndex >= newOrderIndex.Value-1)
+                    .OrderByDescending(t => t.OrderIndex)
+                    .ToList();
+
+                foreach (var t in tasksWithSameStatus)
+                {
+                    t.OrderIndex += 1;
+                }
+
+                tasksWithSameStatus.Where(t => t.TaskId == task.TaskId).ToList().ForEach(t => t.OrderIndex = newOrderIndex.Value-1);
             }
 
             _context.SaveChanges();

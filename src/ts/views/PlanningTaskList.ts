@@ -9,6 +9,7 @@ class PlanningTasksController {
     }
 
     addTask(): void {
+        //$("#taskFormPopup").dxPopup("instance").show();
         DevExpress.ui.notify("Add Task for Planning Task Grid");
     }
 
@@ -21,6 +22,9 @@ class PlanningTasksController {
             $(".planning-tasks-content").html(data);
             $("#planning-load-panel").dxLoadPanel("hide");
             this.updateToolbarItems(this.currentView, e.itemIndex);
+            if (this.currentView === 'Kanban') {
+                loadKanban();
+            }
         });
     }
 
@@ -75,6 +79,14 @@ class PlanningTasksController {
 
     searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void {
         // Implementation for searchDataGrid
+    }
+
+    onCancelClick(e: DevExpress.ui.dxButton.ClickEvent) {
+
+    }
+
+    onSaveClick(e: DevExpress.ui.dxButton.ClickEvent) {
+
     }
 }
 

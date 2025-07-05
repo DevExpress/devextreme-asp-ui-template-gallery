@@ -11,6 +11,8 @@ namespace DevExtremeVSTemplateMVC.DAL
 
         public DbSet<KanbanOrder> KanbanOrders { get; set; }
 
+        public DbSet<TaskList> TaskLists { get; set; }
+
         public DemoDbContext(DbContextOptions<DemoDbContext> options)
             : base(options) { }
     }

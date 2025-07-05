@@ -1,29 +1,22 @@
-const boardMenuItems = [
+window.boardMenuItems = [
     { text: 'Add card' },
     { text: 'Copy list' },
     { text: 'Move list' },
 ];
 
-const STATUS_ITEMS = ['Open', 'In Progress', 'Deferred', 'Completed'];
-
-//$.get("/api/Tasks", function (data: any) {
-//    console.log("Filtered:", data);
-
+function loadKanban() {
     $.ajax({
         url: '/Home/TaskMainSortable',
         type: 'POST',
         success: function (cont: any) {
             $("#kanban-load-panel").dxLoadPanel("instance").hide();
             $("#kanban-sortable-id").html(cont);
-
-            $("#planning-tasks-toolbar").dxToolbar('instance').repaint();
-            $("#planning-tasks-tabs").dxTabs('instance').option("selectedIndex", 1);
         },
         error: function (xhr) {
             console.error('Error:', xhr.status, xhr.statusText, xhr.responseText);
         }
     });
-//});
+}
 
 const reorder = <T,>(items: T[], item: T, fromIndex: number, toIndex: number) => {
     let result = items;
@@ -51,6 +44,8 @@ function onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
         }
     })
 
+    console.log("New order of statuses:", newOrder, e);
+
     $.ajax({
         url: '/api/KanbanOrder/UpdateOrder',
         type: 'POST',
@@ -75,9 +70,12 @@ function onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent) {
 }
 
 function onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent) {
+
+    console.log("Task dropped", e);
+
     const $item = $(e.itemElement);
     const taskId = $item.data("task-id");
-    const newStatus = $item.closest('.list').find('.list-title span').text();
+    const newStatus = e.toComponent.element().closest('.list').find('.list-title span').text();
 
     if (!taskId || !newStatus) return;
 
@@ -86,7 +84,7 @@ function onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSorta
         type: 'PUT',
         data: {
             key: taskId,
-            values: JSON.stringify({ Status: newStatus })
+            values: JSON.stringify({ Status: newStatus, NewOrderIndex: e.toIndex })
         },
         success: function (res) {
             console.log("Task status updated", res);

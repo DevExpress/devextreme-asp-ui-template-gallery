@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using DevExtremeVSTemplateMVC.DAL;
 using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevExtremeVSTemplateMVC.Controllers { 
 
@@ -17,17 +18,26 @@ namespace DevExtremeVSTemplateMVC.Controllers {
         }
 
         [HttpPost("UpdateOrder")]
-        public IActionResult UpdateOrder([FromBody] KanbanOrderDto dto)
+        public IActionResult UpdateOrder([FromBody] KanbanOrderDto orderDto)
         {
-            // For demo, use a static user id. Replace with real user id in production.
-            var userId = "demo-user";
-            var order = _context.KanbanOrders.FirstOrDefault(x => x.UserId == userId);
-            if (order == null)
+            if (orderDto.Statuses == null)
+                return BadRequest();
+
+            // Fetch all TaskLists that match the provided statuses
+            var taskLists = _context.TaskLists
+                .Where(tl => orderDto.Statuses.Contains(tl.ListName))
+                .ToList();
+
+            // Update OrderIndex based on new order
+            for (int i = 0; i < orderDto.Statuses.Length; i++)
             {
-                order = new KanbanOrder { UserId = userId };
-                _context.KanbanOrders.Add(order);
+                var status = orderDto.Statuses[i];
+                var taskList = taskLists.FirstOrDefault(tl => tl.ListName == status);
+                if (taskList != null)
+                {
+                    taskList.OrderIndex = i+1;
+                }
             }
-            order.Statuses = dto.Statuses;
             _context.SaveChanges();
             return Ok();
         }
@@ -35,9 +45,9 @@ namespace DevExtremeVSTemplateMVC.Controllers {
         [HttpGet("GetOrder")]
         public IActionResult GetOrder()
         {
-            var userId = "demo-user";
-            var order = _context.KanbanOrders.FirstOrDefault(x => x.UserId == userId);
-            return Ok(order?.Statuses ?? new[] { "Open", "In Progress", "Deferred", "Completed" });
+            //var userId = "demo-user";
+            //var order = _context.KanbanOrders.FirstOrDefault(x => x.UserId == userId);
+            return Ok(_context.TaskLists.ToList());
         }
     }
 

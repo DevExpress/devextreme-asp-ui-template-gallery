@@ -4,6 +4,6 @@
     {
         public List<EmployeeTask> TaskList { get; set; }
         public int StatusIndex { get; set; }
-        public string Status { get; set; }
+        public TaskList Status { get; set; }
     }
 }

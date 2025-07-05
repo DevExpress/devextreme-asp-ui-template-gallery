@@ -13,43 +13,40 @@
     {
         var originalWriter = ViewContext.Writer;
         ViewContext.Writer = writer;
-
-        foreach (EmployeeTask item in Model.TaskList)
+        List<EmployeeTask> list = Model.TaskList.Where(t => t.Status == Model.Status.ListName).OrderBy(t => t.OrderIndex).ToList();
+        foreach (EmployeeTask item in list)
         {
-            if (item.Status == Model.Status)
-            {
-                var priority = item.Priority.ToLower();
+            var priority = item.Priority.ToLower();
 
-                <div class='kanban-card dx-card theme-text-color theme-bg-color' data-task-id="@item.TaskId" onclick="navigateToDetails()">
-                    <div class="card-wrapper priority-@priority">
-                        <div class='card-priority'></div>
-                        @(Html.DevExtreme().Button()
-                            .ElementAttr(new { @class = "edit-button" })
-                            .Icon("edit")
-                            .StylingMode(ButtonStylingMode.Text)
-                            .OnClick("onClick")
-                        )
-                        <div class='card-content'>
-                            <div class='card-subject theme-text-color'>@item.TaskId @item.Text</div>
-                            <div class='card-data'>
-                                <span class='priority'>@item.Priority</span>
-                                <span class='date theme-text-color'>@item.DueDate?.ToString("MM/dd/yyy")</span>
-                            </div>
-                            <div class='card-assignee'>
-                                <span class='company theme-text-color'>@item.Company</span>
-                                <div class="circle">
-                                    @{
-                                        var initials = string.Join("", (item.Owner ?? "")
-                                        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                                        .Select(n => n[0]));
-                                    }
-                                    @initials
-                                </div>
+            <div class='kanban-card dx-card theme-text-color theme-bg-color' data-task-id="@item.TaskId" onclick="navigateToDetails()">
+                <div class="card-wrapper priority-@priority">
+                    <div class='card-priority'></div>
+                    @(Html.DevExtreme().Button()
+                        .ElementAttr(new { @class = "edit-button" })
+                        .Icon("edit")
+                        .StylingMode(ButtonStylingMode.Text)
+                        .OnClick("onClick")
+                    )
+                    <div class='card-content'>
+                        <div class='card-subject theme-text-color'>@item.OrderIndex || @item.TaskId || @item.Text</div>
+                        <div class='card-data'>
+                            <span class='priority'>@item.Priority</span>
+                            <span class='date theme-text-color'>@item.DueDate?.ToString("MM/dd/yyy")</span>
+                        </div>
+                        <div class='card-assignee'>
+                            <span class='company theme-text-color'>@item.Company</span>
+                            <div class="circle">
+                                @{
+                                    var initials = string.Join("", (item.Owner ?? "")
+                                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(n => n[0]));
+                                }
+                                @initials
                             </div>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
         }
 
         ViewContext.Writer = originalWriter;
@@ -59,14 +56,14 @@
 
 <div class="list">
     <div class="list-title theme-text-color">
-        <span>@Model.Status</span>
+        <span>@Model.Status.ListName</span>
         @(
             Html.DevExtreme().DropDownButton()
                 .ElementAttr(new
                 {
                     @class="overflow-menu"
                 })
-                .DataSource(new JS("boardMenuItems"))
+                .DataSource(new JS("window.boardMenuItems"))
                 .KeyExpr("text")
                 .DisplayExpr("text")
                 .Visible(true)

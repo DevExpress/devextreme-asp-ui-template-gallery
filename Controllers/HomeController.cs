@@ -1,3 +1,4 @@
+using DevExtreme.AspNet.Data;
 using DevExtremeVSTemplateMVC.DAL;
 using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
@@ -50,23 +51,15 @@ namespace DevExtremeVSTemplateMVC.Controllers
         [HttpPost]
         public IActionResult TaskMainSortable()
         {
+
             var tasks = _context.Tasks.ToList();
+            var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
 
-
-            Console.WriteLine(
-                "Loaded: " + string.Join(
-                    ", ",
-                    _context.Tasks
-                        .Where(t => t.Status == "Deferred")
-                        .Select(t => $"TaskId: {t.TaskId}, Text: {t.Text}, Status: {t.Status}")
-                )
-            );
-
-            var userId = "demo-user";
-            var order = _context.KanbanOrders.FirstOrDefault(x => x.UserId == userId);
-            ViewBag.StatusOrder = order?.Statuses ?? new[] { "Open", "In Progress", "Deferred", "Completed" };
-
-            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", tasks);
+            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", new TaskMainSortableViewModel
+            {
+                Tasks = tasks,
+                StatusOrder = taskLists
+            });
         }
 
         #region Partial Views
