@@ -10,91 +10,100 @@
 
 @(Html.DevExtreme().Toolbar()
     .ElementAttr(new { @class = "toolbar-common theme-dependent" })
-    .Items(items => {
+    .ID("tasksToolbar")
+    .Items(items =>
+    {
         items.Add().Location(ToolbarItemLocation.Before)
             .Template(@<text>
                 <span class="toolbar-header">Tasks</span>
             </text>);
+
         items.Add().Location(ToolbarItemLocation.Before)
             .Template(new TemplateName("TabsView"));
 
         items.Add().Location(ToolbarItemLocation.After)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .CssClass("add-grid-row")
             .Widget(w => w.Button()
-            .Text("Add Task")
-            .Icon("plus")
-            .Type(ButtonType.Default)
-            .StylingMode(ButtonStylingMode.Contained)
+                .Text("Add Task")
+                .Icon("plus")
+                .Type(ButtonType.Default)
+                .StylingMode(ButtonStylingMode.Contained)
             .OnClick("uitgAppContext.PlanningTasksController.addTask"));
 
         items.Add().Location(ToolbarItemLocation.After)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.Button()
-            .Text("Refresh")
-            .Icon("refresh")
-            .StylingMode(ButtonStylingMode.Text)
+                .Text("Refresh")
+                .Icon("refresh")
+                .StylingMode(ButtonStylingMode.Text)
             .OnClick("uitgAppContext.PlanningTasksController.reload"))
-            .ShowText(ToolbarItemShowTextMode.InMenu);
-
+            .ShowText(ToolbarItemShowTextMode.InMenu);   
+            
         items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
+            .Option("name", "ColumnChooser")
             .Widget(w => w.Button()
-            .Text("Column Chooser")
-            .Icon("columnchooser")
-            .StylingMode(ButtonStylingMode.Text)
+                .Text("Column Chooser")
+                .Icon("columnchooser")
+                .StylingMode(ButtonStylingMode.Text)
             .OnClick("uitgAppContext.PlanningTasksController.chooseColumnDataGrid"));
 
-         items.Add().Location(ToolbarItemLocation.After)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+        items.Add().Location(ToolbarItemLocation.After)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Template(@<text>
-                <div><div class="separator" /></div>
+                <div class="separator"></div>
             </text>);
 
-         items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+        items.Add().Location(ToolbarItemLocation.After)
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() === 'Kanban'"))
+            .Option("name", "ExportPDF")
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Widget(w => w.Button()
-            .Text("Export to PDF")
-            .Icon("exportpdf")
-            .StylingMode(ButtonStylingMode.Text)
-            .OnClick("uitgAppContext.PlanningTasksController.exportToPdf"));
+                .Text("Export to PDF")
+                .Icon("exportpdf")
+                .StylingMode(ButtonStylingMode.Text)
+                .OnClick("uitgAppContext.PlanningTasksController.exportToPdf"));
 
-         items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+        items.Add().Location(ToolbarItemLocation.After)
+            .Option("name", "ExportExcel")
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
             .Widget(w => w.Button()
-            .Text("Export to Exel")
-            .Icon("exportxlsx")
-            .StylingMode(ButtonStylingMode.Text)
-            .OnClick("uitgAppContext.PlanningTasksController.exportToXlsx"));
+                .Text("Export to Excel")
+                .Icon("exportxlsx")
+                .StylingMode(ButtonStylingMode.Text)
+                .OnClick("uitgAppContext.PlanningTasksController.exportToXlsx"));
 
-         items.Add().Location(ToolbarItemLocation.After)
-            .Disabled(true)
-            .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+        items.Add().Location(ToolbarItemLocation.After)
+            .Option("name", "SearchItem")
+            .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.TextBox()
-            .Placeholder("Task Search")
-            .Mode(TextBoxMode.Search)
-            .OnInput("uitgAppContext.PlanningTasksController.searchDataGrid"));
+                .Placeholder("Task Search")
+                .Mode(TextBoxMode.Search)
+                .OnInput("uitgAppContext.PlanningTasksController.searchDataGrid"));
     })
 )
 
-@using (Html.DevExtreme().NamedTemplate("TabsView")) {
-    @(
-        Html.DevExtreme().Tabs()
-            .Width("auto")
-            .ShowNavButtons(false)
-            .ScrollByContent(true)
-            .SelectedIndex(selectedTabIndex)
-            .Items(items => {
-                items.Add().Text("List");
-                items.Add().Text("Kanban Board");
-                items.Add().Text("Gantt");
-            })
-            .OnItemClick("uitgAppContext.PlanningTasksController.tabValueChange")
+@using (Html.DevExtreme().NamedTemplate("TabsView"))
+{
+    @(Html.DevExtreme().Tabs()
+        .ID("tasksTabs")
+        .Width(new JS("uitgAppContext.PlanningTasksController.getTabsWidth()"))
+        .ShowNavButtons(false)
+        .ScrollByContent(true)
+        .SelectedIndex(selectedTabIndex)
+        .Items(items =>
+        {
+            items.Add().Text("List").Option("value", "Grid");
+            items.Add().Text("Kanban Board").Option("value", "Kanban");
+            items.Add().Text("Gantt").Option("value", "Gantt");
+        })
+        .OnItemClick("uitgAppContext.PlanningTasksController.tabValueChange")
     )
 }

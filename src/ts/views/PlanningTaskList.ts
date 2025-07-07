@@ -16,31 +16,8 @@
         if (e.itemData.text === "List") url += "Grid";
         if (e.itemData.text === "Kanban Board") url += "Kanban";
         if (e.itemData.text === "Gantt") url += "Gantt";
+        currentView = e.itemData.value;
         window.uitgAppContext.SPARouter.navigate(url);
-    }
-
-    function updateToolbarItems(currentView: string, selectedIndex: number) {
-        const toolbarInstance = $("#tasksToolbar").dxToolbar("instance");
-        const items = toolbarInstance.option("items");
-        if (!items) return;
-
-        items.forEach(item => {
-            switch (item.name) {
-                case "ExportExcel":
-                case "SearchItem":
-                case "ColumnChooser":
-                    item.disabled = currentView !== 'Grid';
-                    break;
-                case "ExportPDF":
-                    item.disabled = currentView === 'Kanban';
-                    break;
-            }
-        });
-
-        toolbarInstance.option({ items: [...items] });
-
-        const tabsInstance = $("#tasksTabs").dxTabs("instance");
-        tabsInstance.option({ selectedIndex: selectedIndex });
     }
 
     function getTabsWidth() {
