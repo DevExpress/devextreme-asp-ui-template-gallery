@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevExtremeVSTemplateMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
@@ -11,7 +12,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("PlanningTasks/Grid", "Home");
+            return Redirect("Home/PlanningTasks/Grid");
         }
 
         public IActionResult About() {

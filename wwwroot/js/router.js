@@ -1,36 +1,42 @@
 "use strict";
-class SPARouter {
-    init() {
-        // optional: auto-bind popstate handler on instantiation
+(function () {
+    var _a;
+    if ((_a = window.uitgAppContext) === null || _a === void 0 ? void 0 : _a.SPARouter)
+        return;
+    const PLACEHOLDER_ATTR = 'data-placeholder-id';
+    const TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';
+    function init() {
         window.addEventListener('popstate', () => {
-            this.handleRoute(document.location.toString());
+            handleRoute(document.location.toString());
         });
     }
-    navigate(url) {
+    function navigate(url) {
         history.pushState({}, '', url);
-        this.handleRoute(url);
+        handleRoute(url);
     }
-    handleRoute(targetUrl) {
+    function handleRoute(targetUrl) {
         const url = new URL(targetUrl, window.location.origin);
         url.searchParams.append('__PARTIAL', 'true');
         $.get(url.href, (markup) => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(markup, "text/html");
-            const contentItems = doc.querySelectorAll(`[${SPARouter.TARGET_PLACEHOLDER_ATTR}]`);
+            const contentItems = doc.querySelectorAll(`[${TARGET_PLACEHOLDER_ATTR}]`);
             contentItems.forEach((content) => {
-                const targetAttr = content.getAttribute(SPARouter.TARGET_PLACEHOLDER_ATTR);
+                const targetAttr = content.getAttribute(TARGET_PLACEHOLDER_ATTR);
                 if (!targetAttr)
                     return;
-                const placeholder = $(`[${SPARouter.PLACEHOLDER_ATTR}=${targetAttr}]`);
+                const placeholder = $(`[${PLACEHOLDER_ATTR}=${targetAttr}]`);
                 if (placeholder.length) {
-                    placeholder.html(content.innerHTML); // partial update
+                    placeholder.html(content.innerHTML);
                 }
                 else {
-                    window.location.reload(); // fallback to full page load
+                    window.location.reload();
                 }
             });
         });
     }
-}
-SPARouter.PLACEHOLDER_ATTR = 'data-placeholder-id';
-SPARouter.TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';
+    window.uitgAppContext.SPARouter = {
+        init,
+        navigate
+    };
+})();

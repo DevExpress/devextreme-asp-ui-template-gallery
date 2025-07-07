@@ -26,7 +26,7 @@
             .Icon("plus")
             .Type(ButtonType.Default)
             .StylingMode(ButtonStylingMode.Contained)
-            .OnClick("addTask"));
+            .OnClick("uitgAppContext.PlanningTasksController.addTask"));
 
         items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
@@ -34,7 +34,7 @@
             .Text("Refresh")
             .Icon("refresh")
             .StylingMode(ButtonStylingMode.Text)
-            .OnClick("reload"))
+            .OnClick("uitgAppContext.PlanningTasksController.reload"))
             .ShowText(ToolbarItemShowTextMode.InMenu);
 
         items.Add().Location(ToolbarItemLocation.After)
@@ -45,7 +45,7 @@
             .Text("Column Chooser")
             .Icon("columnchooser")
             .StylingMode(ButtonStylingMode.Text)
-            .OnClick("chooseColumnDataGrid"));
+            .OnClick("uitgAppContext.PlanningTasksController.chooseColumnDataGrid"));
 
          items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
@@ -61,7 +61,7 @@
             .Text("Export to PDF")
             .Icon("exportpdf")
             .StylingMode(ButtonStylingMode.Text)
-            .OnClick("exportToPdf"));
+            .OnClick("uitgAppContext.PlanningTasksController.exportToPdf"));
 
          items.Add().Location(ToolbarItemLocation.After)
             .Disabled(true)
@@ -71,7 +71,7 @@
             .Text("Export to Exel")
             .Icon("exportxlsx")
             .StylingMode(ButtonStylingMode.Text)
-            .OnClick("exportToXlsx"));
+            .OnClick("uitgAppContext.PlanningTasksController.exportToXlsx"));
 
          items.Add().Location(ToolbarItemLocation.After)
             .Disabled(true)
@@ -79,7 +79,7 @@
             .Widget(w => w.TextBox()
             .Placeholder("Task Search")
             .Mode(TextBoxMode.Search)
-            .OnInput("searchDataGrid"));
+            .OnInput("uitgAppContext.PlanningTasksController.searchDataGrid"));
     })
 )
 
@@ -95,6 +95,6 @@
                 items.Add().Text("Kanban Board");
                 items.Add().Text("Gantt");
             })
-            .OnItemClick("tabValueChange")
+            .OnItemClick("uitgAppContext.PlanningTasksController.tabValueChange")
     )
 }

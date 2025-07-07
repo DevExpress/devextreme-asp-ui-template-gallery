@@ -1,9 +1,6 @@
 ﻿@using DevExtremeVSTemplateMVC.Models;
 @using DevExtremeVSTemplateMVC.Utils;
 
-<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
-<link href="~/css/components/StatusSelectBox.css" rel="stylesheet" />
-
 <div class="view-wrapper view-wrapper-task-list list-page">
     @await Html.PartialAsync("../PlanningTasks/_PlanningTasksToolbar")
     @(Html.DevExtreme().Gantt<EmployeeTask>()
