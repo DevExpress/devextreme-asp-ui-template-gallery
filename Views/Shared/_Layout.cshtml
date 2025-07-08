@@ -177,7 +177,7 @@
                             planningItems.Add()
                         .Text("Task List")
                         .Option(pathFieldName, GetUrl("PlanningTasks"))
-                        .Selected(IsCurrentUrl("PlanningTasks"));
+                        .Selected(GetCurrentUrl().Contains("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")
                         .Expanded(new JS("uitgAppContext.LayoutController.isNodeExpanded()"))

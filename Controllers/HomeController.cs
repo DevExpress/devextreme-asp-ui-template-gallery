@@ -4,12 +4,6 @@ using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
@@ -24,11 +18,27 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("PlanningTasks", "Home");
+            return Redirect("Home/PlanningTasks/Grid");
         }
 
-        public IActionResult PlanningTasks() {
-            return View("../PlanningTasks/PlanningTasks");
+        public IActionResult About() {
+            return View();
+        }
+
+        [Route("Home/PlanningTasks/{viewType}")]
+        public IActionResult PlanningTasks(string viewType) {
+            switch (viewType.ToLower()) {
+                case "grid":
+                    return View("../PlanningTasks/PlanningTasksGrid");
+                case "kanban":
+                    return View("../PlanningTasks/PlanningTasksKanban");
+                case "gantt":
+                    return View("../PlanningTasks/PlanningTasksGantt");
+                case "":
+                    return View("../PlanningTasks/PlanningTasksGrid");
+                default:
+                    return NotFound();
+            }
         }
 
         public IActionResult UserProfile()

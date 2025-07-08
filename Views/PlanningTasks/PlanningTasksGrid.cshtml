@@ -1,94 +1,98 @@
 ﻿@using DevExtremeVSTemplateMVC.Models
 @using DevExtremeVSTemplateMVC.Utils;
 
+<link href="~/css/components/TaskListGrid.css" rel="stylesheet" />
+
 <script>
     var CLASS_STATUS_PREFIX = "item-field item-";
     var CLASS_CELL_STATUS = "input-with-bar status status-indicator ";
 </script>
 
+<div class="view-wrapper view-wrapper-task-list list-page">
+    @await Html.PartialAsync("../PlanningTasks/_PlanningTasksToolbar")
 
-@(Html.DevExtreme().DataGrid<EmployeeTask>()
-    .ID("tasks-grid")
-    .DataSource(ds => 
-        ds.Mvc().Controller("Tasks").Key("TaskId")
-        .LoadAction("GetTasks").UpdateAction("UpdateTask")
+    @(Html.DevExtreme().DataGrid<EmployeeTask>()
+        .ID("tasks-grid")
+        .DataSource(ds => 
+            ds.Mvc().Controller("Tasks").Key("TaskId")
+            .LoadAction("GetTasks").UpdateAction("UpdateTask")
+        )
+        .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
+        .ElementAttr(new { @class = "planning-grid theme-dependent" })
+        .Height("100%")
+        .RemoteOperations(true)
+        .HoverStateEnabled(true)
+        .ColumnAutoWidth(true)
+        .ShowBorders(true)
+        .LoadPanel(lp => lp.Enabled(false))
+        .Scrolling(s => s.Mode(GridScrollingMode.Virtual))
+        .Paging(p => p.PageSize(15))
+        .Pager(p =>
+            p.Visible(true).ShowPageSizeSelector(true))
+        .Editing(e => e.Mode(GridEditMode.Row)
+            .AllowUpdating(true))
+        .Selection(s => s.SelectAllMode(SelectAllMode.AllPages)
+            .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always)
+            .Mode(SelectionMode.Multiple))
+        .Sorting(s => s.Mode(GridSortingMode.Multiple))
+        .HeaderFilter(h => h.Visible(true))
+        .Columns(c =>
+        {
+            c.AddFor(m => m.Text)
+            .Caption("Subject")
+            .HidingPriority(7)
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            });
+    
+            c.AddFor(m => m.Company)
+            .HidingPriority(6)
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            });
+    
+            c.AddFor(m => m.Priority)
+            .HidingPriority(4)
+            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            })
+            .CellTemplate(new TemplateName("PriorityCellTemplate"))
+            .EditCellTemplate(new TemplateName("PriorityEditCellTemplate"));
+    
+            c.AddFor(m => m.StartDate)
+            .DataType(GridColumnDataType.Date)
+            .SortOrder(SortOrder.Asc)
+            .HidingPriority(2)
+            .ValidationRules(r => { r.AddRequired(); });
+    
+            c.AddFor(m => m.DueDate)
+            .DataType(GridColumnDataType.Date)
+            .SortOrder(SortOrder.Asc)
+            .HidingPriority(1)
+            .ValidationRules(r => { r.AddRequired(); });
+    
+            c.AddFor(m => m.Owner)
+            .HidingPriority(5)
+            .ValidationRules(r => { r.AddRequired(); });
+    
+            c.AddFor(m => m.Status)
+            .HidingPriority(3)
+            .MinWidth(120)
+            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))
+            .ValidationRules(r =>
+            {
+                r.AddRequired();
+            })
+            .CellTemplate(new TemplateName("StatusCellTemplate"))
+            .EditCellTemplate(new TemplateName("StatusEditCellTemplate"));
+    
+        })
     )
-    .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
-    .ElementAttr(new { @class = "planning-grid theme-dependent" })
-    .Height("100%")
-    .RemoteOperations(true)
-    .HoverStateEnabled(true)
-    .ColumnAutoWidth(true)
-    .ShowBorders(true)
-    .LoadPanel(lp => lp.Enabled(false))
-    .Scrolling(s => s.Mode(GridScrollingMode.Virtual))
-    .Paging(p => p.PageSize(15))
-    .Pager(p =>
-        p.Visible(true).ShowPageSizeSelector(true))
-    .Editing(e => e.Mode(GridEditMode.Row)
-        .AllowUpdating(true))
-    .Selection(s => s.SelectAllMode(SelectAllMode.AllPages)
-        .ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always)
-        .Mode(SelectionMode.Multiple))
-    .Sorting(s => s.Mode(GridSortingMode.Multiple))
-    .HeaderFilter(h => h.Visible(true))
-    .Columns(c =>
-    {
-        c.AddFor(m => m.TaskId).AllowEditing(false);
-        c.AddFor(m => m.Text)
-        .Caption("Subject")
-        .HidingPriority(7)
-        .ValidationRules(r =>
-        {
-            r.AddRequired();
-        });
-    
-        c.AddFor(m => m.Company)
-        .HidingPriority(6)
-        .ValidationRules(r =>
-        {
-            r.AddRequired();
-        });
-    
-        c.AddFor(m => m.Priority)
-        .HidingPriority(4)
-        .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
-        .ValidationRules(r =>
-        {
-            r.AddRequired();
-        })
-        .CellTemplate(new TemplateName("PriorityCellTemplate"))
-        .EditCellTemplate(new TemplateName("PriorityEditCellTemplate"));
-    
-        c.AddFor(m => m.StartDate)
-        .DataType(GridColumnDataType.Date)
-        .SortOrder(SortOrder.Asc)
-        .HidingPriority(2)
-        .ValidationRules(r => { r.AddRequired(); });
-    
-        c.AddFor(m => m.DueDate)
-        .DataType(GridColumnDataType.Date)
-        .SortOrder(SortOrder.Asc)
-        .HidingPriority(1)
-        .ValidationRules(r => { r.AddRequired(); });
-    
-        c.AddFor(m => m.Owner)
-        .HidingPriority(5)
-        .ValidationRules(r => { r.AddRequired(); });
-    
-        c.AddFor(m => m.Status)
-        .HidingPriority(3)
-        .MinWidth(120)
-        .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))
-        .ValidationRules(r =>
-        {
-            r.AddRequired();
-        })
-        .CellTemplate(new TemplateName("StatusCellTemplate"))
-        .EditCellTemplate(new TemplateName("StatusEditCellTemplate"));
-    
-    })
-)
+</div>
 
 @using (Html.DevExtreme().NamedTemplate("PriorityCellTemplate"))
 {

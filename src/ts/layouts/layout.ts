@@ -84,7 +84,10 @@
                    const children = Array.isArray(cur.items) ? cur.items : [];
                    return [ ...acc, ...children];
                 }, []);
-                const targetItem = leafs?.find((i: any) => e.destination.url === (getBaseUri() + i.path));
+                const targetItem = leafs?.find((i: any) =>
+                    e.destination.url === (getBaseUri() + i.path) ||
+                    (e.destination.url.includes("PlanningTasks") && i.path.includes("PlanningTasks"))
+                );
                 treeMenu.selectItem(targetItem);
             }
         });

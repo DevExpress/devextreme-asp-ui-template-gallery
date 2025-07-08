@@ -11,40 +11,10 @@
         DevExpress.ui.notify("Add Task for Planning Task Grid");
     }
 
-    function tabValueChange(e: any) {
-        const url = "../Home/GetPlanningTasks";
+    function tabValueChange(e: DevExpress.ui.dxTabs.ItemClickEvent) {
+        let url: string = `/Home/PlanningTasks/${e.itemData.value}`;
         currentView = e.itemData.value;
-
-        $("#planning-load-panel").dxLoadPanel("show");
-        $.get(`${url}${currentView}`).then(data => {
-            $(".planning-tasks-content").html(data);
-            $("#planning-load-panel").dxLoadPanel("hide");
-            updateToolbarItems(currentView, e.itemIndex);
-        });
-    }
-
-    function updateToolbarItems(currentView: string, selectedIndex: number) {
-        const toolbarInstance = $("#tasksToolbar").dxToolbar("instance");
-        const items = toolbarInstance.option("items");
-        if (!items) return;
-
-        items.forEach(item => {
-            switch (item.name) {
-                case "ExportExcel":
-                case "SearchItem":
-                case "ColumnChooser":
-                    item.disabled = currentView !== 'Grid';
-                    break;
-                case "ExportPDF":
-                    item.disabled = currentView === 'Kanban';
-                    break;
-            }
-        });
-
-        toolbarInstance.option({ items: [...items] });
-
-        const tabsInstance = $("#tasksTabs").dxTabs("instance");
-        tabsInstance.option({ selectedIndex: selectedIndex });
+        window.uitgAppContext.SPARouter.navigate(url);
     }
 
     function getTabsWidth() {
