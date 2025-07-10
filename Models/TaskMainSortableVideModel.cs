@@ -2,7 +2,7 @@
 {
     public class TaskMainSortableViewModel
     {
-        public List<EmployeeTask> Tasks { get; set; }
-        public List<TaskList> StatusOrder { get; set; }
+        public List<EmployeeTask> AllTasks { get; set; }
+        public List<TaskList> BoardLists { get; set; }
     }
 }

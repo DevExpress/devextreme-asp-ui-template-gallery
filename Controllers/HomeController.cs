@@ -36,8 +36,8 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
                     return View("../PlanningTasks/PlanningTasksKanban", new TaskMainSortableViewModel
                     {
-                        Tasks = tasks,
-                        StatusOrder = taskLists
+                        AllTasks = tasks,
+                        BoardLists = taskLists
                     });
                 case "gantt":
                     return View("../PlanningTasks/PlanningTasksGantt");
@@ -78,8 +78,8 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
             return PartialView("../PlanningTasks/_PlanningTasksKanban", new TaskMainSortableViewModel
             {
-                Tasks = tasks,
-                StatusOrder = taskLists
+                AllTasks = tasks,
+                BoardLists = taskLists
             });
         }
         #endregion

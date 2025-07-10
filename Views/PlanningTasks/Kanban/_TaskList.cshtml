@@ -13,7 +13,7 @@
     {
         var originalWriter = ViewContext.Writer;
         ViewContext.Writer = writer;
-        List<EmployeeTask> list = Model.TaskList.Where(t => t.Status == Model.Status.ListName).OrderBy(t => t.OrderIndex).ToList();
+        List<EmployeeTask> list = Model.TasksInList.Where(t => t.Status == Model.CurrentList.ListName).OrderBy(t => t.OrderIndex).ToList();
         foreach (EmployeeTask item in list)
         {
             var priority = item.Priority.ToLower();
@@ -56,7 +56,7 @@
 
 <div class="list">
     <div class="list-title theme-text-color">
-        <span>@Model.Status.ListName</span>
+        <span>@Model.CurrentList.ListName</span>
         @(
             Html.DevExtreme().DropDownButton()
                 .ElementAttr(new

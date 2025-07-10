@@ -2,8 +2,8 @@
 {
     public class TaskListPartialViewModel
     {
-        public List<EmployeeTask> TaskList { get; set; }
-        public int StatusIndex { get; set; }
-        public TaskList Status { get; set; }
+        public List<EmployeeTask> TasksInList { get; set; }
+        public int ListIndex { get; set; }
+        public TaskList CurrentList { get; set; }
     }
 }
