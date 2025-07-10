@@ -61,21 +61,20 @@ namespace DevExtremeVSTemplateMVC.Controllers
             if (newOrderIndex.HasValue)
             {
                 var status = task.Status;
-                var tasksWithSameStatus = _context.Tasks
-                    .Where(t => t.Status == status && t.TaskId != task.TaskId && t.OrderIndex >= newOrderIndex.Value)
+
+                var tasks = _context.Tasks
+                    .Where(t => t.Status == status && t.Owner != null)
                     .OrderBy(t => t.OrderIndex)
                     .ToList();
 
-                for(int i = 0; i < tasksWithSameStatus.Count; i++)
-                {
-                    tasksWithSameStatus[i].OrderIndex = (int)(newOrderIndex + 1 + i);
-                }
+                tasks.RemoveAll(t => t.TaskId == task.TaskId);
 
-                // Create a JSON string for the value
-                string json = $"{{\"OrderIndex\": {newOrderIndex} }}";
-                // Deserialize to Dictionary<string, JsonElement>
-                var orderIndexDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json);
-                PopulateModel(task, orderIndexDict);
+                tasks.Insert(newOrderIndex.Value, task);
+
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    tasks[i].OrderIndex = i;
+                }
             }
 
             _context.SaveChanges();

@@ -17,10 +17,10 @@ namespace DevExtremeVSTemplateMVC.DAL
             string baseUrlAPI = config.GetValue<string>(ConfigKeys.BaseUrlAPIKey);
             IList<EmployeeTask> allTasks = await FetchListFromApiAsync<EmployeeTask>(httpClient, baseUrlAPI + apiMapping[nameof(DemoDbContext.Tasks)]);
 
-            int openIndex = 1;
-            int inProgressIndex = 1;
-            int deferredIndex = 1;
-            int completedIndex = 1;
+            int openIndex = 0;
+            int inProgressIndex = 0;
+            int deferredIndex = 0;
+            int completedIndex = 0;
 
             for (int i = 0; i < allTasks.Count; i++) {
                 allTasks[i].TaskId = i + 1;
