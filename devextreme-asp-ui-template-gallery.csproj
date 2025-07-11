@@ -13,6 +13,11 @@
       <JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.aspnet.mvc.js" />
       <JSFiles Include="$(NodeModulesDir)devextreme-aspnet-data\js\dx.aspnet.data.js" />
       <JSFiles Include="$(NodeModulesDir)devexpress-gantt\dist\dx-gantt.min.js" />
+      <JSFiles Include="$(NodeModulesDir)exceljs\dist\exceljs.min.js" />
+      <JSFiles Include="$(NodeModulesDir)file-saver\dist\FileSaver.min.js" />
+      <JSFiles Include="$(NodeModulesDir)jspdf\dist\jspdf.umd.min.js" />
+      <JSFiles Include="$(NodeModulesDir)jspdf-autotable\dist\jspdf.plugin.autotable.min.js" />
+      <JSFiles Include="$(NodeModulesDir)jszip\dist\jszip.min.js" />
     </ItemGroup>
     <Copy SourceFiles="@(JSFiles)" DestinationFolder="$(WwwRootDir)js\%(RecursiveDir)" SkipUnchangedFiles="true" />
     <ItemGroup>
