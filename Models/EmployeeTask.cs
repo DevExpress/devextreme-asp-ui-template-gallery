@@ -15,5 +15,6 @@ namespace DevExtremeVSTemplateMVC.Models {
         public string Company { get; set; }
         public string Text { get; set; }
         public string Owner { get; set; }
+        public int OrderIndex { get; set; }
     }
 }

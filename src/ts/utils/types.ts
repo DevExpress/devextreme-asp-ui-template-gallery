@@ -10,6 +10,17 @@ interface PlanningTasksController {
     searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void;
 }
 
+interface KanbanTasksController {
+    reorder<T>(items: T[], item: T, fromIndex: number, toIndex: number): T[];
+    onListReorder(e: DevExpress.ui.dxSortable.ReorderEvent): void;
+    onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent): void;
+    navigateToDetails(): void;
+    onClick(item: any): void;
+    changePopupVisibility(e: DevExpress.ui.dxButton.ClickEvent): void;
+    onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent): void;
+    onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent): void;
+}
+
 interface UserProfileController {
     passwordFormData: {
         currentPassword: string;
@@ -66,6 +77,7 @@ interface SPARouter {
 
 type AppConfig = {
     LayoutController: LayoutController;
+    KanbanTasksController?: KanbanTasksController;
     PlanningTasksController?: PlanningTasksController;
     UserProfileController?: UserProfileController;
     ThemeController: ThemeController;

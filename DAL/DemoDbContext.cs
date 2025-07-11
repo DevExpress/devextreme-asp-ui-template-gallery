@@ -9,6 +9,8 @@ namespace DevExtremeVSTemplateMVC.DAL
         public DbSet<EmployeeTask> Tasks { get; set; }
         public DbSet<Contact> Contacts { get; set; }
 
+        public DbSet<TaskList> TaskLists { get; set; }
+
         public DemoDbContext(DbContextOptions<DemoDbContext> options)
             : base(options) { }
     }

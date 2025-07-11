@@ -5,6 +5,7 @@ using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers
@@ -40,6 +41,14 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         IActionResult UpdateTaskProperties(EmployeeTask task, string values) {
             var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
+
+            int? newOrderIndex = null;
+            if (updatedValues.ContainsKey("NewOrderIndex"))
+            {
+                newOrderIndex = updatedValues["NewOrderIndex"].GetInt32();
+                updatedValues.Remove("NewOrderIndex");
+            }
+
             PopulateModel(task, updatedValues);
             if (!TryValidateModel(task)) {
                 string[] errors = ModelState
@@ -49,7 +58,27 @@ namespace DevExtremeVSTemplateMVC.Controllers
                 return BadRequest(String.Join(Environment.NewLine, errors));
             }
 
+            if (newOrderIndex.HasValue)
+            {
+                var status = task.Status;
+
+                var tasks = _context.Tasks
+                    .Where(t => t.Status == status && t.Owner == DemoConsts.DemoFilteredOwnerName)
+                    .OrderBy(t => t.OrderIndex)
+                    .ToList();
+
+                tasks.RemoveAll(t => t.TaskId == task.TaskId);
+
+                tasks.Insert(newOrderIndex.Value, task);
+
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    tasks[i].OrderIndex = i;
+                }
+            }
+
             _context.SaveChanges();
+
             return Ok();
         }
 

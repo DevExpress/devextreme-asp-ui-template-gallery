@@ -1,6 +1,38 @@
-﻿<link href="~/css/components/TaskListKanban.css" rel="stylesheet" />
+﻿@using DevExtremeVSTemplateMVC.Models
+@model BoardViewModel
+
+<link href="~/css/components/TaskListKanban.css" rel="stylesheet" />
+<link href="~/css/components/TaskKanbanCard.css" rel="stylesheet" />
+<link href="~/css/components/CardMenu.css" rel="stylesheet" />
+
+<script src="~/js/views/kanbanscript.js"></script>
 
 <div class="view-wrapper view-wrapper-task-list list-page">
     @await Html.PartialAsync("../PlanningTasks/_PlanningTasksToolbar")
-    <h2>Kanban</h2>
+    <div id='kanban' class='kanban'>
+        @(Html.DevExtreme().ScrollView()
+            .Direction(ScrollDirection.Both)
+            .ShowScrollbar(ShowScrollbarMode.Always)
+            .ID("kanban-scroll-view-id")
+            .Content(
+            @Html.DevExtreme().Sortable()
+            .ID("kanban-sortable-id")
+            .ItemOrientation(Orientation.Horizontal)
+            .Handle(".list-title")
+            .MoveItemOnDrop(true)
+            .OnReorder("uitgAppContext.KanbanTasksController.onStatusReorder")
+            .Content(@<text>
+            @for (int i = 0; i < Model.BoardLists.Count; i++)
+            {
+                await Html.RenderPartialAsync("../PlanningTasks/Kanban/_TaskList", new ListViewModel
+                {
+                    CurrentList = Model.BoardLists[i],
+                    TasksInList = Model.AllTasks,
+                    ListIndex = i,
+                });
+            }
+            </text>).ToString()
+        )
+    )
+    </div>
 </div>

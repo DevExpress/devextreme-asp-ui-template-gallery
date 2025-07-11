@@ -16,12 +16,39 @@ namespace DevExtremeVSTemplateMVC.DAL
         public static async Task Download(HttpClient httpClient, IConfiguration config) {
             string baseUrlAPI = config.GetValue<string>(ConfigKeys.BaseUrlAPIKey);
             IList<EmployeeTask> allTasks = await FetchListFromApiAsync<EmployeeTask>(httpClient, baseUrlAPI + apiMapping[nameof(DemoDbContext.Tasks)]);
+
+            int openIndex = 0;
+            int inProgressIndex = 0;
+            int deferredIndex = 0;
+            int completedIndex = 0;
+
             for (int i = 0; i < allTasks.Count; i++) {
                 allTasks[i].TaskId = i + 1;
+
+                if (allTasks[i].Status == "Open") {
+                    allTasks[i].OrderIndex = openIndex++;
+                } else if (allTasks[i].Status == "In Progress") {
+                    allTasks[i].OrderIndex = inProgressIndex++;
+                } else if (allTasks[i].Status == "Deferred") {
+                    allTasks[i].OrderIndex = deferredIndex++;
+                } else if (allTasks[i].Status == "Completed") {
+                    allTasks[i].OrderIndex = completedIndex++;
+                }
             }
+
+
+
             Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], DemoConsts.DemoUserProfileId));
             contact.Activities = null;
             contact.Opportunities = null;
+
+            IList<TaskList> taskLists = new List<TaskList>
+            {
+                new TaskList { Id = 1, ListName = "Open", OrderIndex = 1},
+                new TaskList { Id = 2, ListName = "In Progress", OrderIndex = 2},
+                new TaskList { Id = 3, ListName = "Deferred", OrderIndex = 3},
+                new TaskList { Id = 4, ListName = "Completed", OrderIndex = 4}
+            };
 
             Directory.CreateDirectory(config.GetValue<string>("DatabasePathDirectory"));
 
@@ -38,6 +65,7 @@ namespace DevExtremeVSTemplateMVC.DAL
 
             db.Tasks.AddRange(allTasks);
             db.Contacts.Add(contact);
+            db.TaskLists.AddRange(taskLists);
 
             await db.SaveChangesAsync();
         }

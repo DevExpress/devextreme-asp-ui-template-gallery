@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DevExtreme.AspNet.Data;
+using DevExtremeVSTemplateMVC.DAL;
 using DevExtremeVSTemplateMVC.Models;
+using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -10,6 +9,13 @@ namespace DevExtremeVSTemplateMVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DemoDbContext _context;
+
+        public HomeController(DemoDbContext context, IHttpContextAccessor accessor)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return Redirect("Home/PlanningTasks/Grid");
@@ -25,7 +31,14 @@ namespace DevExtremeVSTemplateMVC.Controllers
                 case "grid":
                     return View("../PlanningTasks/PlanningTasksGrid");
                 case "kanban":
-                    return View("../PlanningTasks/PlanningTasksKanban");
+                    var tasks = _context.Tasks.Where(t => t.Status != "" && t.Owner == DemoConsts.DemoFilteredOwnerName).ToList();
+                    var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
+
+                    return View("../PlanningTasks/PlanningTasksKanban", new BoardViewModel
+                    {
+                        AllTasks = tasks,
+                        BoardLists = taskLists
+                    });
                 case "gantt":
                     return View("../PlanningTasks/PlanningTasksGantt");
                 case "":
@@ -52,13 +65,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return View("../Auth/ForgotPassword");
         }
 
-        [HttpPost]
-        public IActionResult TaskMainSortable([FromForm] string filteredTasks)
-        {
-            List<TaskModel> model = JsonConvert.DeserializeObject<List<TaskModel>>(filteredTasks);
-            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", model);
-        }
-
         #region Partial Views
         public ActionResult GetPlanningTasksGrid() {
             return PartialView("../PlanningTasks/_PlanningTasksGrid");
@@ -67,7 +73,14 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return PartialView("../PlanningTasks/_PlanningTasksGantt");
         }
         public ActionResult GetPlanningTasksKanban() {
-            return PartialView("../PlanningTasks/_PlanningTasksKanban");
+            var tasks = _context.Tasks.Where(t => t.Status != "").ToList();
+            var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
+
+            return PartialView("../PlanningTasks/_PlanningTasksKanban", new BoardViewModel
+            {
+                AllTasks = tasks,
+                BoardLists = taskLists
+            });
         }
         #endregion
 
