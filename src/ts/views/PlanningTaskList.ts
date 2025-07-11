@@ -27,7 +27,6 @@
     }
 
     function reload() {
-        // Implementation for reload
         if (currentView === 'Grid') {
             $('#tasks-grid').dxDataGrid('instance').refresh();
         } else if(currentView === 'Gantt') {
@@ -39,7 +38,6 @@
 
     function chooseColumnDataGrid() {
         $('#tasks-grid').dxDataGrid('instance').showColumnChooser();
-        // Implementation for chooseColumnDataGrid
     }
 
     function exportToPdf() {
@@ -47,7 +45,6 @@
         window.jsPDF = window.jspdf.jsPDF;
         // @ts-expect-error no typings included
         applyPlugin(window.jsPDF);
-        // Implementation for exportToPdf
         let currentView = getCurrentView();
         if (currentView === 'Grid') {
             // @ts-expect-error no typings included
@@ -70,8 +67,6 @@
     }
 
     function exportToXlsx() {
-        // Implementation for exportToXlsx
-
         // @ts-expect-error no typings included
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Main sheet');
@@ -89,7 +84,6 @@
     }
 
     function searchDataGrid(e: DevExpress.ui.dxTextBox.ValueChangedEvent) {
-        // Implementation for searchDataGrid
         $('#tasks-grid').dxDataGrid('instance').searchByText(e.component.option('text') ?? '');
     }
 
