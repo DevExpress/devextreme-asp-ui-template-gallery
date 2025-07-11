@@ -34,7 +34,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
                     var tasks = _context.Tasks.Where(t => t.Status != "" && t.Owner != null).ToList();
                     var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
 
-                    return View("../PlanningTasks/PlanningTasksKanban", new TaskMainSortableViewModel
+                    return View("../PlanningTasks/PlanningTasksKanban", new BoardViewModel
                     {
                         AllTasks = tasks,
                         BoardLists = taskLists
@@ -76,7 +76,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
             var tasks = _context.Tasks.Where(t => t.Status != "").ToList();
             var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
 
-            return PartialView("../PlanningTasks/_PlanningTasksKanban", new TaskMainSortableViewModel
+            return PartialView("../PlanningTasks/_PlanningTasksKanban", new BoardViewModel
             {
                 AllTasks = tasks,
                 BoardLists = taskLists

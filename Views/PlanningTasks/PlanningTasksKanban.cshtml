@@ -1,5 +1,5 @@
 ﻿@using DevExtremeVSTemplateMVC.Models
-@model TaskMainSortableViewModel
+@model BoardViewModel
 
 <link href="~/css/components/TaskListKanban.css" rel="stylesheet" />
 <link href="~/css/components/TaskKanbanCard.css" rel="stylesheet" />
@@ -24,7 +24,7 @@
             .Content(@<text>
             @for (int i = 0; i < Model.BoardLists.Count; i++)
             {
-                await Html.RenderPartialAsync("../PlanningTasks/Kanban/_TaskList", new TaskListPartialViewModel
+                await Html.RenderPartialAsync("../PlanningTasks/Kanban/_TaskList", new ListViewModel
                 {
                     CurrentList = Model.BoardLists[i],
                     TasksInList = Model.AllTasks,

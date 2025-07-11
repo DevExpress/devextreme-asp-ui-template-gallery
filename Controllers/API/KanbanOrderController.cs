@@ -29,32 +29,34 @@ namespace DevExtremeVSTemplateMVC.Controllers {
             if (string.IsNullOrEmpty(valuesStr))
                 return BadRequest("Empty values");
 
-            KanbanOrderDto orderDto;
+            string[] statuses;
             try
             {
-                orderDto = JsonSerializer.Deserialize<KanbanOrderDto>(valuesStr);
+                using var doc = JsonDocument.Parse(valuesStr);
+                if (!doc.RootElement.TryGetProperty("Statuses", out var statusesElement) || statusesElement.ValueKind != JsonValueKind.Array)
+                    return BadRequest("Statuses are missing");
+
+                statuses = statusesElement.EnumerateArray().Select(e => e.GetString()).ToArray();
             }
             catch (Exception ex)
             {
                 return BadRequest("Deserialization error: " + ex.Message);
             }
 
-            if (orderDto?.Statuses == null)
+            if (statuses == null || statuses.Length == 0)
                 return BadRequest("Statuses are missing");
 
-            // Fetch all TaskLists that match the provided statuses
             var taskLists = _context.TaskLists
-                .Where(tl => orderDto.Statuses.Contains(tl.ListName))
+                .Where(tl => statuses.Contains(tl.ListName))
                 .ToList();
 
-            // Update OrderIndex based on new order
-            for (int i = 0; i < orderDto.Statuses.Length; i++)
+            for (int i = 0; i < statuses.Length; i++)
             {
-                var status = orderDto.Statuses[i];
+                var status = statuses[i];
                 var taskList = taskLists.FirstOrDefault(tl => tl.ListName == status);
                 if (taskList != null)
                 {
-                    taskList.OrderIndex = i+1;
+                    taskList.OrderIndex = i + 1;
                 }
             }
             _context.SaveChanges();
@@ -64,14 +66,7 @@ namespace DevExtremeVSTemplateMVC.Controllers {
         [HttpGet("GetOrder")]
         public IActionResult GetOrder()
         {
-            //var userId = "demo-user";
-            //var order = _context.KanbanOrders.FirstOrDefault(x => x.UserId == userId);
             return Ok(_context.TaskLists.ToList());
         }
-    }
-
-    public class KanbanOrderDto
-    {
-        public string[] Statuses { get; set; }
     }
 }

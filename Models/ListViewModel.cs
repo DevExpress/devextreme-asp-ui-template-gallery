@@ -1,6 +1,6 @@
 ﻿namespace DevExtremeVSTemplateMVC.Models
 {
-    public class TaskListPartialViewModel
+    public class ListViewModel
     {
         public List<EmployeeTask> TasksInList { get; set; }
         public int ListIndex { get; set; }
