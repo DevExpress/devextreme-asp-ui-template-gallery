@@ -13,10 +13,10 @@
         @(Html.DevExtreme().ScrollView()
             .Direction(ScrollDirection.Both)
             .ShowScrollbar(ShowScrollbarMode.Always)
-            .ID("kanban-scroll-view-id")
+            .ID("kanban-scroll-view")
             .Content(
             @Html.DevExtreme().Sortable()
-            .ID("kanban-sortable-id")
+            .ID("kanban-sortable")
             .ItemOrientation(Orientation.Horizontal)
             .Handle(".list-title")
             .MoveItemOnDrop(true)
