@@ -10,7 +10,7 @@
 
 <div class="view-wrapper view-wrapper-task-list list-page">
     @await Html.PartialAsync("../PlanningTasks/_PlanningTasksToolbar")
-
+    @await Html.PartialAsync("../PlanningTasks/_PopupFormAddTask")
     @(Html.DevExtreme().DataGrid<EmployeeTask>()
         .ID("tasks-grid")
         .DataSource(ds => 
