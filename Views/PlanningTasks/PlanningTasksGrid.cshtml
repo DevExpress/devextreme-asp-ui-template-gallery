@@ -55,7 +55,7 @@
     
             c.AddFor(m => m.Priority)
             .HidingPriority(4)
-            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
+            .Lookup(l => l.DataSource(System.Enum.GetNames(typeof(PlanningTaskPriority))))
             .ValidationRules(r =>
             {
                 r.AddRequired();
@@ -82,7 +82,7 @@
             c.AddFor(m => m.Status)
             .HidingPriority(3)
             .MinWidth(120)
-            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))
+            .Lookup(l => l.DataSource(System.Enum.GetNames(typeof(PlanningTaskStatus))))
             .ValidationRules(r =>
             {
                 r.AddRequired();
