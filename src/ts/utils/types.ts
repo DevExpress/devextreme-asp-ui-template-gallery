@@ -74,14 +74,26 @@ interface SPARouter {
     navigate(url: string): void;
 }
 
+interface PopupFormController {
+    getSizeQualifier(width: number): string;
+    getPopupForm(): DevExpress.ui.dxPopup;
+    getTaskForm(): DevExpress.ui.dxForm;
+    onSaveTask(): void;
+    onCancelTask(): void;
+}
 
 type AppConfig = {
+    PopupFormController: PopupFormController;
     LayoutController: LayoutController;
     KanbanTasksController?: KanbanTasksController;
     PlanningTasksController?: PlanningTasksController;
     UserProfileController?: UserProfileController;
     ThemeController: ThemeController;
     SPARouter: SPARouter;
+    Constants: {
+        CLASS_STATUS_PREFIX: string;
+        CLASS_CELL_STATUS: string;
+    };
 };
 
 interface Window {
