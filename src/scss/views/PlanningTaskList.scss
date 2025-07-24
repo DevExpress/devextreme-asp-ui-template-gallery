@@ -19,11 +19,8 @@
     }
 
     .kanban, .gantt {
-        display: flex;
         flex-grow: 1;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
+        max-height: calc(100% - var(--toolbar-height) - var(--content-padding) * 2);
     }
 
     .planning-grid {
@@ -31,11 +28,6 @@
             min-height: 100%;
         }
     }
-
-    .planning-tasks-content {
-        max-height: calc(100% - var(--toolbar-height) - var(--content-padding) * 2);
-    }
-
     .gantt {
         padding: 0 var(--content-padding) var(--content-padding);
     }
