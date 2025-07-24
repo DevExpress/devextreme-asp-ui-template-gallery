@@ -179,7 +179,7 @@
                         {
                             planningItems.Add()
                         .Text("Task List")
-                        .Option(pathFieldName, GetUrl("PlanningTasks"))
+                        .Option(pathFieldName, "/Home/PlanningTasks/Grid")
                         .Selected(GetCurrentUrl().Contains("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")

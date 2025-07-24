@@ -48,6 +48,11 @@ namespace DevExtremeVSTemplateMVC.Controllers
             }
         }
 
+        [Route("Home/PlanningTasks")]
+        public IActionResult PlanningTasks() {
+            return Redirect("/Home/PlanningTasks/Grid" + Request.QueryString);
+        }
+
         public IActionResult UserProfile()
         {
             return View("../CommonUserProfile/UserProfile", ProfileData.Profiles[0]);
