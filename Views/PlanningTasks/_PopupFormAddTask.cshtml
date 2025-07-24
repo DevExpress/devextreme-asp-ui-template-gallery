@@ -1,99 +1,29 @@
 @using DevExtremeVSTemplateMVC.Models
+@using DevExtremeVSTemplateMVC.Utils
 <link href="~/css/components/FormPopup.css" rel="stylesheet" />
 <link href="~/css/components/TaskFormDetails.css" rel="stylesheet" />
 <link href="~/css/components/FormTextBox.css" rel="stylesheet" />
+<script src="~/js/components/PopupFormAddTask.js"></script>
 
-@model EmployeeTask
 
 @{
+    // mocks for future implementation
     var isEditing = true; // Set this from ViewBag or Model depending on mode
-    var subjectField = true; // or false depending on your logic
+    var subjectField = true; // or false depending on your logic   
 }
 
-@Html.DevExtreme().NamedTemplate("TaskDetailsForm", @<text>
-    @(Html.DevExtreme().Form<EmployeeTask>()
-        .ID("taskFormDetails")
-        .ColCount(2)
-        .ScreenByWidth("function(width) { return width < 768 ? 'xs' : 'md'; }")
-        .FormData(Model)
-        .ValidationGroup("formValidationGroup")
-        .Items(items => {
-            if (subjectField)
-            {
-                items.AddSimple()
-                    .DataField("Text")
-                    .ColSpan(2)
-                    .Label(l => l.Text("Subject"))
-                    .Editor(e => e.TextBox());
-            }
-
-            items.AddGroup()
-                .ColCountByScreen(cs => cs
-                    .Xs(1)
-                    .Sm(2)
-                    .Md(2)
-                    .Lg(2))
-                .Items(group => {
-                    group.AddSimple().DataField("Company").CssClass("accent")
-                        .Label(l => l.Text("Company"))
-                        .Editor(e => e.TextBox().ReadOnly(!isEditing));
-
-                    group.AddSimple().DataField("Owner").CssClass("accent")
-                        .Label(l => l.Text("Assigned to"))
-                        .Editor(e => e.TextBox().ReadOnly(!isEditing));
-
-                    group.AddSimple().DataField("Priority")
-                        .Label(l => l.Text("Priority"))
-                        .Editor(e => e.SelectBox()
-                            .Items(System.Enum.GetNames(typeof(PlanningTaskPriority)))
-                            .ReadOnly(!isEditing)
-                            .StylingMode(EditorStylingMode.Filled)
-                        );
-
-                    group.AddSimple().DataField("Status")
-                        .Label(l => l.Text("Status"))
-                        .Editor(e => e.SelectBox()
-                            .Items(System.Enum.GetNames(typeof(PlanningTaskStatus)))
-                            .ReadOnly(!isEditing)
-                            .StylingMode(EditorStylingMode.Filled)
-                        );
-
-                    group.AddSimple().DataField("StartDate")
-                        .Label(l => l.Text("Start Date"))
-                        .Editor(e => e.DateBox()
-                            .ReadOnly(!isEditing)
-                            .DisplayFormat("yyyy-MM-dd")
-                        );
-
-                    group.AddSimple().DataField("DueDate")
-                        .Label(l => l.Text("Due Date"))
-                        .Editor(e => e.DateBox()
-                            .ReadOnly(!isEditing)
-                            .DisplayFormat("yyyy-MM-dd")
-                        );
-                });
-
-            items.AddSimple().DataField("Description")
-                .ColSpan(2)
-                .Label(l => l.Text("Details"))
-                .Editor(e => e.TextArea()
-                    .ReadOnly(!isEditing)
-                    .StylingMode(EditorStylingMode.Filled)
-                );
-        }))
-</text>)
 
 @(Html.DevExtreme().Popup()
     .ID("formPopup")
     .Title("New Task")
-    .Visible(true)
+    .Visible(false)
     .Width(600)
     .Height("auto")
     .ShowCloseButton(true)
     .ShowTitle(true)
     .FullScreen(false)
     .WrapperAttr(new { @class = "form-popup" })
-    .ContentTemplate("TaskDetailsForm")
+    .ContentTemplate(new TemplateName("TaskDetailsForm"))
     .ToolbarItems(toolbar => {
         toolbar.Add()
             .Location(ToolbarItemLocation.Center)
@@ -102,6 +32,7 @@
                 <div class="form-popup-buttons-container">
                     @(Html.DevExtreme().Button()
                         .Text("Cancel")
+                        .OnClick("uitgAppContext.PopupFormController.onCancelTask")
                         .StylingMode(ButtonStylingMode.Outlined)
                         .ValidationGroup("formValidationGroup"))
 
@@ -109,8 +40,108 @@
                         .Text("Save")
                         .StylingMode(ButtonStylingMode.Contained)
                         .Type(ButtonType.Default)
+                        .OnClick("uitgAppContext.PopupFormController.onSaveTask")
                         .Disabled(false)
                         .ValidationGroup("formValidationGroup"))
                 </div>
             </text>);
-    }))
+    })
+)
+
+
+@using (Html.DevExtreme().NamedTemplate("TaskDetailsForm"))
+{
+    @(Html.DevExtreme().Form<EmployeeTask>()
+                            .ID("taskFormDetails")
+                            .ColCount(2)
+                            .ElementAttr(new { @class = "plain-styled-form task-form-details" })
+                            .ScreenByWidth("uitgAppContext.PopupFormController.getSizeQualifier")
+                            .ValidationGroup("formValidationGroup")
+                            .Items(items =>
+                            {
+                                if (subjectField)
+                                {
+                                    items.AddSimple()
+                                        .DataField("Text")
+                                        .ColSpan(2)
+                                        .Label(l => l.Text("Subject"))
+                                        .Editor(e => e.TextBox().StylingMode(EditorStylingMode.Filled));
+
+                                }
+
+                                items.AddGroup()
+                                    .ColSpan(2)
+                                    .ColCountByScreen(cs => cs
+                                        .Xs(1)
+                                        .Sm(2)
+                                        .Md(2)
+                                        .Lg(2))
+                                    .Items(group =>
+                                    {
+                                        group.AddSimple().DataField("Company").CssClass("accent")
+                                            .Label(l => l.Text("Company"))
+                                            .Editor(e => e.TextBox().ReadOnly(!isEditing).StylingMode(EditorStylingMode.Filled));
+
+                                        group.AddSimple().DataField("Owner").CssClass("accent")
+                                            .Label(l => l.Text("Assigned to"))
+                                            .Editor(e => e.TextBox().ReadOnly(!isEditing).StylingMode(EditorStylingMode.Filled));
+
+                                        group.AddSimple().DataField("Priority")
+                                            .Label(l => l.Text("Priority"))
+                                            .Editor(e => e.SelectBox()
+                                                .Items(EnumHelper.GetDisplayNames<PlanningTaskPriority>())
+                                                .ReadOnly(!isEditing)
+                                                .ItemTemplate(@<text>
+                                                    @(await Html.PartialAsync("../Shared/Templates/_ItemContent", new TemplateViewModel(){
+                                                        UseSeparator = true
+                                                    }))
+                                                </text>)
+                                                .FieldTemplate(@<text>
+                                                       @(await Html.PartialAsync("../Shared/Templates/_EditorField", new TemplateViewModel(){
+                                                            UseSeparator = true
+                                                       })) 
+                                                 </text>)
+                                                .StylingMode(EditorStylingMode.Filled)
+                                            );
+
+                                        group.AddSimple().DataField("Status")
+                                            .Label(l => l.Text("Status"))
+                                            .Editor(e => e.SelectBox()
+                                                .Items(EnumHelper.GetDisplayNames<PlanningTaskStatus>())
+                                                .ItemTemplate(@<text>
+                                                    @(await Html.PartialAsync("../Shared/Templates/_ItemContent"))
+                                                </text>)
+                                                 .FieldTemplate(@<text>
+                                                       @(await Html.PartialAsync("../Shared/Templates/_EditorField")) 
+                                                    </text>)    
+                                                .ReadOnly(!isEditing)
+                                                .StylingMode(EditorStylingMode.Filled)
+                                            );
+
+                                        group.AddSimple().DataField("StartDate")
+                                            .Label(l => l.Text("Start Date"))
+                                            .Editor(e => e.DateBox()
+                                                .ReadOnly(!isEditing)
+                                                .DisplayFormat("yyyy-MM-dd")
+                                                .StylingMode(EditorStylingMode.Filled)
+                                            );
+
+                                        group.AddSimple().DataField("DueDate")
+                                            .Label(l => l.Text("Due Date"))
+                                            .Editor(e => e.DateBox()
+                                                .ReadOnly(!isEditing)
+                                                .DisplayFormat("yyyy-MM-dd")
+                                                .StylingMode(EditorStylingMode.Filled)
+                                            );
+                                    });
+
+                                items.AddSimple().DataField("Description")
+                                    .ColSpan(2)
+                                    .Label(l => l.Text("Details"))
+                                    .Editor(e => e.TextArea()
+                                        .ReadOnly(!isEditing)
+                                        .StylingMode(EditorStylingMode.Filled)
+                                    );
+                            })
+    )
+}

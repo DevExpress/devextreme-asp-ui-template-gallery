@@ -1,0 +1,23 @@
+﻿@using DevExtremeVSTemplateMVC.Models
+@model TemplateViewModel
+
+
+<%
+ let statusCSSClass = window.uitgAppContext.Constants.CLASS_STATUS_PREFIX;
+ let useSeparator = @Json.Serialize(Model?.UseSeparator ?? false);
+ let value = '';
+ if (typeof obj !== 'undefined' && obj !== null) {
+    statusCSSClass = statusCSSClass + obj.toLowerCase().replace(/\s+/g, '-');
+    value = useSeparator ? '| ' + obj : obj;
+ }
+%>
+
+<div class="status-editor-field">
+    @(Html.DevExtreme().TextBox()
+        .ElementAttr(new JS("{ class: statusCSSClass }"))
+        .ReadOnly(true)
+        .InputAttr(new JS("{ class: statusCSSClass }"))
+        .HoverStateEnabled(false)
+        .Value(new JS("value"))
+    )
+</div>

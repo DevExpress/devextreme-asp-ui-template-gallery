@@ -3,11 +3,6 @@
 
 <link href="~/css/components/TaskListGrid.css" rel="stylesheet" />
 
-<script>
-    var CLASS_STATUS_PREFIX = "item-field item-";
-    var CLASS_CELL_STATUS = "input-with-bar status status-indicator ";
-</script>
-
 <div class="view-wrapper view-wrapper-task-list list-page">
     @await Html.PartialAsync("../PlanningTasks/_PlanningTasksToolbar")
     @await Html.PartialAsync("../PlanningTasks/_PopupFormAddTask")
@@ -55,14 +50,25 @@
     
             c.AddFor(m => m.Priority)
             .HidingPriority(4)
-            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskPriority))))
+            .Lookup(l => l.DataSource(EnumHelper.GetDisplayNames<PlanningTaskPriority>()))
             .ValidationRules(r =>
             {
                 r.AddRequired();
             })
-            .CellTemplate(new TemplateName("PriorityCellTemplate"))
-            .EditCellTemplate(new TemplateName("PriorityEditCellTemplate"));
-    
+            .CellTemplate(@<text>
+            @(await Html.PartialAsync("../Shared/Templates/_ItemContent", 
+                new TemplateViewModel {
+                    UseSeparator = true
+                }
+            ))
+            </text>)
+            .EditCellTemplate(@<text>
+                 @(await Html.PartialAsync("../Shared/Templates/_GridEditor", new TemplateViewModel {
+                    UseSeparator = true,
+                    Items = EnumHelper.GetDisplayNames<PlanningTaskPriority>()
+                }
+            ))
+            </text>);
             c.AddFor(m => m.StartDate)
             .DataType(GridColumnDataType.Date)
             .SortOrder(SortOrder.Asc)
@@ -82,115 +88,21 @@
             c.AddFor(m => m.Status)
             .HidingPriority(3)
             .MinWidth(120)
-            .Lookup(l => l.DataSource(System.Enum.GetValues(typeof(PlanningTaskStatus))))
+            .Lookup(l => l.DataSource(EnumHelper.GetDisplayNames<PlanningTaskStatus>()))
             .ValidationRules(r =>
             {
                 r.AddRequired();
             })
-            .CellTemplate(new TemplateName("StatusCellTemplate"))
-            .EditCellTemplate(new TemplateName("StatusEditCellTemplate"));
-    
+            .CellTemplate(@<text>
+                @(await Html.PartialAsync("../Shared/Templates/_ItemContent"))
+            </text>)
+            .EditCellTemplate(@<text>
+                 @(await Html.PartialAsync("../Shared/Templates/_GridEditor", new TemplateViewModel {
+      
+                    Items = EnumHelper.GetDisplayNames<PlanningTaskStatus>()
+                 }
+            ))
+            </text>);
         })
     )
 </div>
-
-@using (Html.DevExtreme().NamedTemplate("PriorityCellTemplate"))
-{
-    <text>
-        <%
-        const statusCSSClass = CLASS_STATUS_PREFIX + value.toLowerCase();
-        %>
-    </text>
-    <span class="<%- statusCSSClass %>">
-        <%- "| " + value %>
-    </span>
-}
-
-@using (Html.DevExtreme().NamedTemplate("PriorityEditCellTemplate"))
-{
-    @(Html.DevExtreme().SelectBox()
-        .ElementAttr(new JS("{ class: 'edit-cell' }"))
-        .Items(System.Enum.GetNames(typeof(PlanningTaskPriority)))
-        .Value(new JS("value"))
-        .OnValueChanged("(e) => setValue(e.value)")
-        .OnSelectionChanged("() => component.updateDimensions()")
-        .ItemTemplate(@<text>
-            <%
-            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
-            const classList = CLASS_CELL_STATUS + statusCSSClass;
-            %>
-            <div class="<%- classList %>">
-                <span class="<%- statusCSSClass %>">
-                    <%- obj %>
-                </span>
-            </div>
-        </text>)
-        .FieldTemplate(@<text>
-            <%
-            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
-            const classList = CLASS_CELL_STATUS + statusCSSClass;
-            %>
-            <div class="status-editor-field">
-                @(Html.DevExtreme().TextBox()
-                .ElementAttr(new JS("{ class: statusCSSClass }"))
-                .ReadOnly(true)
-                .InputAttr(new JS("{ class: statusCSSClass }"))
-                .HoverStateEnabled(false)
-                .Value(new JS("'| ' + obj"))
-                )
-            </div>
-        </text>)
-    )
-}
-
-@using (Html.DevExtreme().NamedTemplate("StatusCellTemplate"))
-{
-    <text>
-        <%
-        const statusCSSClass = CLASS_STATUS_PREFIX + value.toLowerCase().replace(/\s+/g, '-');
-        const classList = CLASS_CELL_STATUS + statusCSSClass;
-        %>
-    </text>
-    <div class="<%- classList %>">
-        <span class="<%- statusCSSClass %>">
-            <%- value %>
-        </span>
-    </div>
-}
-
-@using (Html.DevExtreme().NamedTemplate("StatusEditCellTemplate"))
-{
-    @(Html.DevExtreme().SelectBox()
-        .ElementAttr(new JS("{ class: 'edit-cell' }"))
-        .Items(System.Enum.GetNames(typeof(PlanningTaskStatus)))
-        .Value(new JS("value"))
-        .OnValueChanged("(e) => setValue(e.value)")
-        .OnSelectionChanged("() => component.updateDimensions()")
-        .ItemTemplate(@<text>
-            <%
-            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
-            const classList = CLASS_CELL_STATUS + statusCSSClass;
-            %>
-            <div class="<%- classList %>">
-                <span class="<%- statusCSSClass %>">
-                    <%- obj %>
-                </span>
-            </div>
-        </text>)
-        .FieldTemplate(@<text>
-            <%
-            const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
-            const classList = CLASS_CELL_STATUS + statusCSSClass;
-            %>
-            <div class="status-editor-field">
-                @(Html.DevExtreme().TextBox()
-                .ElementAttr(new JS("{ class: statusCSSClass }"))
-                .ReadOnly(true)
-                .InputAttr(new JS("{ class: statusCSSClass }"))
-                .HoverStateEnabled(false)
-                .Value(new JS("obj"))
-                )
-            </div>
-        </text>)
-    )
-}

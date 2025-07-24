@@ -1,0 +1,17 @@
+﻿@using DevExtremeVSTemplateMVC.Models
+@using DevExtremeVSTemplateMVC.Utils
+@model TemplateViewModel
+
+@(Html.DevExtreme().SelectBox()
+        .ElementAttr(new JS("{ class: 'edit-cell' }"))
+        .Items(Model.Items)
+        .Value(new JS("value"))
+        .OnValueChanged("(e) => setValue(e.value)")
+        .OnSelectionChanged("() => component.updateDimensions()")
+        .ItemTemplate(@<text>
+            @(await Html.PartialAsync("../Shared/Templates/_ItemContent", Model))
+        </text>)
+        .FieldTemplate(@<text>
+            @(await Html.PartialAsync("../Shared/Templates/_EditorField"))
+        </text>)
+)

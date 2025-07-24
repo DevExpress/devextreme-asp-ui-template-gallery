@@ -1,0 +1,16 @@
+@using DevExtremeVSTemplateMVC.Models
+@model TemplateViewModel
+
+<%
+  const rawValue = typeof value !== 'undefined' ? value : (typeof obj !== 'undefined' ? obj : '') ;
+  let useSeparator = @Json.Serialize(Model?.UseSeparator ?? false);
+  let text = useSeparator ? '| ' + rawValue : rawValue;
+  const statusCSSClass = window.uitgAppContext.Constants.CLASS_STATUS_PREFIX + (rawValue ? rawValue.toLowerCase().replace(/\s+/g, '-') : '');
+  const classList = window.uitgAppContext.Constants.CLASS_CELL_STATUS + statusCSSClass;
+%>
+
+<div class="<%- classList %>">
+    <span class="<%- statusCSSClass %>">
+        <%- text %>
+    </span>
+</div>
