@@ -109,10 +109,18 @@
                                             .Editor(e => e.SelectBox()
                                                 .Items(EnumHelper.GetDisplayNames<PlanningTaskStatus>())
                                                 .ItemTemplate(@<text>
-                                                    @(await Html.PartialAsync("../Shared/Templates/_ItemContent"))
+                                                    @(await Html.PartialAsync("../Shared/Templates/_ItemContent",
+                                                        new TemplateViewModel {
+                                                            UseSeparator = false
+                                                        }
+                                                    ))
                                                 </text>)
                                                  .FieldTemplate(@<text>
-                                                       @(await Html.PartialAsync("../Shared/Templates/_EditorField")) 
+                                                       @(await Html.PartialAsync("../Shared/Templates/_EditorField",
+                                                            new TemplateViewModel {
+                                                                UseSeparator = false
+                                                            }
+                                                       )) 
                                                     </text>)    
                                                 .ReadOnly(!isEditing)
                                                 .StylingMode(EditorStylingMode.Filled)

@@ -29,7 +29,7 @@
                 .Icon("plus")
                 .Type(ButtonType.Default)
                 .StylingMode(ButtonStylingMode.Contained)
-            .OnClick("uitgAppContext.PlanningTasksController.addTask"));
+            .OnClick("() => uitgAppContext.PlanningTasksController.showPopupToAddTask()"));
 
         items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)

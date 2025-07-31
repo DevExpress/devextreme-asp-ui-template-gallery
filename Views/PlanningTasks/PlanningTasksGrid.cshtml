@@ -10,7 +10,7 @@
         .ID("tasks-grid")
         .DataSource(ds => 
             ds.Mvc().Controller("Tasks").Key("TaskId")
-            .LoadAction("GetTasks").UpdateAction("UpdateTask")
+            .LoadAction("GetTasks").UpdateAction("UpdateTask").InsertAction("InsertTask")
         )
         .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
         .ElementAttr(new { @class = "planning-grid theme-dependent" })

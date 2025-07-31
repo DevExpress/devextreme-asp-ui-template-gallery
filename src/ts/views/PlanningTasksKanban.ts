@@ -66,18 +66,21 @@
         kanbanOrderStore.insert({ Statuses: newOrder });
     }
 
-    function navigateToDetails() {
+    function navigateToDetails(taskId: number) {
+        DevExpress.ui.notify(`Navigate to task details (Id = ${taskId})`);
     }
 
-    function onClick(item:any) {
+    function taskEditClick(e: DevExpress.ui.dxButton.ClickEvent, task: EmployeeTask) {
+        e.event?.stopPropagation();
+        window.uitgAppContext.PlanningTasksController?.showPopupToEditTask(task)
+        DevExpress.ui.notify(`Edit task: ${task.Text}`);
     }
 
-    function changePopupVisibility(e: DevExpress.ui.dxButton.ClickEvent) {
-
+    function showPopupToAddTaskWithStatus(status: string) {
+        window.uitgAppContext.PlanningTasksController?.showPopupToAddTask({ Status: status});
     }
-    function onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent) {
 
-    }
+    function onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent) { }
 
     function onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent) {
         const $item = $(e.itemElement);
@@ -94,8 +97,8 @@
         onListReorder,
         onStatusReorder,
         navigateToDetails,
-        onClick,
-        changePopupVisibility,
+        taskEditClick,
+        showPopupToAddTaskWithStatus,
         onTaskDragStart,
         onTaskDrop
     };

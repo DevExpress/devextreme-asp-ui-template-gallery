@@ -1,5 +1,8 @@
 interface PlanningTasksController {
-    addTask(): void;
+    showPopupToEditTask(taskData: EmployeeTask): void;
+    showPopupToAddTask(taskData: any): void;
+    addNewTask: (data: EmployeeTask) => void;
+    editTask(taskData: EmployeeTask): void;
     tabValueChange: (e: DevExpress.ui.dxTabs.ItemClickEvent) => void;
     getTabsWidth(): number | string;
     getCurrentView(): string;
@@ -8,15 +11,16 @@ interface PlanningTasksController {
     exportToPdf(): void;
     exportToXlsx(): void;
     searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void;
+    ganttBeforeSend(operation: string, ajaxSettings: JQuery.PlainObject): void;
 }
 
 interface KanbanTasksController {
     reorder<T>(items: T[], item: T, fromIndex: number, toIndex: number): T[];
     onListReorder(e: DevExpress.ui.dxSortable.ReorderEvent): void;
     onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent): void;
-    navigateToDetails(): void;
-    onClick(item: any): void;
-    changePopupVisibility(e: DevExpress.ui.dxButton.ClickEvent): void;
+    navigateToDetails(taskId: number): void;
+    taskEditClick(e: DevExpress.ui.dxButton.ClickEvent, item: EmployeeTask): void;
+    showPopupToAddTaskWithStatus(status: string): void;
     onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent): void;
     onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent): void;
 }
@@ -69,6 +73,22 @@ interface ThemeController {
     themeSwitcherOnClick(e: any): void;
 }
 
+interface EmployeeTask {
+    TaskId: number;
+    Id: number;
+    ParentId: number | null;
+    Manager: string;
+    Status: string;
+    Priority: string;
+    StartDate: Date | null;
+    DueDate: Date | null;
+    Progress: number | null;
+    Company: string;
+    Text: string;
+    Owner: string;
+    OrderIndex: number;
+}
+
 interface SPARouter {
     init(): void;
     navigate(url: string): void;
@@ -80,7 +100,10 @@ interface PopupFormController {
     getTaskForm(): DevExpress.ui.dxForm;
     onSaveTask(): void;
     onCancelTask(): void;
+    show(mode: TaskFormSaveMode): JQueryPromise<boolean>;
 }
+
+type TaskFormSaveMode = "insert" | "update";
 
 type AppConfig = {
     PopupFormController: PopupFormController;
@@ -93,6 +116,7 @@ type AppConfig = {
     Constants: {
         CLASS_STATUS_PREFIX: string;
         CLASS_CELL_STATUS: string;
+        DemoFilteredOwnerName: string;
     };
 };
 

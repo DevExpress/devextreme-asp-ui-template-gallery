@@ -1,20 +1,35 @@
 (function () {
     if (window.uitgAppContext?.PopupFormController) return;
+
+    let saveMode: TaskFormSaveMode = "insert";
+
     function onSaveTask() {
-        throw new Error("Not implemented");
+        const newData = getTaskForm().option("formData");
+        if (saveMode === "insert")
+            window.uitgAppContext.PlanningTasksController?.addNewTask(newData);
+        else
+            window.uitgAppContext.PlanningTasksController?.editTask(newData);
+        onCancelTask();
     }
+
+    function show(mode: TaskFormSaveMode): JQueryPromise<boolean> {
+        saveMode = mode;
+        return getPopupForm().show();
+    }
+
     function getPopupForm() {
         return $("#formPopup").dxPopup("instance");
     }
+
     function getTaskForm() {
         return $("#taskFormDetails").dxForm("instance")
     }
 
     function onCancelTask() {
-
         getTaskForm().clear();
         getPopupForm().hide();
     }
+
     function getSizeQualifier(width: number) {
         if (width <= 420) return 'xs';
         if (width <= 992) return 'sm';
@@ -27,6 +42,7 @@
         getPopupForm,
         getTaskForm,
         onSaveTask,
-        onCancelTask
+        onCancelTask,
+        show
     }
 })()
