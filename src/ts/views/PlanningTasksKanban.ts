@@ -6,7 +6,7 @@
         key: 'Id',
         loadUrl: `/api/KanbanOrder/GetOrder`,
         insertUrl: `/api/KanbanOrder/UpdateOrder`,
-        onBeforeSend(method:any, ajaxOptions:any) {
+        onBeforeSend(method: string, ajaxOptions: JQuery.PlainObject) {
             ajaxOptions.xhrFields = { withCredentials: true };
             ajaxOptions.contentType = "application/json";
             ajaxOptions.data = JSON.stringify(ajaxOptions.data);
@@ -17,7 +17,8 @@
     const tasksStore = DevExpress.data.AspNet.createStore({
         key: "TaskId",
         updateUrl: "/api/Tasks/UpdateTask",
-        onBeforeSend(method: any, ajaxOptions: any) {
+        insertUrl: "/api/Tasks",
+        onBeforeSend(method: string, ajaxOptions: JQuery.PlainObject) {
             if (method === "update") {
                 const { key, values } = ajaxOptions.data;
                 const formData = new FormData();
@@ -77,7 +78,25 @@
     }
 
     function showPopupToAddTaskWithStatus(status: string) {
-        window.uitgAppContext.PlanningTasksController?.showPopupToAddTask({ Status: status});
+        window.uitgAppContext.PlanningTasksController?.showPopupToAddTask({ Status: status });
+    }
+
+    function addTask(taskData: EmployeeTask): void {
+        tasksStore.insert(taskData).then(() => {
+                window.uitgAppContext.SPARouter.navigate("/Home/PlanningTasks/Kanban");
+            })
+            .fail((xhr: JQueryXHR, status: string, error: string) => {
+                DevExpress.ui.notify(`${error} (${status})`);
+            });
+    }
+
+    function updateTask(taskData: EmployeeTask): void {
+        tasksStore.update(taskData.TaskId, taskData).then(() => {
+                window.uitgAppContext.SPARouter.navigate("/Home/PlanningTasks/Kanban");
+            })
+            .fail((xhr: JQueryXHR, status: string, error: string) => {
+                DevExpress.ui.notify(`${error} (${status})`);
+            });
     }
 
     function onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent) { }
@@ -100,6 +119,8 @@
         taskEditClick,
         showPopupToAddTaskWithStatus,
         onTaskDragStart,
-        onTaskDrop
+        onTaskDrop,
+        addTask,
+        updateTask
     };
 }) ();

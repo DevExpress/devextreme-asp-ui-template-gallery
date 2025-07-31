@@ -4,7 +4,7 @@
     let saveMode: TaskFormSaveMode = "insert";
 
     function onSaveTask() {
-        const newData = getTaskForm().option("formData");
+        const newData: EmployeeTask = getTaskForm().option("formData");
         if (saveMode === "insert")
             window.uitgAppContext.PlanningTasksController?.addNewTask(newData);
         else

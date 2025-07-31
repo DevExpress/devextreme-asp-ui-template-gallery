@@ -14,25 +14,29 @@
         });
     }
 
-    function showPopupToAddTask(taskData: any) {
+    function showPopupToAddTask(taskData: EmployeeTask) {
         window.uitgAppContext.PopupFormController.show("insert").then(() => {
             const inputData = taskData || {};
-            inputData.Priority = "Low";
-            const start = new Date();
-            start.setHours(0, 0, 0, 0);
-            const end = new Date();
-            end.setHours(23, 59, 59, 999);
-            inputData.StartDate = start; 
-            inputData.DueDate = end;
-            if (currentView !== "Grid") {
-                inputData.Owner = window.uitgAppContext.Constants.DemoFilteredOwnerName;
-            }
+            initNewTask(inputData);
             window.uitgAppContext.PopupFormController.getTaskForm().getEditor("Owner")?.option("readOnly", currentView !== "Grid");
             window.uitgAppContext.PopupFormController.getTaskForm().updateData(inputData);
         });
     }
 
-    function addNewTask(taskData: any) {
+    function initNewTask(taskData: EmployeeTask) {
+        taskData.Priority = "Low";
+        const start = new Date();
+        start.setHours(0, 0, 0, 0);
+        const end = new Date();
+        end.setHours(23, 59, 59, 999);
+        taskData.StartDate = start;
+        taskData.DueDate = end;
+        if (currentView !== "Grid") {
+            taskData.Owner = window.uitgAppContext.Constants.DemoFilteredOwnerName;
+        }
+    }
+
+    function addNewTask(taskData: EmployeeTask) {
         if (currentView === "Grid") {
             const grid = $('#tasks-grid').dxDataGrid("instance");
             grid.getDataSource().store().insert(taskData).then(() => { grid.refresh(); });
@@ -40,18 +44,7 @@
             const gantt = $('#tasks-gantt').dxGantt("instance");
             gantt.insertTask(taskData);
         } else if (currentView === "Kanban") {
-            $.ajax({
-                url: '/api/Tasks',
-                type: 'POST',
-                data: { values: JSON.stringify(taskData) },
-                success: function (response) {
-                    let url: string = `/Home/PlanningTasks/${currentView}`;
-                    window.uitgAppContext.SPARouter.navigate(url);
-                },
-                error: function (xhr, status, error) {
-                    DevExpress.ui.notify(`${error} (${status})`);
-                }
-            });
+            window.uitgAppContext.KanbanTasksController?.addTask(taskData);
         }
     }
 
@@ -63,18 +56,7 @@
             const gantt = $('#tasks-gantt').dxGantt("instance");
             gantt.updateTask(taskData.TaskId, taskData);
         } else if (currentView === "Kanban") {
-            $.ajax({
-                url: '/api/Tasks/UpdateTask',
-                type: 'PUT',
-                data: { key: taskData.TaskId, values: JSON.stringify(taskData) },
-                success: function (response) {
-                    let url: string = `/Home/PlanningTasks/${currentView}`;
-                    window.uitgAppContext.SPARouter.navigate(url);
-                },
-                error: function (xhr, status, error) {
-                    DevExpress.ui.notify(`${error} (${status})`);
-                }
-            });
+            window.uitgAppContext.KanbanTasksController?.updateTask(taskData);
         }
     }
 
@@ -98,8 +80,8 @@
             $('#tasks-grid').dxDataGrid('instance').refresh();
         } else if(currentView === 'Gantt') {
             $('#tasks-gantt').dxGantt('instance').refresh();
-        }else if(currentView === 'Kanban') {
-            $('#kanban-scroll-view').dxScrollView('instance').update();
+        } else if(currentView === 'Kanban') {
+            window.uitgAppContext.SPARouter.navigate("/Home/PlanningTasks/Kanban");
         }
     }
 

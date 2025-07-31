@@ -27,7 +27,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
         }
 
         [HttpPost]
-        public object InsertTask([FromForm] string values) {
+        public IActionResult InsertTask([FromForm] string values) {
             EmployeeTask employeeTask = new EmployeeTask();
             UpdateTaskProperties(employeeTask, values);
             _context.Tasks.Add(employeeTask);

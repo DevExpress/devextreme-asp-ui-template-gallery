@@ -1,7 +1,7 @@
 interface PlanningTasksController {
     showPopupToEditTask(taskData: EmployeeTask): void;
-    showPopupToAddTask(taskData: any): void;
-    addNewTask: (data: EmployeeTask) => void;
+    showPopupToAddTask(taskData: EmployeeTask): void;
+    addNewTask: (taskData: EmployeeTask) => void;
     editTask(taskData: EmployeeTask): void;
     tabValueChange: (e: DevExpress.ui.dxTabs.ItemClickEvent) => void;
     getTabsWidth(): number | string;
@@ -23,6 +23,8 @@ interface KanbanTasksController {
     showPopupToAddTaskWithStatus(status: string): void;
     onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent): void;
     onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent): void;
+    addTask(taskData: EmployeeTask): void;
+    updateTask(taskData: EmployeeTask): void;
 }
 
 interface UserProfileController {
@@ -74,19 +76,19 @@ interface ThemeController {
 }
 
 interface EmployeeTask {
-    TaskId: number;
-    Id: number;
-    ParentId: number | null;
-    Manager: string;
-    Status: string;
-    Priority: string;
-    StartDate: Date | null;
-    DueDate: Date | null;
-    Progress: number | null;
-    Company: string;
-    Text: string;
-    Owner: string;
-    OrderIndex: number;
+    TaskId?: number;
+    Id?: number;
+    ParentId?: number | null;
+    Manager?: string;
+    Status?: string;
+    Priority?: string;
+    StartDate?: Date | null;
+    DueDate?: Date | null;
+    Progress?: number | null;
+    Company?: string;
+    Text?: string;
+    Owner?: string;
+    OrderIndex?: number;
 }
 
 interface SPARouter {
