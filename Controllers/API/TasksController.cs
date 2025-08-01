@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
@@ -23,6 +24,33 @@ namespace DevExtremeVSTemplateMVC.Controllers
         [HttpGet]
         public object GetTasks(DataSourceLoadOptions loadOptions) {
             return DataSourceLoader.Load(_context.Tasks, loadOptions);
+        }
+
+        [HttpPost]
+        public IActionResult InsertTask([FromForm] string values) {
+            EmployeeTask employeeTask = new EmployeeTask();
+            UpdateTaskProperties(employeeTask, values);
+            _context.Tasks.Add(employeeTask);
+            _context.SaveChanges();
+            return Json(new { employeeTask.TaskId });
+        }
+
+        [HttpDelete("DeleteTask")]
+        public object DeleteTask([FromForm] int key) {
+            var task = _context.Tasks.FirstOrDefault(item => item.TaskId == key);
+            if (task == null) return NotFound();
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpDelete("DeleteFilteredTask")]
+        public object DeleteFilteredTask([FromForm] int key) {
+            var task = _context.Tasks.FirstOrDefault(item => item.Id == key && item.Owner == DemoConsts.DemoFilteredOwnerName);
+            if (task == null) return NotFound();
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
+            return Ok();
         }
 
         [HttpPut("UpdateTask")]

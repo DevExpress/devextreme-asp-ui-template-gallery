@@ -13,5 +13,17 @@ namespace DevExtremeVSTemplateMVC.DAL
 
         public DemoDbContext(DbContextOptions<DemoDbContext> options)
             : base(options) { }
+
+        public override int SaveChanges() {
+            var newTasks = ChangeTracker.Entries<EmployeeTask>()
+                .Where(e => e.State == EntityState.Added);
+            foreach (var entry in newTasks) {
+                if (entry.Entity.Id == 0) {
+                    var maxOrder = Math.Max(1000, Tasks.Max(t => t.Id));
+                    entry.Entity.Id = maxOrder + 1;
+                }
+            }
+            return base.SaveChanges();
+        }
     }
 }

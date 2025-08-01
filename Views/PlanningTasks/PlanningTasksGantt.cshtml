@@ -3,6 +3,7 @@
 
 <div class="view-wrapper view-wrapper-task-list list-page">
     @await Html.PartialAsync("../PlanningTasks/_PlanningTasksToolbar")
+    @await Html.PartialAsync("../PlanningTasks/_PopupFormAddTask")
     <div class="gantt">
         @(Html.DevExtreme().Gantt<EmployeeTask>()
             .ID("tasks-gantt")
@@ -12,7 +13,11 @@
             .Tasks(tasks => tasks
                 .DataSource(ds =>
                     ds.Mvc().Controller("Tasks").Key("Id")
-                    .LoadAction("GetTasks").UpdateAction("UpdateFilteredTask")
+                    .OnBeforeSend("uitgAppContext.PlanningTasksController.ganttBeforeSend")
+                    .LoadAction("GetTasks")
+                    .UpdateAction("UpdateFilteredTask")
+                    .InsertAction("InsertTask")
+                    .DeleteAction("DeleteFilteredTask")
                 )
                 .DataSourceOptions(dso => dso.Filter(string.Format("['Owner', '=', '{0}']", DemoConsts.DemoFilteredOwnerName)))
                 .KeyExpr("Id")
@@ -42,7 +47,7 @@
                     items.Add().Name(GanttToolbarItem.ZoomOut);
                 });
             })
-            .Validation(validation => validation.AutoUpdateParentTasks(true))
+            .Validation(validation => validation.AutoUpdateParentTasks(false))
             .Editing(editing => editing.Enabled(true))
         )
     </div>
