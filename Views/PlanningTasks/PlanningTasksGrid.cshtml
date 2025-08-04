@@ -12,7 +12,7 @@
             ds.Mvc().Controller("Tasks").Key("TaskId")
             .LoadAction("GetTasks").UpdateAction("UpdateTask").InsertAction("InsertTask")
         )
-        .DataSourceOptions(dso => dso.Filter("[['status', '<>', null], 'and', ['priority', '<>', null]]"))
+        .DataSourceOptions(dso => dso.Filter("[['Status', '<>', null], 'and', ['Priority', '<>', null]]"))
         .ElementAttr(new { @class = "planning-grid theme-dependent" })
         .Height("100%")
         .RemoteOperations(true)
@@ -35,26 +35,17 @@
         {
             c.AddFor(m => m.Text)
             .Caption("Subject")
-            .HidingPriority(7)
-            .ValidationRules(r =>
-            {
-                r.AddRequired();
-            });
+            .HidingPriority(7);
     
             c.AddFor(m => m.Company)
             .HidingPriority(6)
-            .ValidationRules(r =>
-            {
+            .ValidationRules(r => {
                 r.AddRequired();
             });
     
             c.AddFor(m => m.Priority)
             .HidingPriority(4)
             .Lookup(l => l.DataSource(EnumHelper.GetDisplayNames<PlanningTaskPriority>()))
-            .ValidationRules(r =>
-            {
-                r.AddRequired();
-            })
             .CellTemplate(@<text>
             @(await Html.PartialAsync("../Shared/Templates/_ItemContent", 
                 new TemplateViewModel {
@@ -72,27 +63,23 @@
             c.AddFor(m => m.StartDate)
             .DataType(GridColumnDataType.Date)
             .SortOrder(SortOrder.Asc)
-            .HidingPriority(2)
-            .ValidationRules(r => { r.AddRequired(); });
+            .HidingPriority(2);
     
             c.AddFor(m => m.DueDate)
             .DataType(GridColumnDataType.Date)
             .SortOrder(SortOrder.Asc)
-            .HidingPriority(1)
-            .ValidationRules(r => { r.AddRequired(); });
+            .HidingPriority(1);
     
             c.AddFor(m => m.Owner)
             .HidingPriority(5)
-            .ValidationRules(r => { r.AddRequired(); });
+            .ValidationRules(r => {
+                r.AddRequired();
+            });
     
             c.AddFor(m => m.Status)
             .HidingPriority(3)
             .MinWidth(120)
             .Lookup(l => l.DataSource(EnumHelper.GetDisplayNames<PlanningTaskStatus>()))
-            .ValidationRules(r =>
-            {
-                r.AddRequired();
-            })
             .CellTemplate(@<text>
                 @(await Html.PartialAsync("../Shared/Templates/_ItemContent"))
             </text>)

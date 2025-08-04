@@ -74,7 +74,6 @@
     function taskEditClick(e: DevExpress.ui.dxButton.ClickEvent, task: EmployeeTask) {
         e.event?.stopPropagation();
         window.uitgAppContext.PlanningTasksController?.showPopupToEditTask(task)
-        DevExpress.ui.notify(`Edit task: ${task.Text}`);
     }
 
     function showPopupToAddTaskWithStatus(status: string) {

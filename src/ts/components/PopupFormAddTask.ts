@@ -3,13 +3,15 @@
 
     let saveMode: TaskFormSaveMode = "insert";
 
-    function onSaveTask() {
-        const newData: EmployeeTask = getTaskForm().option("formData");
-        if (saveMode === "insert")
-            window.uitgAppContext.PlanningTasksController?.addNewTask(newData);
-        else
-            window.uitgAppContext.PlanningTasksController?.editTask(newData);
-        onCancelTask();
+    function onSaveTask(e: DevExpress.ui.dxButton.ClickEvent) {
+        if (e.validationGroup.validate().isValid) {
+            const newData: EmployeeTask = getTaskForm().option("formData");
+            if (saveMode === "insert")
+                window.uitgAppContext.PlanningTasksController?.addNewTask(newData);
+            else
+                window.uitgAppContext.PlanningTasksController?.editTask(newData);
+            onCancelTask();
+        }
     }
 
     function show(mode: TaskFormSaveMode): JQueryPromise<boolean> {

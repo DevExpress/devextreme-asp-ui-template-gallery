@@ -25,6 +25,7 @@
 
     function initNewTask(taskData: EmployeeTask) {
         taskData.Priority = "Low";
+        taskData.Status = taskData.Status || "Open";
         const start = new Date();
         start.setHours(0, 0, 0, 0);
         const end = new Date();

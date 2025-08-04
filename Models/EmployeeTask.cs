@@ -13,8 +13,10 @@ namespace DevExtremeVSTemplateMVC.Models {
         public DateTime? DueDate { get; set; }
         public int? Progress { get; set; }
         public string Company { get; set; }
+        [Required]
         public string Text { get; set; }
         public string Owner { get; set; }
+        public string Description { get; set; }
         public int OrderIndex { get; set; }
     }
 }

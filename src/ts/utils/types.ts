@@ -100,7 +100,7 @@ interface PopupFormController {
     getSizeQualifier(width: number): string;
     getPopupForm(): DevExpress.ui.dxPopup;
     getTaskForm(): DevExpress.ui.dxForm;
-    onSaveTask(): void;
+    onSaveTask(e: DevExpress.ui.dxButton.ClickEvent): void;
     onCancelTask(): void;
     show(mode: TaskFormSaveMode): JQueryPromise<boolean>;
 }

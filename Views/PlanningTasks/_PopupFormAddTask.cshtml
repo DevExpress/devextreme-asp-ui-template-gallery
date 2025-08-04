@@ -61,12 +61,10 @@
                             {
                                 if (subjectField)
                                 {
-                                    items.AddSimple()
-                                        .DataField("Text")
+                                    items.AddSimpleFor(m => m.Text)
                                         .ColSpan(2)
                                         .Label(l => l.Text("Subject"))
                                         .Editor(e => e.TextBox().StylingMode(EditorStylingMode.Filled));
-
                                 }
 
                                 items.AddGroup()
@@ -78,15 +76,17 @@
                                         .Lg(2))
                                     .Items(group =>
                                     {
-                                        group.AddSimple().DataField("Company").CssClass("accent")
+                                        group.AddSimpleFor(m => m.Company).CssClass("accent")
                                             .Label(l => l.Text("Company"))
-                                            .Editor(e => e.TextBox().ReadOnly(!isEditing).StylingMode(EditorStylingMode.Filled));
+                                            .Editor(e => e.TextBox().ReadOnly(!isEditing).StylingMode(EditorStylingMode.Filled))
+                                            .ValidationRules(r => r.AddRequired());
 
-                                        group.AddSimple().DataField("Owner").CssClass("accent")
+                                        group.AddSimpleFor(m => m.Owner).CssClass("accent")
                                             .Label(l => l.Text("Assigned to"))
-                                            .Editor(e => e.TextBox().ReadOnly(!isEditing).StylingMode(EditorStylingMode.Filled));
+                                            .Editor(e => e.TextBox().ReadOnly(!isEditing).StylingMode(EditorStylingMode.Filled))
+                                            .ValidationRules(r => r.AddRequired());
 
-                                        group.AddSimple().DataField("Priority")
+                                        group.AddSimpleFor(m => m.Priority)
                                             .Label(l => l.Text("Priority"))
                                             .Editor(e => e.SelectBox()
                                                 .Items(EnumHelper.GetDisplayNames<PlanningTaskPriority>())
@@ -104,7 +104,7 @@
                                                 .StylingMode(EditorStylingMode.Filled)
                                             );
 
-                                        group.AddSimple().DataField("Status")
+                                        group.AddSimpleFor(m => m.Status)
                                             .Label(l => l.Text("Status"))
                                             .Editor(e => e.SelectBox()
                                                 .Items(EnumHelper.GetDisplayNames<PlanningTaskStatus>())
@@ -126,7 +126,7 @@
                                                 .StylingMode(EditorStylingMode.Filled)
                                             );
 
-                                        group.AddSimple().DataField("StartDate")
+                                        group.AddSimpleFor(m => m.StartDate)
                                             .Label(l => l.Text("Start Date"))
                                             .Editor(e => e.DateBox()
                                                 .ReadOnly(!isEditing)
@@ -134,7 +134,7 @@
                                                 .StylingMode(EditorStylingMode.Filled)
                                             );
 
-                                        group.AddSimple().DataField("DueDate")
+                                        group.AddSimpleFor(m => m.DueDate)
                                             .Label(l => l.Text("Due Date"))
                                             .Editor(e => e.DateBox()
                                                 .ReadOnly(!isEditing)
@@ -143,7 +143,7 @@
                                             );
                                     });
 
-                                items.AddSimple().DataField("Description")
+                                items.AddSimpleFor(m => m.Description)
                                     .ColSpan(2)
                                     .Label(l => l.Text("Details"))
                                     .Editor(e => e.TextArea()

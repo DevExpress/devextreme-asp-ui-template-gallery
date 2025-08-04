@@ -56,11 +56,7 @@
                             .Placeholder("Password")
                             .Mode(TextBoxMode.Password)
                             .Value("password")
-                            ).Label(l => l.Visible(false))
-                            .ValidationRules(rules =>
-                            {
-                                rules.AddRequired().Message("Password is required");
-                            });
+                            ).Label(l => l.Visible(false));
 
                             items.AddSimple()
                             .DataField("rememberMe")
