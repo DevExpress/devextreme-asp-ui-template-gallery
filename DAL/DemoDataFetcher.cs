@@ -17,26 +17,27 @@ namespace DevExtremeVSTemplateMVC.DAL
             string baseUrlAPI = config.GetValue<string>(ConfigKeys.BaseUrlAPIKey);
             IList<EmployeeTask> allTasks = await FetchListFromApiAsync<EmployeeTask>(httpClient, baseUrlAPI + apiMapping[nameof(DemoDbContext.Tasks)]);
 
+            for (int i = 0; i < allTasks.Count; i++) {
+                allTasks[i].TaskId = i + 1;
+            }
+
+            var orderedTasks = allTasks.Where(t => t.Owner == DemoConsts.DemoFilteredOwnerName).ToList();
             int openIndex = 0;
             int inProgressIndex = 0;
             int deferredIndex = 0;
             int completedIndex = 0;
 
-            for (int i = 0; i < allTasks.Count; i++) {
-                allTasks[i].TaskId = i + 1;
-
-                if (allTasks[i].Status == "Open") {
-                    allTasks[i].OrderIndex = openIndex++;
-                } else if (allTasks[i].Status == "In Progress") {
-                    allTasks[i].OrderIndex = inProgressIndex++;
-                } else if (allTasks[i].Status == "Deferred") {
-                    allTasks[i].OrderIndex = deferredIndex++;
-                } else if (allTasks[i].Status == "Completed") {
-                    allTasks[i].OrderIndex = completedIndex++;
+            for (int i = 0; i < orderedTasks.Count; i++) {
+                if (orderedTasks[i].Status == "Open") {
+                    orderedTasks[i].OrderIndex = openIndex++;
+                } else if (orderedTasks[i].Status == "In Progress") {
+                    orderedTasks[i].OrderIndex = inProgressIndex++;
+                } else if (orderedTasks[i].Status == "Deferred") {
+                    orderedTasks[i].OrderIndex = deferredIndex++;
+                } else if (orderedTasks[i].Status == "Completed") {
+                    orderedTasks[i].OrderIndex = completedIndex++;
                 }
             }
-
-
 
             Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], DemoConsts.DemoUserProfileId));
             contact.Activities = null;

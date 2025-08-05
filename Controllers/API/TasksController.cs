@@ -69,14 +69,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         IActionResult UpdateTaskProperties(EmployeeTask task, string values) {
             var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
-
-            int? newOrderIndex = null;
-            if (updatedValues.ContainsKey("NewOrderIndex"))
-            {
-                newOrderIndex = updatedValues["NewOrderIndex"].GetInt32();
-                updatedValues.Remove("NewOrderIndex");
-            }
-
             PopulateModel(task, updatedValues);
             if (!TryValidateModel(task)) {
                 string[] errors = ModelState
@@ -85,29 +77,19 @@ namespace DevExtremeVSTemplateMVC.Controllers
                     .Select(e => e.ErrorMessage).ToArray();
                 return BadRequest(String.Join(Environment.NewLine, errors));
             }
-
-            if (newOrderIndex.HasValue)
-            {
-                var status = task.Status;
-
-                var tasks = _context.Tasks
-                    .Where(t => t.Status == status && t.Owner == DemoConsts.DemoFilteredOwnerName)
-                    .OrderBy(t => t.OrderIndex)
-                    .ToList();
-
-                tasks.RemoveAll(t => t.TaskId == task.TaskId);
-
-                tasks.Insert(newOrderIndex.Value, task);
-
-                for (int i = 0; i < tasks.Count; i++)
-                {
-                    tasks[i].OrderIndex = i;
-                }
-            }
-
+            AdjustOrderIndices(task);
             _context.SaveChanges();
-
             return Ok();
+        }
+
+        void AdjustOrderIndices(EmployeeTask task) {
+            var tasksWithStatus = _context.Tasks
+                .Where(t => t.Status == task.Status && t.Owner == DemoConsts.DemoFilteredOwnerName && t.TaskId != task.TaskId)
+                .OrderBy(t => t.OrderIndex)
+                .ToList();
+            tasksWithStatus.Insert(task.OrderIndex, task);
+            for (int i = 0; i < tasksWithStatus.Count; i++)
+                tasksWithStatus[i].OrderIndex = i;
         }
 
         void PopulateModel(EmployeeTask task, Dictionary<string, JsonElement> updatedValues) {

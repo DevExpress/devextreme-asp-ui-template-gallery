@@ -107,7 +107,7 @@
 
         if (!taskId || !newStatus) return;
 
-        tasksStore.update(taskId, { Status: newStatus, NewOrderIndex: e.toIndex });
+        tasksStore.update(taskId, { Status: newStatus, OrderIndex: e.toIndex });
     }
 
     window.uitgAppContext.KanbanTasksController = {
