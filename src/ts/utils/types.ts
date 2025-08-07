@@ -27,11 +27,6 @@ interface KanbanTasksController {
 }
 
 interface UserProfileController {
-    passwordFormData: {
-        currentPassword: string;
-        password: string;
-        confirmPassword: string;
-    };
     copyToClipboard(e: DevExpress.ui.dxButton.ClickEvent): void;
     handleChangePasswordClick(e: DevExpress.ui.dxButton.ClickEvent): void;
     onTCancel(e: DevExpress.ui.dxButton.ClickEvent): void;

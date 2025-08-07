@@ -1,12 +1,6 @@
 (function () {
     if (window.uitgAppContext?.UserProfileController) return;
 
-    let passwordFormData = {
-        currentPassword: "12345",
-        password: "12345",
-        confirmPassword: "12345"
-    };
-
     function copyToClipboard(e: DevExpress.ui.dxButton.ClickEvent) {
         const tipText = 'Text copied';
         DevExpress.ui.notify(
@@ -23,6 +17,11 @@
 
     function handleChangePasswordClick(e: DevExpress.ui.dxButton.ClickEvent) {
         $("#change-password-popup").dxPopup("instance").show();
+    }
+
+    function resetForm() {
+        $("#password-reset-id").dxForm("instance").option("formData", null);
+        $("#reset-save-button").dxButton("instance").option("disabled", true);
     }
 
     function onTCancel(e: DevExpress.ui.dxButton.ClickEvent) {
@@ -45,11 +44,15 @@
     }
 
     function onCancelClick(e: DevExpress.ui.dxButton.ClickEvent) {
-        $("#change-password-popup").dxPopup("instance").hide();
+        $("#change-password-popup").dxPopup("instance").hide().then(() => {
+            resetForm();
+        });
     }
 
     function onSaveClick(e: DevExpress.ui.dxButton.ClickEvent) {
-        $("#change-password-popup").dxPopup("instance").hide();
+        $("#change-password-popup").dxPopup("instance").hide().then(() => {
+            resetForm();
+        });
         DevExpress.ui.notify({ message: 'Password Changed', position: { at: 'bottom center', my: 'bottom center' } }, 'success');
     }
 
@@ -95,7 +98,6 @@
 
     // Optionally, you can expose these as a controller object
     window.uitgAppContext.UserProfileController = {
-        passwordFormData,
         copyToClipboard,
         handleChangePasswordClick,
         onTCancel,

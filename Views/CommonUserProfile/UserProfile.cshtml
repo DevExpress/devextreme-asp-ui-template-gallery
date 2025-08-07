@@ -226,7 +226,6 @@
     .ContentTemplate(@<text>
         @(Html.DevExtreme().Form()
             .ID("password-reset-id")
-            .FormData(new JS("uitgAppContext.UserProfileController.passwordFormData"))
             .LabelMode(FormLabelMode.Outside)
             .ShowColonAfterLabel(true)
             .LabelLocation(FormLabelLocation.Top)
@@ -234,11 +233,10 @@
             .Items(items => {
                 items.AddSimple()
                     .DataField("currentPassword")
-                    .Label(l => l.Text("Current Password"))
+                    .Label(l => l.Text("Old Password"))
                     .Name("CurrentPassword")
                     .Editor(editor => editor.TextBox()
                         .ValueChangeEvent("keyup")
-                        .Placeholder("Current password")
                         .StylingMode(EditorStylingMode.Filled)
                         .Mode(TextBoxMode.Password)
                         .Buttons(buttons => {
@@ -257,11 +255,10 @@
                 items.AddSimple()
                     .Name("Password")
                     .DataField("password")
-                    .Label(l => l.Text("Password"))
+                    .Label(l => l.Text("New Password"))
                     .Editor(editor => editor.TextBox()
                         .OnValueChanged("uitgAppContext.UserProfileController.onPasswordValueChanged")
                         .ValueChangeEvent("keyup")
-                        .Placeholder("Password")
                         .StylingMode(EditorStylingMode.Filled)
                         .Mode(TextBoxMode.Password)
                         .Buttons(buttons => {
@@ -278,11 +275,9 @@
                 items.AddSimple()
                     .Name("ConfirmPassword")
                     .DataField("confirmPassword")
-                    .Label(l => l.Text("Confirm Password"))
+                    .Label(l => l.Text("Confirm New Password"))
                         .Editor(editor => editor.TextBox()
-                        .Value("12345")
                         .ValueChangeEvent("keyup")
-                        .Placeholder("Confirm password")
                         .StylingMode(EditorStylingMode.Filled)
                         .Mode(TextBoxMode.Password)
                             .Buttons(buttons => {
