@@ -3,7 +3,6 @@ using DevExtremeVSTemplateMVC.DAL;
 using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
@@ -55,7 +54,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         public IActionResult UserProfile()
         {
-            return View("../CommonUserProfile/UserProfile", ProfileData.Profiles[0]);
+            return View("../CommonUserProfile/UserProfile", _context.Contacts.First());
         }
 
         public IActionResult Login() {
@@ -69,25 +68,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
         public IActionResult ForgotPassword() {
             return View("../Auth/ForgotPassword");
         }
-
-        #region Partial Views
-        public ActionResult GetPlanningTasksGrid() {
-            return PartialView("../PlanningTasks/_PlanningTasksGrid");
-        }
-        public ActionResult GetPlanningTasksGantt() {
-            return PartialView("../PlanningTasks/_PlanningTasksGantt");
-        }
-        public ActionResult GetPlanningTasksKanban() {
-            var tasks = _context.Tasks.Where(t => t.Status != "").ToList();
-            var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
-
-            return PartialView("../PlanningTasks/_PlanningTasksKanban", new BoardViewModel
-            {
-                AllTasks = tasks,
-                BoardLists = taskLists
-            });
-        }
-        #endregion
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {

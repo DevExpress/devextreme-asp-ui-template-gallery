@@ -14,9 +14,9 @@ namespace DevExtremeVSTemplateMVC.Utils
             public string image { get; set; }
         }
 
-        public static FormBuilder<EmployeeProfile> BasicInfoCard(this IHtmlHelper Html, EmployeeProfile profile)
+        public static FormBuilder<Contact> BasicInfoCard(this IHtmlHelper Html, Contact profile)
         {
-            FormBuilder<EmployeeProfile> form = Html.DevExtreme().Form<EmployeeProfile>()
+            FormBuilder<Contact> form = Html.DevExtreme().Form<Contact>()
                 .FormData(profile)
                 .ColCount(4)
                 .ShowColonAfterLabel(true)
@@ -61,9 +61,9 @@ namespace DevExtremeVSTemplateMVC.Utils
         }
 
 
-        public static FormBuilder<EmployeeProfile> ContactsCard(this IHtmlHelper Html, EmployeeProfile profile)
+        public static FormBuilder<Contact> ContactsCard(this IHtmlHelper Html, Contact profile)
         {
-            FormBuilder<EmployeeProfile> form = Html.DevExtreme().Form<EmployeeProfile>()
+            FormBuilder<Contact> form = Html.DevExtreme().Form<Contact>()
                 .FormData(profile)
                 .ColCount(2)
                 .ShowColonAfterLabel(true)
@@ -118,9 +118,9 @@ namespace DevExtremeVSTemplateMVC.Utils
             return form;
         }
 
-        public static FormBuilder<EmployeeProfile> AddressCard(this IHtmlHelper Html, EmployeeProfile profile)
+        public static FormBuilder<Contact> AddressCard(this IHtmlHelper Html, Contact profile)
         {
-            FormBuilder<EmployeeProfile> form = Html.DevExtreme().Form<EmployeeProfile>()
+            FormBuilder<Contact> form = Html.DevExtreme().Form<Contact>()
                 .FormData(profile)
                 .ColCount(2)
                 .ShowColonAfterLabel(true)

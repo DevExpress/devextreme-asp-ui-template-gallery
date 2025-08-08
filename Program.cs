@@ -30,6 +30,7 @@ builder.Services.AddScoped<DemoDbContext>(provider => {
     return new DemoDbContext(options);
 });
 builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+builder.Services.AddScoped<LocalDemoDataContext>();
 builder.Services.AddSession(options => {
     options.IdleTimeout = SessionDbContextMiddleware.CACHE_IDLE_TIMEOUT;
 });

@@ -1,24 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DevExtremeVSTemplateMVC.Models;
+using DevExtremeVSTemplateMVC.DAL;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
-    public class AuthController : Controller
-    {
+    public class AuthController : Controller {
+        private readonly LocalDemoDataContext localDemoDataContext;
+
+        public AuthController(LocalDemoDataContext localDemoDataContext) {
+            this.localDemoDataContext = localDemoDataContext;
+        }
+
         public IActionResult Login() {
-            return View(new UserData());
+            return View(localDemoDataContext.NewUser);
         }
 
         public IActionResult SignUp() {
-            return View(new UserData());
+            return View(localDemoDataContext.NewUser);
         }
 
         public IActionResult ForgotPassword() {
-            return View(new UserData());
+            return View(localDemoDataContext.NewUser);
         }
     }
 }

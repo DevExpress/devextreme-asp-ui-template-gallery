@@ -42,6 +42,7 @@
     <script src="~/js/dx.aspnet.data.js"></script>  
 </head>
 @using DevExtremeVSTemplateMVC.Models
+@using DevExtremeVSTemplateMVC.DAL
 @{
     string GetUrl(string action, string controller = "Home") => Url.Action(action, controller);
     string GetCurrentUrl() => Url.Action(ViewContext.RouteData.Values["action"].ToString());
@@ -141,7 +142,7 @@
                 @(Html.DevExtreme().DropDownButton()
                     .ID("userPanelDropDownButton")
                     .ElementAttr(new { @class = "user-button" })
-                    .Icon(SampleUser.User.AvatarUrl)
+                    .Icon(LocalDemoDataContext.User.AvatarUrl)
                     .ShowArrowIcon(false)
                     .StylingMode(ButtonStylingMode.Text)
                     .DropDownOptions(opt => opt.Width("auto"))
@@ -149,7 +150,7 @@
             @<text>
                 <div class="user-info">
                     <div class="user-name" id="dropdown-username">
-                        @String.Format("{0} {1}", SampleUser.User.Name, SampleUser.User.LastName)
+                        @String.Format("{0} {1}", LocalDemoDataContext.User.Name, LocalDemoDataContext.User.LastName)
                     </div>
                 </div>
                 @(Html.DevExtreme().List()

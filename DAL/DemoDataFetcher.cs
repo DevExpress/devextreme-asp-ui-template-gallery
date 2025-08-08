@@ -21,6 +21,43 @@ namespace DevExtremeVSTemplateMVC.DAL
                 allTasks[i].TaskId = i + 1;
             }
 
+            IList<TaskList> kanbanTaskLists = PrepareKanbanData(allTasks);
+
+            Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], DemoConsts.DemoUserProfileId));
+            PopulateContact(contact);
+
+            Directory.CreateDirectory(config.GetValue<string>("DatabasePathDirectory"));
+
+            string databasePath = string.Format("{0}/{1}",
+                config.GetValue<string>(ConfigKeys.DatabasePathDirectoryKey),
+                config.GetValue<string>(ConfigKeys.DatabaseFileNameKey));
+            var options = new DbContextOptionsBuilder<DemoDbContext>()
+                .UseSqlite($"Data Source={databasePath}")
+                .Options;
+
+            using var db = new DemoDbContext(options);
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+
+            db.Tasks.AddRange(allTasks);
+            db.Contacts.Add(contact);
+            db.TaskLists.AddRange(kanbanTaskLists);
+
+            await db.SaveChangesAsync();
+        }
+
+        static void PopulateContact(Contact contact) {
+            contact.Position = "Designer";
+            contact.Department = "UI/UX";
+            contact.BirthDate = new DateTime(1980, 5, 3);
+            contact.HiredDate = new DateTime(2023, 3, 3);
+            contact.Gender = "female";
+            contact.DomainUsername = "corp\\amelia.harper";
+            contact.Country = "USA";
+            contact.Supervisor = "Sam Adamson";
+        }
+
+        static IList<TaskList> PrepareKanbanData(IList<EmployeeTask> allTasks) {
             var orderedTasks = allTasks.Where(t => t.Owner == DemoConsts.DemoFilteredOwnerName).ToList();
             int openIndex = 0;
             int inProgressIndex = 0;
@@ -39,36 +76,12 @@ namespace DevExtremeVSTemplateMVC.DAL
                 }
             }
 
-            Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], DemoConsts.DemoUserProfileId));
-            contact.Activities = null;
-            contact.Opportunities = null;
-
-            IList<TaskList> taskLists = new List<TaskList>
-            {
+            return new List<TaskList> {
                 new TaskList { Id = 1, ListName = "Open", OrderIndex = 1},
                 new TaskList { Id = 2, ListName = "In Progress", OrderIndex = 2},
                 new TaskList { Id = 3, ListName = "Deferred", OrderIndex = 3},
                 new TaskList { Id = 4, ListName = "Completed", OrderIndex = 4}
             };
-
-            Directory.CreateDirectory(config.GetValue<string>("DatabasePathDirectory"));
-
-            string databasePath = string.Format("{0}/{1}",
-                config.GetValue<string>(ConfigKeys.DatabasePathDirectoryKey),
-                config.GetValue<string>(ConfigKeys.DatabaseFileNameKey));
-            var options = new DbContextOptionsBuilder<DemoDbContext>()
-                .UseSqlite($"Data Source={databasePath}")
-                .Options;
-
-            using var db = new DemoDbContext(options);
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
-
-            db.Tasks.AddRange(allTasks);
-            db.Contacts.Add(contact);
-            db.TaskLists.AddRange(taskLists);
-
-            await db.SaveChangesAsync();
         }
 
         public static async Task<IList<T>> FetchListFromApiAsync<T>(HttpClient httpClient, string actionUrl) {
