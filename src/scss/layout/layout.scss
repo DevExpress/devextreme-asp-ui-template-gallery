@@ -11,6 +11,15 @@
     z-index: 1501;
 }
 
+.single-card {
+  height: 100%;
+
+  .dx-scrollview-content {
+    height: 100%;
+  }
+}
+
+
 .layout-body {
     background-color: var(--background-color);
 }
