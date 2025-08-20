@@ -1,32 +1,23 @@
 <link href="~/css/views/CardAuth.css" rel="stylesheet" />
 <link href="~/css/components/SignUpForm.css" rel="stylesheet" />
-<link href="~/css/components/OAtuhForm.css" rel="stylesheet" />
-
+<link href="~/css/components/OAuthForm.css" rel="stylesheet" />
+<script src="~/js/layouts/authlayout.js"></script>
 
 @using DevExtremeVSTemplateMVC.Models;
 @model UserData
 @{
     bool topLayout = this.Context.Request.Path.Value.Contains("Home");
 }
-@* <h2 class="content-block">Sign Up Form</h2> *@
 
 <script>
-    var keepTopLayout = '@Html.Raw(topLayout)' === "True";
-    function onCreateSubmit(e) {
-        const app = window.uitgAppContext;
-        app.SPARouter.navigate(`/${keepTopLayout ? "Home" : "Auth"}/Login`);
-    }
-
-    function confirmPassword(e) {
-        return true;
-    }
+    window.uitgAppContext.AuthLayoutController.keepTopLayout = '@Html.Raw(topLayout)' === "True";
 </script>
 
 <div class="auth-card">
     <div class="dx-card content">
         <div class="header">
             <div class="title" id="sign-up-title">
-                Sign Up
+                Register
             </div>
             <div class="description">
             </div>
@@ -34,105 +25,94 @@
         <div class="content">
             <form class="create-account-form">
                 @(
-                        Html.DevExtreme().Form<UserData>()
-                        .ID("form-instance-register")
-                        .FormData(Model)
-                        .Items(items =>
-                        {
-                            items.AddSimpleFor(m => m.Email)
-                        .Editor(e => e
-                        .TextBox()
-                        .StylingMode(EditorStylingMode.Filled)
-                        .Placeholder("Email")
-                        .Mode(TextBoxMode.Email)
-                        .Value("jheart@dx-email.com")
-                        )
-                        .Label(l => l.Visible(false));
+                                Html.DevExtreme().Form<UserData>()
+                                .ID("form-instance-register")
+                                .FormData(Model)
+                                .Items(items =>
+                                {
+                                    items.AddSimpleFor(m => m.Email)
+                                    .Editor(e => e
+                                    .TextBox()
+                                    .StylingMode(EditorStylingMode.Filled)
+                                    .Placeholder("Email")
+                                    .Mode(TextBoxMode.Email)
+                                    .Value("jheart@dx-email.com")
+                                    )
+                                    .Label(l => l.Visible(false));
 
-                            items.AddSimpleFor(m => m.Password)
-                        .Editor(e => e
-                        .TextBox()
-                        .StylingMode(EditorStylingMode.Filled)
-                        .Placeholder("Password")
-                        .Mode(TextBoxMode.Password)
-                        ).Label(l => l.Visible(false));
+                                    items.AddSimpleFor(m => m.Password)
+                                    .Editor(e => e
+                                    .TextBox()
+                                    .StylingMode(EditorStylingMode.Filled)
+                                    .Placeholder("Password")
+                                    .Mode(TextBoxMode.Password)
+                                    ).Label(l => l.Visible(false));
 
-                            items.AddSimpleFor(m => m.ConfirmPassword)
-                        .Editor(e => e
-                        .TextBox()
-                        .StylingMode(EditorStylingMode.Filled)
-                        .Placeholder("Confirm Password")
-                        .Mode(TextBoxMode.Password))
-                        .Label(l => l.Visible(false));
+                                    items.AddSimpleFor(m => m.ConfirmPassword)
+                                    .Editor(e => e
+                                    .TextBox()
+                                    .StylingMode(EditorStylingMode.Filled)
+                                    .Placeholder("Confirm Password")
+                                    .Mode(TextBoxMode.Password))
+                                    .Label(l => l.Visible(false));
 
-                            items.AddSimple()
-                        .Template(@<text>
-                    <div class="policy-info">
-                        By creating an account, you agree to the
-                        <a onclick="SPARouter.navigate('@(Url.Action("Login", topLayout ? "Home" : "Auth"))');">Terms of Service?</a> and
-                        <a onclick="SPARouter.navigate('@(Url.Action("Login", topLayout ? "Home" : "Auth"))');">Privacy Policy?</a>
-                        @* <a href="/Auth/Login">Terms of Service</a> and
-                        <a href="/Auth/Login">Privacy Policy</a> *@
-                    </div>
-                </text>);
+                                    items.AddSimple()
+                                    .Template(@<text>
+                                        <div class="policy-info">
+                                            By creating an account, you agree to the
+                                            <a href="@(Url.Action("Login", topLayout ? "Home" : "Auth"))" class="spa-link">Terms of
+                                                Service?</a> and
+                                            <a href="@(Url.Action("Login", topLayout ? "Home" : "Auth"))" class="spa-link">Privacy
+                                                Policy?</a>
+                                        </div>
+                                    </text>);
 
-                            items.AddButton()
-                            .ButtonOptions(b => b
-                            .Width("100%")
-                            .Type(ButtonType.Default)
-                            .OnClick("onCreateSubmit")
-                            .Template(new TemplateName("create-account-button"))
-                            );
-                        })
-                    )
+                                    items.AddButton()
+                                    .ButtonOptions(b => b
+                                    .Width("100%")
+                                    .Type(ButtonType.Default)
+                                    .OnClick("window.uitgAppContext.AuthLayoutController.onCreateSubmit")
+                                    .Template(new TemplateName("create-account-button"))
+                                    );
+                                })
+                                )
 
                 <div class="login-link">
                     Have an account?
-                    @* <a href="/Auth/Login">Sign In</a> *@
-                    <a onclick="SPARouter.navigate('@(Url.Action("Login", topLayout ? "Home" : "Auth"))');">Sign In</a>
+                    <a href="@(Url.Action("Login", topLayout ? "Home" : "Auth"))" class="spa-link">Sign In</a>
                 </div>
             </form>
-
-            @using (Html.DevExtreme().NamedTemplate("create-account-button"))
-            {
-                <div>
-                    <span class="dx-button-text">
-                        @(Html.DevExtreme().LoadIndicator()
-                            .Width("24px")
-                            .Height("24px")
-                            .Visible(false)
-                            .ID("accountLoadingIndicator")
-                            )
-                        <span id="sign-in-text">Create a new account</span>
-                    </span>
-                </div>
-            }
-
             <div class="oauth-button-container">
                 <p>or</p>
                 @(Html.DevExtreme().Button()
-                    .Width("100%")
-                    .Icon("/css/icons/google-logo.svg")
-                    .Text("Login with Google")
-                    .StylingMode(ButtonStylingMode.Contained)
-                    )
+                                .Width("100%")
+                                .Icon("/css/icons/google-logo.svg")
+                                .Text("Log In with Google")
+                                .StylingMode(ButtonStylingMode.Contained)
+                                )
                 @(Html.DevExtreme().Button()
-                    .Width("100%")
-                    .Icon("/css/icons/microsoft-logo.svg")
-                    .Text("Login with Microsoft")
-                    .StylingMode(ButtonStylingMode.Contained)
-                    )
+                                .Width("100%")
+                                .Icon("/css/icons/microsoft-logo.svg")
+                                .Text("Log In with Microsoft")
+                                .StylingMode(ButtonStylingMode.Contained)
+                                )
             </div>
         </div>
 
     </div>
 </div>
 
-@* <p class="content-block dx-card responsive-paddings">
-    Sign Up Form goes here...
-    <a onclick="SPARouter.navigate('@(Url.Action("Login", "Auth"))');">Login</a>
-</p> *@
-
-@* @section MySection {
-    <p class="content-block dx-card responsive-paddings">Sign Up section content</p>
-} *@
+@using (Html.DevExtreme().NamedTemplate("create-account-button"))
+{
+    <div>
+        <span class="dx-button-text">
+            @(Html.DevExtreme().LoadIndicator()
+                    .Width("24px")
+                    .Height("24px")
+                    .Visible(false)
+                    .ID("accountLoadingIndicator")
+                    )
+            <span id="sign-in-text">Register</span>
+        </span>
+    </div>
+}

@@ -75,7 +75,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                     items.AddSimpleFor(m => m.Phone)
                         .Editor(editor => editor.TextBox()
                             .StylingMode(EditorStylingMode.Filled)
-                            .Mask("+1(000)000-0000"));
+                            .Mask("(000) 000-0000"));
                     items.AddSimpleFor(m => m.Email)
                         .Editor(editor => editor.TextBox()
                             .StylingMode(EditorStylingMode.Filled));
@@ -157,7 +157,7 @@ namespace DevExtremeVSTemplateMVC.Utils
         public static string FormatPhone(this IHtmlHelper Html, string value)
         {
             if (value == null) return "";
-            return System.Text.RegularExpressions.Regex.Replace(value, @"(\d{3})(\d{3})(\d{4})", "+1($1)$2-$3");
+            return System.Text.RegularExpressions.Regex.Replace(value, @"(\d{3})(\d{3})(\d{4})", "($1) $2-$3");
         }
     }
 }

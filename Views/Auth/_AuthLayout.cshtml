@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -11,10 +12,8 @@
     <title>DevExtreme ASP UI Template Gallery</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-     <link href="~/css/fluent-light.css" rel="dx-theme" data-theme="fluent.blue.light"
-          data-active="true" />
-    <link href="~/css/fluent-dark.css" rel="dx-theme" data-theme="fluent.blue.dark"
-          data-active="false" />
+    <link href="~/css/fluent-light.css" rel="dx-theme" data-theme="fluent.blue.light" data-active="true" />
+    <link href="~/css/fluent-dark.css" rel="dx-theme" data-theme="fluent.blue.dark" data-active="false" />
     <link href="~/css/layout/layout.css" rel="stylesheet" />
     <link href="~/css/styles.css" rel="stylesheet" />
     <link href="~/css/Site.css" rel="stylesheet" />
@@ -26,37 +25,21 @@
 
     <script src="~/js/dx.aspnet.mvc.js"></script>
     <script src="~/js/dx.aspnet.data.js"></script>
+    
 </head>
 
 <body class="dx-viewport">
-    <div id="app-side-nav-outer-toolbar">
-        <div class="layout-header">
-            @(Html.DevExtreme().Toolbar()
-                .Items(items => {
-                    items.Add()
-                        .Html("<div>DevExtreme ASP UI Template Gallery</div>")
-                        .Location(ToolbarItemLocation.Before)
-                        .CssClass("header-title");
-                })
-            )
-        </div>
-        <div class="layout-body">
-            <div class="content" data-placeholder-id="auth-layout-body">
-                @RenderBody()
-            </div>
-            <div data-placeholder-id="auth-layout-section">
-                @RenderSection("MySection", false)
-            </div>
-            <div class="content-block">
-                <div class="content-footer">
-                    <div id="footer">
-                        Copyright (c) 2000-2025 Developer Express Inc.
-                        <br />
-                        All trademarks or registered trademarks are property of their respective owners.
-                    </div>
+    <div class="app screen-large">
+     @(Html.DevExtreme().ScrollView()
+         .ElementAttr(new { @class = "view-wrapper-scroll single-card" })
+         .Height("100%")
+         .Width("100%")
+         .Content(@<text>
+                <div class="content" data-placeholder-id="auth-layout-body">
+                    @RenderBody()
                 </div>
-            </div>
-        </div>
+            </text>)
+     )      
     </div>
 
     <script>

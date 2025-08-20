@@ -90,6 +90,13 @@ interface SPARouter {
     navigate(url: string): void;
 }
 
+interface AuthLayoutController {
+    keepTopLayout: any;
+    onCreateSubmit(): void;
+    onSubmit(e: Event): void;
+    onCreateAccountClick(): void;
+}
+
 interface PopupFormController {
     getSizeQualifier(width: number): string;
     getPopupForm(): DevExpress.ui.dxPopup;
@@ -104,6 +111,7 @@ type TaskFormSaveMode = "insert" | "update";
 type AppConfig = {
     PopupFormController: PopupFormController;
     LayoutController: LayoutController;
+    AuthLayoutController: AuthLayoutController;
     KanbanTasksController?: KanbanTasksController;
     PlanningTasksController?: PlanningTasksController;
     UserProfileController?: UserProfileController;
