@@ -16,10 +16,10 @@
     <link href="~/css/fluent-dark.css" rel="dx-theme" data-theme="fluent.blue.dark" data-active="false" />
     <link href="~/css/layout/layout.css" rel="stylesheet" />
     <link href="~/css/styles.css" rel="stylesheet" />
-    <link href="~/css/Site.css" rel="stylesheet" />
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/index.js"></script>
     <script src="~/js/router.js"></script>
+    <script src="~/js/theme.js"></script>
 
     <script src="~/js/dx.all.js"></script>
 
@@ -39,13 +39,14 @@
                     @RenderBody()
                 </div>
             </text>)
-     )      
+     )
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
             const app = window.uitgAppContext;
+            app.ThemeController.init();
             app.SPARouter.init();
         });
     </script>
