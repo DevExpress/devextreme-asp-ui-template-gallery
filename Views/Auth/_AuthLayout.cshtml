@@ -19,6 +19,7 @@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/index.js"></script>
     <script src="~/js/router.js"></script>
+    <script src="~/js/theme.js"></script>
 
     <script src="~/js/dx.all.js"></script>
 
@@ -45,6 +46,7 @@
         document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
             const app = window.uitgAppContext;
+            app.ThemeController.init();
             app.SPARouter.init();
         });
     </script>
