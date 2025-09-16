@@ -14,7 +14,20 @@ Familiarize yourself with the [DevExtreme License](https://js.devexpress.com/Lic
 
 ## Installation
 
-Clone this repository and open the solution in Visual Studio 2022.
+### Windows
+
+- Clone\Donwload this repository on your PC 
+- Open the solution in Visual Studio 2022
+- If DevExpress Local Nuget Feed doesn't exist on your PC, obtain your key [online](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and change [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config)
+- Run the project (`F5`)
+
+### Mac OS
+
+- Clone this repository on your PC 
+- Open the application folder in the IDE that supports `.NET` projects (e.g. Visual Studio Code)
+- Obtain your key [online](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and change [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config)
+- If `.NET` SDK is not installed download (e.g., from the [site](https://dotnet.microsoft.com/en-us/download)) and install it first to get access to .NET CLI. 
+- Run `dotnet run` from the root application folder in the IDE terminal.
 
 ## Project Structure
 
@@ -131,5 +144,6 @@ The client-side API is based on [jQuery documentation](https://api.jquery.com/) 
 - [Get and Set Properties](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_and_Set_Properties)
 - [Call Methods](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Call_Methods)
 - [Get a UI Component Instance](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_a_UI_Component_Instance)
+
 
 Need help? Submit a ticker to the [DevExpress Support Center](https://www.devexpress.com/Support/Center/Question/Create).
