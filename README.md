@@ -1,10 +1,10 @@
 # DevExtreme UI Template Gallery for ASP.NET Core
 
-This repository includes responsive UI Templates for the most popular UI/UX patterns in web LOB applications.
+This repository includes responsive UI Templates for the most popular UI/UX patterns in web LOB applications. The UI Templates have responsive layouts with [DevExtreme ASP.NET Core UI controls](https://www.devexpress.com/products/net/controls/asp/core.xml).
 
 ![UI Template Gallery Overview](/ui-template-gallery.png)
 
-The UI Templates have responsive layouts with DevExtreme UI components. Note that the components use sample data entities without any business logic. You can use these UI Templates in your project and adapt them to your specific business requirements.
+Note that the components use sample data entities without any business logic. You can use these UI Templates in your project and adapt them to your specific business requirements.
 
 ## License
 
@@ -12,9 +12,45 @@ The UI Templates have responsive layouts with DevExtreme UI components. Note tha
 
 Familiarize yourself with the [DevExtreme License](https://js.devexpress.com/Licensing/). [Free trial is available!](http://js.devexpress.com/Buy/).
 
+## Templates
+
+The UI Template Gallery includes the following templates:
+
+- [**Task List**](/Views/PlanningTasks/PlanningTasksGrid.cshtml). A task/project management layout with a list, kanban board, and a gantt view. Allows you to add, edit, delete, view, search, and analyze tasks. Includes:    
+  - [DataGrid](https://demos.devexpress.com/ASPNetCore/Demo/DataGrid/Overview/)
+  - [Gantt](https://demos.devexpress.com/ASPNetCore/Demo/Gantt/Overview)
+  - [Sortable](https://demos.devexpress.com/ASPNetCore/Demo/Sortable/Kanban)
+  - [Toolbar](https://demos.devexpress.com/ASPNetCore/Demo/Toolbar/Overview)
+  - [Tabs](https://demos.devexpress.com/ASPNetCore/Demo/Tabs/Overview)
+  - [Popup](https://demos.devexpress.com/ASPNetCore/Demo/Popup/Overview)
+  - [Form](https://demos.devexpress.com/ASPNetCore/Demo/Form/Overview)
+- [**User Profile**](/Views/CommonUserProfile/UserProfile.cshtml). An editing form for a user's profile. Includes:
+  - [Form](https://demos.devexpress.com/ASPNetCore/Demo/Form/Overview)
+  - [Popup](https://demos.devexpress.com/ASPNetCore/Demo/Popup/Overview)
+  - [Button](https://demos.devexpress.com/ASPNetCore/Demo/Button/PredefinedTypes)
+  - [TextBox](https://demos.devexpress.com/ASPNetCore/Demo/TextBox/Overview)
+  - [DateBox](https://demos.devexpress.com/ASPNetCore/Demo/DateBox/Overview)
+  - [FileUploader](https://demos.devexpress.com/ASPNetCore/Demo/FileUploader/FileSelection)
+- [**Sign In Form**](/Views/Auth/Login.cshtml).
+- [**Register Form**](/Views/Auth/SignUp.cshtml).
+- [**Reset Password Form**](/Views/Auth/ForgotPassword.cshtml).
+
 ## Installation
 
-Clone this repository and open the solution in Visual Studio 2022.
+### Windows
+
+- Clone this repository.
+- Open the solution in Visual Studio 2022 or later.
+- Check [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config). If DevExpress Local Nuget Feed is missing, get the key [here](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and update Nuget.config.
+- Run the project (`F5`).
+
+### Mac OS
+
+- Clone this repository.
+- Open the project folder in an IDE that supports `.NET` (e.g. Visual Studio Code).
+- Get the key [here](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and update [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config).
+- If .NET SDK is absent, download and install it first ([link](https://dotnet.microsoft.com/en-us/download)).
+- Run `dotnet run` in the terminal from the project root folder.
 
 ## Project Structure
 
@@ -30,7 +66,7 @@ Clone this repository and open the solution in Visual Studio 2022.
 
 ## Client-side libraries and build process
 
-- [NPM](https://www.npmjs.com/) manages client libraries: jQuery and DevExtreme.
+- [NPM](https://www.npmjs.com/) manages client libraries: [jQuery](https://www.npmjs.com/package/jquery) and [DevExtreme](https://www.npmjs.com/package/devextreme).
 - Styles are written in SCSS.
 - Client logic is written in TypeScript.
 
@@ -101,10 +137,9 @@ For detailed implementation, refer to [router.ts](src/ts/router.ts).
   - The [`_ViewStart.cshtml`](Views/Auth/_ViewStart.cshtml) file includes additional Layout selection logic.  
   - Authentication views can be displayed either in the main Layout or a specific Layout displayed when users log out.
 
-
 ## Themes
 
-The application supports themes for a consistent look and feel across all views.
+The application supports [themes](https://docs.devexpress.com/AspNetCore/401270/devextreme-based-controls/concepts/themes) for a consistent look and feel across all views.
 
 -	Themes are managed using SCSS variables defined in the [scss](src/scss) folder.
 -	Themes can be [switched dynamically at runtime](https://js.devexpress.com/DevExtreme/Guide/Themes_and_Styles/Predefined_Themes/#Switch_Between_Themes_at_Runtime/Without_Page_Reload).
@@ -125,11 +160,14 @@ The application uses Entity Framework Core to manage data.
 
 ## Documentation
 
-You can learn more about the ASP.NET Core controls in DevExpress documentation: [Concepts](https://docs.devexpress.com/AspNetCore/400574/devextreme-based-controls/concepts/razor-syntax).
+You can learn more about the ASP.NET Core controls in DevExpress documentation: 
+
+- [Get Started](https://docs.devexpress.com/AspNetCore/401026/devextreme-based-controls/get-started/configure-a-visual-studio-project)
+- [Concepts](https://docs.devexpress.com/AspNetCore/400574/devextreme-based-controls/concepts/razor-syntax)
 
 The client-side API is based on [jQuery documentation](https://api.jquery.com/) and is described in the following help topics: 
 - [Get and Set Properties](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_and_Set_Properties)
 - [Call Methods](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Call_Methods)
 - [Get a UI Component Instance](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_a_UI_Component_Instance)
 
-Need help? Submit a ticker to the [DevExpress Support Center](https://www.devexpress.com/Support/Center/Question/Create).
+Need help? Submit a ticket to the [DevExpress Support Center](https://www.devexpress.com/Support/Center/Question/Create).
