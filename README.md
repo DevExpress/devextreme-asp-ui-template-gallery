@@ -19,17 +19,38 @@ The UI Template Gallery includes the following templates:
 - [**Task List**](/Views/PlanningTasks/PlanningTasksGrid.cshtml). A task/project management layout with a list, kanban board, and a gantt view. Allows you to add, edit, delete, view, search, and analyze tasks. Includes:    
   - [DataGrid](https://demos.devexpress.com/ASPNetCore/Demo/DataGrid/Overview/)
   - [Gantt](https://demos.devexpress.com/ASPNetCore/Demo/Gantt/Overview)
+  - [Sortable](https://demos.devexpress.com/ASPNetCore/Demo/Sortable/Kanban)
   - [Toolbar](https://demos.devexpress.com/ASPNetCore/Demo/Toolbar/Overview)
+  - [Tabs](https://demos.devexpress.com/ASPNetCore/Demo/Tabs/Overview)
+  - [Popup](https://demos.devexpress.com/ASPNetCore/Demo/Popup/Overview)
+  - [Form](https://demos.devexpress.com/ASPNetCore/Demo/Form/Overview)
 - [**User Profile**](/Views/CommonUserProfile/UserProfile.cshtml). An editing form for a user's profile. Includes:
   - [Form](https://demos.devexpress.com/ASPNetCore/Demo/Form/Overview)
+  - [Popup](https://demos.devexpress.com/ASPNetCore/Demo/Popup/Overview)
   - [Button](https://demos.devexpress.com/ASPNetCore/Demo/Button/PredefinedTypes)
+  - [TextBox](https://demos.devexpress.com/ASPNetCore/Demo/TextBox/Overview)
+  - [DateBox](https://demos.devexpress.com/ASPNetCore/Demo/DateBox/Overview)
+  - [FileUploader](https://demos.devexpress.com/ASPNetCore/Demo/FileUploader/FileSelection)
 - [**Sign In Form**](/Views/Auth/Login.cshtml).
 - [**Register Form**](/Views/Auth/SignUp.cshtml).
 - [**Reset Password Form**](/Views/Auth/ForgotPassword.cshtml).
 
 ## Installation
 
-Clone this repository and open the solution in Visual Studio 2022 or newer.
+### Windows
+
+- Clone this repository.
+- Open the solution in Visual Studio 2022 or later.
+- Check [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config). If DevExpress Local Nuget Feed is missing, get the key [here](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and update Nuget.config.
+- Run the project (`F5`).
+
+### Mac OS
+
+- Clone this repository.
+- Open the project folder in an IDE that supports `.NET` (e.g. Visual Studio Code).
+- Get the key [here](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and update [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config).
+- If .NET SDK is absent, download and install it first ([link](https://dotnet.microsoft.com/en-us/download)).
+- Run `dotnet run` in the terminal from the project root folder.
 
 ## Project Structure
 
