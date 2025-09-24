@@ -4,6 +4,9 @@
 
 <head>
     @await Html.PartialAsync("_CommonStyles")
+    <link href="~/css/layout/layout.css" rel="stylesheet" />
+
+    @await Html.PartialAsync("_CommonScripts")
 </head>
 
 <body class="dx-viewport">
@@ -19,9 +22,6 @@
             </text>)
      )
     </div>
-
-    @* Include common scripts *@
-    @await Html.PartialAsync("_CommonScripts")
     
     <script>
         document.addEventListener("DOMContentLoaded", function documentReady() {
@@ -34,7 +34,3 @@
 </body>
 
 </html>
-
-@section AdditionalStyles {
-    <link href="~/css/layout/layout.css" rel="stylesheet" />
-}
