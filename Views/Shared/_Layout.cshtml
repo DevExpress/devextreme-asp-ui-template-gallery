@@ -3,6 +3,9 @@
 <html>
 <head>
     @await Html.PartialAsync("_CommonStyles")
+    @await Html.PartialAsync("_LayoutStyles")
+    @await Html.PartialAsync("_CommonScripts")
+    @await Html.PartialAsync("_LayoutScripts")
 </head>
 @using DevExtremeVSTemplateMVC.Models
 @using DevExtremeVSTemplateMVC.DAL
@@ -189,9 +192,6 @@
         </div>
     }
  
- @* Include common scripts *@
- @await Html.PartialAsync("_CommonScripts")
- 
  <script>
     document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
@@ -204,24 +204,3 @@
 </body>
 
 </html>
-
-@section AdditionalStyles {
-    <link href="~/css/dx-gantt.min.css" rel="stylesheet" />
-    <link href="~/css/components/SideNavigationMenu.css" rel="stylesheet" />
-    <link href="~/css/components/UserPanel.css" rel="stylesheet" />
-    <link href="~/css/components/UserMenuSection.css" rel="stylesheet" />
-    <link href="~/css/components/AppHeader.css" rel="stylesheet" />
-    <link href="~/css/components/AppFooter.css" rel="stylesheet" />
-    <link href="~/css/layout/side-nav-outer-toolbar.css" rel="stylesheet" />
-}
-
-@section AdditionalScripts {
-    <script src="~/js/constants.js"></script>
-    <script src="~/js/jszip.min.js"></script>
-    <script src="~/js/FileSaver.min.js"></script> 
-    <script src="~/js/exceljs.min.js"></script>
-    <script src="~/js/jspdf.umd.min.js"></script>
-    <script src="~/js/jspdf.plugin.autotable.min.js"></script>
-    <script src="~/js/layouts/layout.js"></script>    
-    <script src="~/js/dx-gantt.min.js"></script>
-}
