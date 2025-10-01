@@ -15,7 +15,7 @@
 
 <div class="auth-card">
     <div class="dx-card content">
-        @await Html.PartialAsync("_AuthHeader", "Register")
+        @await Html.PartialAsync("/Views/Auth/_AuthHeader.cshtml", "Register")
         <div class="content">
             <form class="create-account-form">
                 @(
@@ -66,7 +66,7 @@
                         .Width("100%")
                         .Type(ButtonType.Default)
                         .OnClick("window.uitgAppContext.AuthLayoutController.onCreateSubmit")
-                        .Template(new TemplateName("create-account-button"))
+                        .Template(new TemplateName("auth-button"))
                         );
                     })
                     )
@@ -82,17 +82,4 @@
     </div>
 </div>
 
-@using (Html.DevExtreme().NamedTemplate("create-account-button"))
-{
-    <div>
-        <span class="dx-button-text">
-            @(Html.DevExtreme().LoadIndicator()
-                    .Width("24px")
-                    .Height("24px")
-                    .Visible(false)
-                    .ID("accountLoadingIndicator")
-                    )
-            <span id="sign-in-text">Register</span>
-        </span>
-    </div>
-}
+@await Html.PartialAsync("/Views/Auth/_AuthButtonTemplate.cshtml", ("accountLoadingIndicator", "Register"))

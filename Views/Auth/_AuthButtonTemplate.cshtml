@@ -1,0 +1,16 @@
+@model (string loadingIndicatorId, string buttonText)
+
+@using (Html.DevExtreme().NamedTemplate("auth-button"))
+{
+    <div>
+        <span class="dx-button-text">
+            @(Html.DevExtreme().LoadIndicator()
+                    .Width("24px")
+                    .Height("24px")
+                    .Visible(false)
+                    .ID(Model.loadingIndicatorId)
+                    )
+            <span id="sign-in-text">@Model.buttonText</span>
+        </span>
+    </div>
+}
