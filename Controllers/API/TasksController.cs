@@ -30,7 +30,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
         public IActionResult InsertTask([FromForm] string values) {
             EmployeeTask employeeTask = new EmployeeTask();
             UpdateTaskProperties(employeeTask, values);
-            employeeTask.TaskId = _context.Tasks.Where(t => t.Owner == employeeTask.Owner).Max(t => t.TaskId) + 1;
+            //employeeTask.TaskId = _context.Tasks.Where(t => t.Owner == employeeTask.Owner).Max(t => t.TaskId) + 1;
             _context.Tasks.Add(employeeTask);
             _context.SaveChanges();
             return Json(new { employeeTask.Id });
