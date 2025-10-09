@@ -35,7 +35,7 @@ bld/
 wwwroot/
 !wwwroot/css/icons/google-logo.svg
 !wwwroot/css/icons/microsoft-logo.svg
-!wwwroot/favicon.png
+!wwwroot/favicon.ico
 
 # Database from a remote service
 App_Data/
