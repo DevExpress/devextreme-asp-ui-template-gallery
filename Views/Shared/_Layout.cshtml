@@ -111,7 +111,7 @@
                     .Icon(LocalDemoDataContext.User.AvatarUrl)
                     .ShowArrowIcon(false)
                     .StylingMode(ButtonStylingMode.Text)
-                    .DropDownOptions(opt => opt.Width("auto"))
+                    .DropDownOptions(opt => opt.Width("auto").WrapperAttr(new { @class = "drop-down-menu" }))
                     .DropDownContentTemplate(
             @<text>
                 <div class="user-info">
