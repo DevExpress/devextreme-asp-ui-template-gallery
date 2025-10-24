@@ -11,6 +11,7 @@ interface PlanningTasksController {
     exportToPdf(): void;
     exportToXlsx(): void;
     searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void;
+    gridAdaptiveRowPreparing(e: DevExpress.ui.dxDataGrid.AdaptiveDetailRowPreparingEvent): void;
     beforeSendGantt(operation: string, ajaxSettings: any): void;
 }
 

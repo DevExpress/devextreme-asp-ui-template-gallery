@@ -21,6 +21,7 @@
             .LoadAction("GetTasks").UpdateAction("UpdateTask").InsertAction("InsertTask")
         )
         .DataSourceOptions(dso => dso.Filter(gridFilter))
+        .OnAdaptiveDetailRowPreparing("uitgAppContext.PlanningTasksController.gridAdaptiveRowPreparing")
         .ElementAttr(new { @class = "planning-grid theme-dependent" })
         .Height("100%")
         .RemoteOperations(true)
