@@ -67,11 +67,34 @@
         return baseUri.replace(/\/$/, '');
     }
 
+    function getScreenSizeClass() {
+        const screenSize = getScreenSize();
+        if (screenSize.isLarge) {
+            return 'screen-large';
+        }
+        if (screenSize.isMedium) {
+            return 'screen-medium';
+        }
+        if (screenSize.isSmall) {
+            return 'screen-small';
+        }
+        return 'screen-x-small';
+    };
+
+    function updateScreenSize() {
+        ['screen-large', 'screen-medium', 'screen-small', 'screen-x-small']
+            .forEach(screenClass => $(".app").removeClass(screenClass));
+        $(".app").addClass(getScreenSizeClass());
+    }
+
     function init() {
+        updateScreenSize();
         $.each(breakpoints, (_, media) => {
             media.addEventListener('change', (e) => {
-                if (e.matches)
+                if (e.matches) {
                     updateSidePanel();
+                    updateScreenSize();
+                }
             });
         });
         updateSidePanel();
