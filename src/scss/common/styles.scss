@@ -88,6 +88,7 @@ body {
     flex-grow: 1;
     flex-direction: column;
     padding: 0 var(--page-padding);
+    min-width: 480px;
 }
 
 .responsive-paddings {

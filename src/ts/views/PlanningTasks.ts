@@ -136,6 +136,15 @@
         });
     }
 
+    function gridAdaptiveRowPreparing(e: DevExpress.ui.dxDataGrid.AdaptiveDetailRowPreparingEvent) {
+        e.formOptions.colCountByScreen = {
+            lg: 3,
+            md: 3,
+            sm: 2,
+            xs: 1
+        }
+    }
+
     function searchDataGrid(e: DevExpress.ui.dxTextBox.ValueChangedEvent) {
         $('#tasks-grid').dxDataGrid('instance').searchByText(e.component.option('text') ?? '');
     }
@@ -164,6 +173,7 @@
         exportToPdf,
         exportToXlsx,
         searchDataGrid,
+        gridAdaptiveRowPreparing,
         beforeSendGantt
     };
 })();
