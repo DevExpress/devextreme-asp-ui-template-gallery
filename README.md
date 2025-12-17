@@ -6,6 +6,10 @@ This repository contains responsive UI Templates that replicate popular UI/UX pa
 
 Note that components use auto-generated data. You can use these UI Templates in your project and modify them based on your business requirements.
 
+## Feedback
+
+Please share your feedback by completing a [short survey](https://www.devexpress.com/support/surveys/devextreme-aspnet-core-uitg.xml).
+
 ## License
 
 **DevExtreme UI Template Gallery is released as a MIT-licensed (free and open-source) add-on to DevExtreme. [Get your 30-day free trial now!](http://js.devexpress.com/Buy/)**
@@ -169,6 +173,5 @@ Client-side APIs are based on [jQuery](https://api.jquery.com/) and are describe
 - [Get and Set Properties](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_and_Set_Properties)
 - [Call Methods](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Call_Methods)
 - [Get a UI Component Instance](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_a_UI_Component_Instance)
-
 
 Need help? Submit a ticket to the [DevExpress Support Center](https://www.devexpress.com/Support/Center/Question/Create).
