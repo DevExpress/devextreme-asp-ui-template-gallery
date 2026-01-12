@@ -5,7 +5,7 @@
   "dependencies": {
     "devextreme-aspnet-data": "^5.1.0",
     "devextreme-dist": "^25.2",
-    "exceljs": "4.4.0",
+    "devextreme-exceljs-fork": "^4.4.5",
     "file-saver": "2.0.5",
     "jquery": "3.7.1",
     "jspdf": "^2.5.1",
