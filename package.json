@@ -8,8 +8,8 @@
     "devextreme-exceljs-fork": "^4.4.5",
     "file-saver": "2.0.5",
     "jquery": "3.7.1",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "3.8.3",
+    "jspdf": "^4.0.0",
+    "jspdf-autotable": "^5.0.7",
     "jszip": "3.10.1"
   },
   "devDependencies": {
