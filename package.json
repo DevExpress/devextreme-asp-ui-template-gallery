@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "devextreme-aspnet-data": "^5.1.0",
-    "devextreme-dist": "^25.1",
+    "devextreme-dist": "^25.2.3",
     "exceljs": "4.4.0",
     "file-saver": "2.0.5",
     "jquery": "3.7.1",
