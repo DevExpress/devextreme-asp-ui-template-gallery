@@ -35,17 +35,17 @@
             })
             .Toolbar(toolbar => {
                 toolbar.Items(items => {
-                    items.Add().Name(GanttToolbarItem.Undo);
-                    items.Add().Name(GanttToolbarItem.Redo);
+                    items.Add().Name(GanttToolbarItem.Undo).Widget(w => w.Button().Icon("revert"));
+                    items.Add().Name(GanttToolbarItem.Redo).Widget(w => w.Button().Icon("redo"));
                     items.Add().Name(GanttToolbarItem.Separator);
-                    items.Add().Name(GanttToolbarItem.CollapseAll);
-                    items.Add().Name(GanttToolbarItem.ExpandAll);
+                    items.Add().Name(GanttToolbarItem.CollapseAll).Widget(w => w.Button().Icon("arrowdown"));
+                    items.Add().Name(GanttToolbarItem.ExpandAll).Widget(w => w.Button().Icon("arrowup"));
                     items.Add().Name(GanttToolbarItem.Separator);
-                    items.Add().Name(GanttToolbarItem.AddTask);
-                    items.Add().Name(GanttToolbarItem.DeleteTask);
+                    items.Add().Name(GanttToolbarItem.AddTask).Widget(w => w.Button().Icon("add"));
+                    items.Add().Name(GanttToolbarItem.DeleteTask).Widget(w => w.Button().Icon("trash"));
                     items.Add().Name(GanttToolbarItem.Separator);
-                    items.Add().Name(GanttToolbarItem.ZoomIn);
-                    items.Add().Name(GanttToolbarItem.ZoomOut);
+                    items.Add().Name(GanttToolbarItem.ZoomIn).Widget(w => w.Button().Icon("zoominoutline"));
+                    items.Add().Name(GanttToolbarItem.ZoomOut).Widget(w => w.Button().Icon("zoomoutoutline"));
                 });
             })
             .Validation(validation => validation.AutoUpdateParentTasks(true))
