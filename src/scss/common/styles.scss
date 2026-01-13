@@ -278,6 +278,7 @@ body {
 .dx-theme-fluent {
     .dx-widget {
         font-family: Inter, sans-serif;
+
         input {
             font-family: Inter, sans-serif;
         }
@@ -287,8 +288,12 @@ body {
         font-family: Inter, sans-serif;
     }
 
-    .dx-drawer-panel-content {
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.12);
+    &.dx-color-scheme-blue-light .dx-drawer-panel-content {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    &.dx-color-scheme-blue-dark .dx-drawer-panel-content {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.96);
     }
 
     .layout-body .menu-container.theme-dependent,
