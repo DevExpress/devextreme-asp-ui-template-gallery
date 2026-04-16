@@ -34,8 +34,8 @@ importers:
         version: 3.10.1
     devDependencies:
       '@types/jquery':
-        specifier: 3.5.32
-        version: 3.5.32
+        specifier: 3.5.34
+        version: 3.5.34
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
@@ -82,8 +82,8 @@ packages:
   '@preact/signals-core@1.14.1':
     resolution: {integrity: sha512-vxPpfXqrwUe9lpjqfYNjAF/0RF/eFGeLgdJzdmIIZjpOnTmGmAB4BjWone562mJGMRP4frU6iZ6ei3PDsu52Ng==}
 
-  '@types/jquery@3.5.32':
-    resolution: {integrity: sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ==}
+  '@types/jquery@3.5.34':
+    resolution: {integrity: sha512-3m3939S3erqmTLJANS/uy0B6V7BorKx7RorcGZVjZ62dF5PAGbKEDZK1CuLtKombJkFA2T1jl8LAIIs7IV6gBQ==}
 
   '@types/pako@2.0.4':
     resolution: {integrity: sha512-VWDCbrLeVXJM9fihYodcLiIv0ku+AlOa/TQ1SvYOaBuyrSKgEcro95LJyIsJ4vSo6BXIxOKxiJAat04CmST9Fw==}
@@ -715,7 +715,7 @@ snapshots:
 
   '@preact/signals-core@1.14.1': {}
 
-  '@types/jquery@3.5.32':
+  '@types/jquery@3.5.34':
     dependencies:
       '@types/sizzle': 2.3.10
 
