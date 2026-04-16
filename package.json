@@ -1,6 +1,7 @@
 {
   "version": "1.0.0",
   "name": "asp.net.ui.template.gallery",
+  "packageManager": "pnpm@9.15.9",
   "private": true,
   "dependencies": {
     "devextreme-aspnet-data": "^5.1.0",
