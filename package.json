@@ -3,6 +3,12 @@
   "name": "asp.net.ui.template.gallery",
   "packageManager": "pnpm@9.15.9",
   "private": true,
+  "engines": {
+      "node": "24.15.0"
+  },
+  "volta": {
+      "node": "24.15.0"
+  },
   "dependencies": {
     "devextreme-aspnet-data": "^5.1.0",
     "devextreme-dist": "^25.2",
