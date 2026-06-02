@@ -13,7 +13,7 @@ importers:
         version: 5.1.0(devextreme@25.2.6)
       devextreme-dist:
         specifier: ^25.2
-        version: 25.2.6
+        version: 25.2.7
       devextreme-exceljs-fork:
         specifier: ^4.4.8
         version: 4.4.8
@@ -44,6 +44,10 @@ packages:
 
   '@babel/runtime@7.29.2':
     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
   '@devexpress/utils@1.4.8':
@@ -79,8 +83,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@preact/signals-core@1.14.1':
-    resolution: {integrity: sha512-vxPpfXqrwUe9lpjqfYNjAF/0RF/eFGeLgdJzdmIIZjpOnTmGmAB4BjWone562mJGMRP4frU6iZ6ei3PDsu52Ng==}
+  '@preact/signals-core@1.14.2':
+    resolution: {integrity: sha512-RZHdBj9ZF4n40Rp4jS052EHHjBWf96P9oNdXPfhQTovCuWY9iQn3Gq+gOTJSgBO9A/JBuPfMOWsSX/lIU9Pc/A==}
 
   '@types/jquery@3.5.34':
     resolution: {integrity: sha512-3m3939S3erqmTLJANS/uy0B6V7BorKx7RorcGZVjZ62dF5PAGbKEDZK1CuLtKombJkFA2T1jl8LAIIs7IV6gBQ==}
@@ -254,8 +258,8 @@ packages:
     peerDependencies:
       devextreme: '>=18.1.0'
 
-  devextreme-dist@25.2.6:
-    resolution: {integrity: sha512-YbXNCrM51fq4n/0KQ+cVaN5lVUySgEGDAP6buCHxHuNoKDDSkmc/Qs/U0JXtOL+bCdVFlbIK/L7AdBpClwOsdQ==}
+  devextreme-dist@25.2.7:
+    resolution: {integrity: sha512-+ptHP09J8Vet6o9hxPPfyXDfMd8LGU+3ODHb4GUsVMMl9+EJLOwV3J6LrzX2zt6eKe2hESSIAPMkmUTEoRJMnA==}
 
   devextreme-exceljs-fork@4.4.8:
     resolution: {integrity: sha512-XjZ5aqD0MILYW9BLCKiR8CJyDhkROf6bT45dSmczcOT7Ow0GtzLI8RBfTVrBsm0fjUyjNkKFO5d4T5iTHth52A==}
@@ -663,6 +667,8 @@ snapshots:
 
   '@babel/runtime@7.29.2': {}
 
+  '@babel/runtime@7.29.7': {}
+
   '@devexpress/utils@1.4.8':
     dependencies:
       tslib: 2.3.1
@@ -714,7 +720,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@preact/signals-core@1.14.1': {}
+  '@preact/signals-core@1.14.2': {}
 
   '@types/jquery@3.5.34':
     dependencies:
@@ -890,7 +896,7 @@ snapshots:
     dependencies:
       devextreme: 25.2.6
 
-  devextreme-dist@25.2.6: {}
+  devextreme-dist@25.2.7: {}
 
   devextreme-exceljs-fork@4.4.8:
     dependencies:
@@ -919,8 +925,8 @@ snapshots:
 
   devextreme@25.2.6:
     dependencies:
-      '@babel/runtime': 7.29.2
-      '@preact/signals-core': 1.14.1
+      '@babel/runtime': 7.29.7
+      '@preact/signals-core': 1.14.2
       devexpress-diagram: 2.2.25
       devexpress-gantt: 4.1.67
       devextreme-quill: 1.7.8
