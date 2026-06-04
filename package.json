@@ -4,12 +4,12 @@
   "packageManager": "pnpm@11.5.1",
   "private": true,
   "engines": {
-      "node": "^24.15.0"
+    "node": "^24.15.0"
   },
   "dependencies": {
     "devextreme-aspnet-data": "^5.1.0",
     "devextreme-dist": "^25.2",
-    "devextreme-exceljs-fork": "^4.4.8",
+    "devextreme-exceljs-fork": "^4.4.11",
     "file-saver": "2.0.5",
     "jquery": "3.7.1",
     "jspdf": "^4.2.1",
