@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      devexpress-gantt:
+        specifier: ^4.1.69
+        version: 4.1.69
+      devextreme:
+        specifier: ^25.2
+        version: 25.2.8
       devextreme-aspnet-data:
         specifier: ^5.1.0
         version: 5.1.0(devextreme@25.2.8)

@@ -70,20 +70,20 @@ The UI Template Gallery includes the following templates:
 
 ## Client-side Libraries and Build Process
 
-- [NPM](https://www.npmjs.com/) manages client libraries: [jQuery](https://www.npmjs.com/package/jquery) and [DevExtreme](https://www.npmjs.com/package/devextreme).
+- [PNPM](https://pnpm.io/) manages client libraries: [jQuery](https://www.npmjs.com/package/jquery) and [DevExtreme](https://www.npmjs.com/package/devextreme).
 - Styles are written in SCSS.
 - Client logic is written in TypeScript.
 
 Run `F5` to start MSBuild. This will execute the following build steps:
 
-- Check Node.js and restore NPM packages
+- Check Node.js, PNPM and restore NPM packages
 - Copy required jQuery/DevExtreme assets (scripts, icons, fonts) from `node_modules` to `wwwroot`.
 - Compile SCSS files to CSS via `AspNetCore.SassCompiler`. The output file is created in the  `wwwroot` folder. You can change the target folder in `appsettings.json`.
 - Compile TypeScript to JavaScript via `Microsoft.TypeScript.MSBuild`. The output script is created in `wwwroot`.
 
 To add extra third-party client resources:
 
-- Install packages using NPM.
+- Install packages using PNPM.
 - Add assets to the [`CopyTask`](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/eca6039179487322bdb682fa68558d34799ca9ec/devextreme-asp-ui-template-gallery.csproj#L18).
 
 ## Views
