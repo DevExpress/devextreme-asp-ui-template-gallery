@@ -7,6 +7,8 @@
     "node": "^24.15.0"
   },
   "dependencies": {
+    "devexpress-gantt": "^4.1.69",
+    "devextreme": "^25.2",
     "devextreme-aspnet-data": "^5.1.0",
     "devextreme-dist": "^25.2",
     "devextreme-exceljs-fork": "^4.4.11",
