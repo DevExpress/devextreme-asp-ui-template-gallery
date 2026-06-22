@@ -17,10 +17,19 @@
 .edit-cell {
     position: relative;
 
-    .priority-task,
-    .status-task {
-        position: absolute;
-        margin-top: 10px;
-        margin-left: 11px;
+    .dx-dropdowneditor-field-before-template-wrapper {
+        min-width: 0;
+
+        .item-field {
+            display: inline-flex;
+            align-items: center;
+            padding-left: var(--list-padding-left);
+            white-space: nowrap;
+
+            span {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
     }
 }

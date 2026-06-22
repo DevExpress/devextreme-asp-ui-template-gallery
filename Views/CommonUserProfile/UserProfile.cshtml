@@ -161,35 +161,19 @@
 
 @using (Html.DevExtreme().NamedTemplate("StatusFieldTemplate"))
 {
-    <div class='status-editor-field'>
-        <div class="status status-contact status-<%- String(obj).toLowerCase() %> status-indicator">
-            <span></span>
+    @:<% if (obj) { %>
+        <div class="status status-contact status-<%- String(obj).toLowerCase() %>">
+            <span><%- obj %></span>
         </div>
-        @(Html.DevExtreme().TextBox()
-            .Value(new JS("obj"))
-            .ReadOnly(true)
-            .HoverStateEnabled(true)
-            .InputAttr(new {
-                @class = new JS("'status-'+obj.toLowerCase()"),
-                @picturedItemEditorInput = ""
-            }))
-    </div>
+    @:<% } %>
 }
 
 @using (Html.DevExtreme().NamedTemplate("SupervisorFieldTemplate"))
 {
-    <div class="pictured-item-select-field">
-        <img class="pictured-item-image" alt="<%- obj ? obj.Name : '' %>"
-             src="data:image/png;base64,<%- obj ? obj.Image : '' %>"/>
-        @(Html.DevExtreme().TextBox()
-            .Value(new JS("obj ? obj.Name : ''"))
-        .ReadOnly(true)
-        .HoverStateEnabled(true)
-        .InputAttr(new
-        {
-            @picturedItemEditorInput = ""
-        }))
-    </div>
+    @:<% if (obj && obj.Image) { %>
+        <img class="pictured-item-image" alt="<%- obj.Name %>"
+             src="data:image/png;base64,<%- obj.Image %>"/>
+    @:<% } %>
 }
 
 @(Html.DevExtreme().Popup()

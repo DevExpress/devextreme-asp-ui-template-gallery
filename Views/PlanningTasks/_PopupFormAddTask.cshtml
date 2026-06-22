@@ -89,25 +89,31 @@
                                         group.AddSimpleFor(m => m.Priority)
                                             .Label(l => l.Text("Priority"))
                                             .Editor(e => e.SelectBox()
+                                                .ElementAttr(new { @class = "task-details-select-box" })
                                                 .Items(EnumHelper.GetDisplayNames<PlanningTaskPriority>())
                                                 .ReadOnly(!isEditing)
+                                                .DisplayExpr(new JS("() => ''"))
+                                                .Placeholder("")
                                                 .ItemTemplate(@<text>
                                                     @(await Html.PartialAsync("../Shared/Templates/_ItemContent", new TemplateViewModel(){
                                                         UseSeparator = true
                                                     }))
                                                 </text>)
-                                                .FieldTemplate(@<text>
-                                                       @(await Html.PartialAsync("../Shared/Templates/_EditorField", new TemplateViewModel(){
-                                                            UseSeparator = true
-                                                       })) 
-                                                 </text>)
+                                                .FieldAddons(fa => fa.BeforeTemplate(@<text>
+                                                    @(await Html.PartialAsync("../Shared/Templates/_ItemContent", new TemplateViewModel(){
+                                                        UseSeparator = true
+                                                    }))
+                                                </text>))
                                                 .StylingMode(EditorStylingMode.Filled)
                                             );
 
                                         group.AddSimpleFor(m => m.Status)
                                             .Label(l => l.Text("Status"))
                                             .Editor(e => e.SelectBox()
+                                                .ElementAttr(new { @class = "task-details-select-box" })
                                                 .Items(EnumHelper.GetDisplayNames<PlanningTaskStatus>())
+                                                .DisplayExpr(new JS("() => ''"))
+                                                .Placeholder("")
                                                 .ItemTemplate(@<text>
                                                     @(await Html.PartialAsync("../Shared/Templates/_ItemContent",
                                                         new TemplateViewModel {
@@ -115,13 +121,13 @@
                                                         }
                                                     ))
                                                 </text>)
-                                                 .FieldTemplate(@<text>
-                                                       @(await Html.PartialAsync("../Shared/Templates/_EditorField",
-                                                            new TemplateViewModel {
-                                                                UseSeparator = false
-                                                            }
-                                                       )) 
-                                                    </text>)    
+                                                .FieldAddons(fa => fa.BeforeTemplate(@<text>
+                                                    @(await Html.PartialAsync("../Shared/Templates/_ItemContent",
+                                                        new TemplateViewModel {
+                                                            UseSeparator = false
+                                                        }
+                                                    ))
+                                                </text>))
                                                 .ReadOnly(!isEditing)
                                                 .StylingMode(EditorStylingMode.Filled)
                                             );
