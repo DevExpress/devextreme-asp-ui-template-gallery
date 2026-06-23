@@ -90,8 +90,11 @@ namespace DevExtremeVSTemplateMVC.Utils
                             .StylingMode(EditorStylingMode.Filled)
                             .LabelMode(EditorLabelMode.Hidden)
                             .Width("100%")
+                            .ElementAttr(new { @class = "status-select-box" })
+                            .Placeholder("")
+                            .DisplayExpr(new JS("() => ''"))
                             .ItemTemplate(new TemplateName("StatusItemTemplate"))
-                            .FieldTemplate(new TemplateName("StatusFieldTemplate")));
+                            .FieldAddons(fa => fa.BeforeTemplate(new TemplateName("StatusFieldTemplate"))));
                     items.AddSimpleFor(m => m.Supervisor)
                         .ColSpan(2)
                         .Editor(editor => editor.SelectBox()
@@ -110,7 +113,8 @@ namespace DevExtremeVSTemplateMVC.Utils
                                     @class= "pictured-item-select-box-dropdown"
                                 })
                             )
-                            .FieldTemplate(new TemplateName("SupervisorFieldTemplate"))
+                            .DisplayExpr(new JS("(data) => data ? (typeof data === 'string' ? data : data.Name) : ''"))
+                            .FieldAddons(fa => fa.BeforeTemplate(new TemplateName("SupervisorFieldTemplate")))
                             .ItemTemplate(new TemplateName("SupervisorItemTemplate"))
                         );
                 });

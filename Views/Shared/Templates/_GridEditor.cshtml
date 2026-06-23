@@ -8,10 +8,12 @@
         .Value(new JS("value"))
         .OnValueChanged("(e) => setValue(e.value)")
         .OnSelectionChanged("() => component.updateDimensions()")
+        .DisplayExpr(new JS("() => ''"))
+        .Placeholder("")
         .ItemTemplate(@<text>
             @(await Html.PartialAsync("../Shared/Templates/_ItemContent", Model))
         </text>)
-        .FieldTemplate(@<text>
-            @(await Html.PartialAsync("../Shared/Templates/_EditorField"))
-        </text>)
+        .FieldAddons(fa => fa.BeforeTemplate(@<text>
+            @(await Html.PartialAsync("../Shared/Templates/_ItemContent", Model))
+        </text>))
 )
