@@ -4,13 +4,12 @@
     .task-details-select-box {
         .dx-dropdowneditor-field-before-template-wrapper {
             min-width: 0;
+            padding-left: var(--list-padding-left);
 
             .item-field {
                 display: inline-flex;
                 align-items: center;
                 white-space: nowrap;
-                padding-left: var(--list-padding-left);
-
                 span {
                     display: inline-flex;
                     align-items: center;

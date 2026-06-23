@@ -19,11 +19,11 @@
 
     .dx-dropdowneditor-field-before-template-wrapper {
         min-width: 0;
+        padding-left: var(--list-padding-left);
 
         .item-field {
             display: inline-flex;
             align-items: center;
-            padding-left: var(--list-padding-left);
             white-space: nowrap;
 
             span {
