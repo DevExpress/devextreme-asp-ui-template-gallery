@@ -3,8 +3,4 @@ allowBuilds:
   inferno: true
 
 overrides:
-  "brace-expansion@<5.0.8": 5.0.8
   "dompurify@<=3.4.11": ^3.4.12
-
-patchedDependencies:
-  brace-expansion@5.0.8: patches/brace-expansion@5.0.8.patch
