@@ -1,3 +1,6 @@
 allowBuilds:
   core-js: true
   inferno: true
+
+overrides:
+  "dompurify@<=3.4.11": ^3.4.12
