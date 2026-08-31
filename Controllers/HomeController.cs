@@ -49,7 +49,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         [Route("Home/PlanningTasks")]
         public IActionResult PlanningTasks() {
-            return Redirect("/Home/PlanningTasks/Grid" + Request.QueryString);
+            return Redirect("/Home/PlanningTasks/Grid");
         }
 
         public IActionResult UserProfile()
