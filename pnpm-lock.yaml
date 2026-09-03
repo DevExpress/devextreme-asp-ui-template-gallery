@@ -16,10 +16,10 @@ importers:
         version: 4.1.69
       devextreme:
         specifier: ^25.2
-        version: 25.2.8
+        version: 25.2.9
       devextreme-aspnet-data:
         specifier: ^5.1.0
-        version: 5.1.0(devextreme@25.2.8)
+        version: 5.1.0(devextreme@25.2.9)
       devextreme-dist:
         specifier: ^25.2
         version: 25.2.8
@@ -58,6 +58,9 @@ packages:
   '@devexpress/utils@2.1.1':
     resolution: {integrity: sha512-hlemXR3L0yDPsMdhTQl9EtjiEYxIHklH7I4RKPkOhfrF5+jb4f3kkfvbKT7nA9aoFEHPPF0/hll43gOBpUpY0g==}
 
+  '@devexpress/utils@2.1.3':
+    resolution: {integrity: sha512-K2FD460jltib7C7eoYDg3pbquL1sNEiO0JvkxMPBUfT94GQdk1FB+eVaalflt7YvQGSb+WHBI3wholZA6g4umA==}
+
   '@fast-csv/format@5.0.7':
     resolution: {integrity: sha512-VdypoRxv7PF+LsyPouTMKdB0d76hync+gLpgdNqfqVK44MsgW4oiCJSdrki2FisWT7v2QGUYDHjp4L7w5oO6gw==}
 
@@ -74,14 +77,14 @@ packages:
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
     engines: {node: '>=6.0.0'}
 
-  '@jridgewell/sourcemap-codec@1.5.5':
-    resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
+  '@jridgewell/sourcemap-codec@1.6.0':
+    resolution: {integrity: sha512-T7jf+5zgsZHwNJ4lvQ7/aezbyk0nNX+zJVWpmHA7VYsEx7a7qr5Rg5IbtJFqkgze5Y2sruq1RUY8Q837Od7iFw==}
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@preact/signals-core@1.14.3':
-    resolution: {integrity: sha512-m0K3vnbSLC5rHs2ZVfeAMvBtT1zIyq4mxx5OlNncSgMj5Iz6W5Rn3kPrDxAC+iIKmiVe0lSl6U37t5ZkEWoVAw==}
+  '@preact/signals-core@1.14.4':
+    resolution: {integrity: sha512-HNB6HYeYKhQbJ1aKl+YRjrS4+QWHLKX6qKoUsfS/m0vqzsVaEBiZiaKbG/e+NKk2ch5ALQr/ihWaMHxiCuuWHA==}
 
   '@types/jquery@3.5.34':
     resolution: {integrity: sha512-3m3939S3erqmTLJANS/uy0B6V7BorKx7RorcGZVjZ62dF5PAGbKEDZK1CuLtKombJkFA2T1jl8LAIIs7IV6gBQ==}
@@ -194,6 +197,9 @@ packages:
   core-js@3.49.0:
     resolution: {integrity: sha512-es1U2+YTtzpwkxVLwAFdSpaIMyQaq0PBgm3YD1W3Qpsn1NAmO3KSgZfu+oGSWVu6NvLHoHCV/aYcsE5wiB7ALg==}
 
+  core-js@3.50.0:
+    resolution: {integrity: sha512-BRWgOLKkFeCgRudR6zrs8p9XJZcE14grzKMMssoYrk6krtuEZ7MTKPIY5RzOnqsEKIR9kst7wNzphttraT+Yqw==}
+
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
@@ -233,11 +239,11 @@ packages:
     resolution: {integrity: sha512-SAbVVr2p8SPZby7TVAWjzNRthjqcScOW9+WAALGWflLSPJoEXMRQCDmnPKZO0PnCRcKAWOHBcoQ8GLVb+7oyfg==}
     engines: {node: '>=22.21.1'}
 
-  devextreme-quill@1.7.9:
-    resolution: {integrity: sha512-UEkR16+I/7P/4+7dUmc65lv+VRdRGk0kFvZXgHnM2UFcEBKqm1kVDdVPBolGRFwuOFuDttJxp2SXUAyiuSC8wA==}
+  devextreme-quill@1.7.10:
+    resolution: {integrity: sha512-AsbMuYAON87Xk77bY4wjjtniONrgQe/WV7LSFxdU58z+bBn0gCkH3hZOJorSwfotThcwRLb150oTJ2ABJcO6DQ==}
 
-  devextreme@25.2.8:
-    resolution: {integrity: sha512-ri/Cv8Pi7bxq8CKdmKK0o58vlBhpjEySqC1sikBzBS30zzVuHhDkR01eiGMP0URHLaWk4H6349zxM5FQpBNRTA==}
+  devextreme@25.2.9:
+    resolution: {integrity: sha512-JB7HzmOZfSKkMOAUcEFbKZl5zgxaP8k34D9YSI2AViea+nauyS5u2JRwxQt7pakUN7IoUzwV5xGj0Bg9rkHrrA==}
     hasBin: true
 
   dompurify@3.4.13:
@@ -394,8 +400,8 @@ packages:
   performance-now@2.1.0:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
 
-  picomatch@4.0.4:
-    resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+  picomatch@4.0.7:
+    resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
 
   process-nextick-args@2.0.1:
@@ -498,9 +504,38 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  unplugin@3.0.0:
-    resolution: {integrity: sha512-0Mqk3AT2TZCXWKdcoaufeXNukv2mTrEZExeXlHIOZXdqYoHHr4n51pymnwV8x2BOVxwXbK2HLlI7usrqMpycdg==}
+  unplugin@3.3.0:
+    resolution: {integrity: sha512-qa66K+crbfyE6JK10GjvbJeRrOsuC/JpbnHctfyp/i4oBTxWOzJfRZyDiOk1PtErMFRu8JhsU/wPvOdBNWe5Rg==}
     engines: {node: ^20.19.0 || >=22.12.0}
+    peerDependencies:
+      '@farmfe/core': '*'
+      '@rspack/core': '*'
+      bun-types-no-globals: '*'
+      esbuild: '*'
+      rolldown: '*'
+      rollup: '*'
+      unloader: '*'
+      vite: '*'
+      webpack: '*'
+    peerDependenciesMeta:
+      '@farmfe/core':
+        optional: true
+      '@rspack/core':
+        optional: true
+      bun-types-no-globals:
+        optional: true
+      esbuild:
+        optional: true
+      rolldown:
+        optional: true
+      rollup:
+        optional: true
+      unloader:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
 
   unzipper@0.12.5:
     resolution: {integrity: sha512-tXYOi9R57Uj/2Z25SOs5RRSzq886MBQj2gY8dPL+xl/kv6s6SvByoKfAtvfVeEuhntWDgjd2o9p2lb4TVPAz0A==}
@@ -529,6 +564,10 @@ snapshots:
     dependencies:
       tslib: 2.3.1
 
+  '@devexpress/utils@2.1.3':
+    dependencies:
+      tslib: 2.3.1
+
   '@fast-csv/format@5.0.7':
     dependencies:
       lodash.escaperegexp: 4.1.2
@@ -541,7 +580,7 @@ snapshots:
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/sourcemap-codec': 1.6.0
       '@jridgewell/trace-mapping': 0.3.31
 
   '@jridgewell/remapping@2.3.5':
@@ -551,14 +590,14 @@ snapshots:
 
   '@jridgewell/resolve-uri@3.1.2': {}
 
-  '@jridgewell/sourcemap-codec@1.5.5': {}
+  '@jridgewell/sourcemap-codec@1.6.0': {}
 
   '@jridgewell/trace-mapping@0.3.31':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@preact/signals-core@1.14.3': {}
+  '@preact/signals-core@1.14.4': {}
 
   '@types/jquery@3.5.34':
     dependencies:
@@ -671,7 +710,10 @@ snapshots:
       normalize-path: 3.0.0
       readable-stream: 4.7.0
 
-  core-js@3.49.0: {}
+  core-js@3.49.0:
+    optional: true
+
+  core-js@3.50.0: {}
 
   core-util-is@1.0.3: {}
 
@@ -693,7 +735,7 @@ snapshots:
 
   devexpress-diagram@2.2.29:
     dependencies:
-      '@devexpress/utils': 2.1.1
+      '@devexpress/utils': 2.1.3
       es6-object-assign: 1.1.0
 
   devexpress-gantt@4.1.69:
@@ -701,9 +743,9 @@ snapshots:
       '@devexpress/utils': 2.1.1
       tslib: 2.3.1
 
-  devextreme-aspnet-data@5.1.0(devextreme@25.2.8):
+  devextreme-aspnet-data@5.1.0(devextreme@25.2.9):
     dependencies:
-      devextreme: 25.2.8
+      devextreme: 25.2.9
 
   devextreme-dist@25.2.8: {}
 
@@ -722,28 +764,38 @@ snapshots:
       - bare-buffer
       - react-native-b4a
 
-  devextreme-quill@1.7.9:
+  devextreme-quill@1.7.10:
     dependencies:
-      core-js: 3.49.0
+      core-js: 3.50.0
       eventemitter3: 4.0.7
       lodash.clonedeep: 4.5.0
       lodash.merge: 4.6.2
       parchment: 2.0.1
       quill-delta: 5.1.0
 
-  devextreme@25.2.8:
+  devextreme@25.2.9:
     dependencies:
       '@babel/runtime': 7.29.7
-      '@preact/signals-core': 1.14.3
+      '@preact/signals-core': 1.14.4
       devexpress-diagram: 2.2.29
       devexpress-gantt: 4.1.69
-      devextreme-quill: 1.7.9
+      devextreme-quill: 1.7.10
       inferno: 8.2.3
       inferno-create-element: 8.2.3
       inferno-hydrate: 8.2.3
       jszip: 3.10.1
       rrule: 2.8.1
-      unplugin: 3.0.0
+      unplugin: 3.3.0
+    transitivePeerDependencies:
+      - '@farmfe/core'
+      - '@rspack/core'
+      - bun-types-no-globals
+      - esbuild
+      - rolldown
+      - rollup
+      - unloader
+      - vite
+      - webpack
 
   dompurify@3.4.13:
     optionalDependencies:
@@ -898,7 +950,7 @@ snapshots:
   performance-now@2.1.0:
     optional: true
 
-  picomatch@4.0.4: {}
+  picomatch@4.0.7: {}
 
   process-nextick-args@2.0.1: {}
 
@@ -1025,10 +1077,10 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unplugin@3.0.0:
+  unplugin@3.3.0:
     dependencies:
       '@jridgewell/remapping': 2.3.5
-      picomatch: 4.0.4
+      picomatch: 4.0.7
       webpack-virtual-modules: 0.6.2
 
   unzipper@0.12.5:
